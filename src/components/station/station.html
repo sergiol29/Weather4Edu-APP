@@ -1,0 +1,35 @@
+<!-- Generated template for the StationComponent component -->
+<ion-card *ngFor="let station of stations">
+  
+  <!--<iframe *ngIf="station?.latitude" type="text/html"
+  [src]="getUrl(station.latitude, station.longitude) | safePipe" frameborder="0" allowfullscreen>
+  </iframe>-->
+  <div style="position: relative">
+    <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">
+    <ion-fab right top>
+      <button ion-fab class="fab-map">
+        <ion-icon name='pin'></ion-icon>
+      </button>
+    </ion-fab>
+  </div>
+
+  <ion-slides>
+    <ion-slide *ngFor="let data of station.latest_data">
+      <ion-item>
+        <ion-icon name="football" item-start large></ion-icon>
+        <h2>{{ data.name }}</h2>
+        <p>{{ data.value }} {{ data.symbol }}</p>
+      </ion-item>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-item>
+    <span item-left>{{ station.name }}</span>
+    <!--<span item-left>(2.6 mi)</span>-->
+    <button ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
+      <ion-icon name="navigate"></ion-icon>
+      More details
+    </button>
+  </ion-item>
+
+</ion-card>
