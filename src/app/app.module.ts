@@ -5,6 +5,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 /* Import Http Client */
 import { HttpClientModule } from '@angular/common/http';
 
+/* Import Geolocation JS */
+import { Geolocation } from '@ionic-native/geolocation';
+
 import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -29,6 +32,7 @@ import { ApiProvider } from '../providers/api/api';
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider
   ]

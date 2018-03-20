@@ -17,4 +17,49 @@
 
 <ion-content padding>
 
+    <ion-card>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="https://ionicframework.com/dist/preview-app/www/assets/img/marty-avatar.png">
+          </ion-avatar>
+          <h2>{{ station?.name }}</h2>
+          <p>Dirección mediante latitude y longitude</p>
+        </ion-item>
+      
+        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">
+      
+        <ion-card-content>
+          <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+        </ion-card-content>
+
+        <!-- Segment in content -->
+        <ion-segment [(ngModel)]="segment" color="primary">
+          <ion-segment-button value="graph">
+            <button ion-button icon-left block clear>
+              <ion-icon name="stats"></ion-icon>
+              Graph
+            </button>
+          </ion-segment-button>
+          <ion-segment-button value="table">
+            <button ion-button icon-left block clear>
+              <ion-icon name="list"></ion-icon>
+              Table
+            </button>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div [ngSwitch]="segment">
+          <div *ngSwitchCase="'graph'">
+              <!-- Component Graph -->
+              <app-graph [data]="dataGraph" [name]="nameGraph" [symbol]="symbolGraph"></app-graph>
+          </div>
+          
+          <ion-list *ngSwitchCase="'table'">
+            <ion-item>
+              <!-- Component Table Data -->
+              <app-table-data [data]="dataTable" [name]="nameGraph" [symbol]="symbolGraph"></app-table-data>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card>
 </ion-content>

@@ -7,12 +7,18 @@ import { HeaderMenuComponent } from './header-menu/header-menu';
 
 /* Import Pipe */
 import { PipesModule } from './../pipes/pipes.module';
+import { GraphComponent } from './graph/graph';
+import { TableDataComponent } from './table-data/table-data';
 
 @NgModule({
 	declarations: [StationComponent,
-    HeaderMenuComponent],
+    HeaderMenuComponent,
+    GraphComponent,
+    TableDataComponent],
 	imports: [IonicModule, PipesModule],
 	exports: [StationComponent,
-    HeaderMenuComponent]
+    HeaderMenuComponent,
+    GraphComponent,
+    TableDataComponent]
 })
 export class ComponentsModule {}

@@ -1,0 +1,10 @@
+<!-- Generated template for the TableDataComponent component -->
+<ion-list>
+  <ion-list-header>
+      {{ _name }}
+  </ion-list-header>
+  <ion-item *ngFor="let datum of _data"> 
+      {{ datum[0] }}
+      <ion-note item-end>{{ datum[1] }} {{ _symbol }}</ion-note>
+  </ion-item>
+</ion-list>

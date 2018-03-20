@@ -23,9 +23,17 @@ import * as moment from 'moment';
   templateUrl: 'station-details.html',
 })
 export class StationDetailsPage {
-  
   idStation: number;
   station: any;
+  
+  /* Value for Taps Segment */
+  segment: string = "graph";
+
+  /* Variables Graph and Table */
+  dataGraph = [];
+  dataTable = [];
+  nameGraph: string;
+  symbolGraph: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private loadingCtrl: LoadingController, private apiProv: ApiProvider) {
@@ -34,8 +42,8 @@ export class StationDetailsPage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad StationDetailsPage');
-    this.idStation = this.navParams.get('id');
-    console.log(this.idStation);
+    //this.idStation = this.navParams.get('id');
+    this.idStation = 1;
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -44,18 +52,45 @@ export class StationDetailsPage {
 
     /* Show loading spinner */
     loader.present().then(() => {
-      console.log(moment()); 
       /* Get data in API */
       this.apiProv.getShowStation(this.idStation).subscribe(
         (data) => {
           this.station = data;
-          
+          this.generateDataGraph();
+          this.generateDataTable();
+
           /* Hide loading spinner */
           loader.dismiss();
-          console.log(data);
         });
 
     });
   }
 
+  /* Read data for Graph */
+  generateDataGraph() {    
+    for( let data of this.station['data'] ) {
+      if( data.name === "Batería" ) {
+        this.nameGraph = data.name;
+        this.symbolGraph = data.symbol;
+        let aux = [];
+        for( let values of data.values ) {
+          aux.push( [values.timestamp * 1000, +values.value] );
+        }
+        this.dataGraph = aux;
+      }
+    }
+  }
+
+  /* Read data for Table */
+  generateDataTable() {    
+    for( let data of this.station['data'] ) {
+      let aux = [];
+      for( let values of data.values ) {
+        /* Convert Timestamp to Date */
+        let date = moment.unix(values.timestamp).format("MM-DD-YYYY - HH:mm:ss");
+        aux.push( [date, values.value] );
+      }
+      this.dataTable = aux;
+    }
+  }
 }

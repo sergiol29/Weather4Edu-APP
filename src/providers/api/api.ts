@@ -21,7 +21,12 @@ export class ApiProvider {
     return this.http.get(url);
   }
 
-  getShowStation(id:number, from:any, to:any) {
+  getShowStation(id:number) {
+    const url = `${CONFIG.API_URL}/device_data/${id}`;
+    return this.http.get(url);
+  }
+
+  getShowStationFromTo(id:number, from:any, to:any) {
     const url = `${CONFIG.API_URL}/device_data/${id}?from=${from}&to=${to}`;
     return this.http.get(url);
   }
