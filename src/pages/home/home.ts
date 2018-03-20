@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-
+/* Import Geolocation */
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 declare var google;
 
@@ -21,25 +21,20 @@ export class HomePage {
 
   map: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private geolocation: Geolocation) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
     
-    this.geolocation.getCurrentPosition()
-    .then(response => {
-      this.loadMap(response);
-    })
-    .catch(error =>{
-      console.log(error);
-    });
+    //this.loadMap();
 
   }
 
-  loadMap(position: Geoposition) {
-    let latitude = position.coords  .latitude;
-    let longitude = position.coords.longitude;
+  loadMap() {
+    let latitude = 37.159438000000;
+    let longitude = -3.605500000000;
     console.log(latitude, longitude);
     
     // create a new map by passing HTMLElement

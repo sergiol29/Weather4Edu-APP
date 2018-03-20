@@ -10,6 +10,9 @@ import { LoadingController } from 'ionic-angular';
 /* Import Lib MomentJS */
 import * as moment from 'moment';
 
+/* Import for form */
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+
 /**
  * Generated class for the StationDetailsPage page.
  *
@@ -35,8 +38,13 @@ export class StationDetailsPage {
   nameGraph: string;
   symbolGraph: string;
 
+  /* Variable form */
+  form: FormGroup;
+  selectVariables = [];
+  selectRange = ['7 days', '15 days', '30 days'];
+
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private loadingCtrl: LoadingController, private apiProv: ApiProvider) {
+    private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder) {
     
   }
 
@@ -56,8 +64,19 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation).subscribe(
         (data) => {
           this.station = data;
-          this.generateDataGraph();
-          this.generateDataTable();
+
+          /* Generate data */
+          this.generateSelectVariable();
+
+          /* Create form */
+          this.form = this.fb.group({
+            variables: [this.selectVariables[0], Validators.required],
+            range: [this.selectRange[0], Validators.required],
+          });
+          
+          /* Generate data */
+          this.generateDataGraph(this.selectVariables[0]);
+          this.generateDataTable(this.selectVariables[0]);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -66,10 +85,17 @@ export class StationDetailsPage {
     });
   }
 
-  /* Read data for Graph */
-  generateDataGraph() {    
+  /* Complete values in select variables */
+  generateSelectVariable() {
     for( let data of this.station['data'] ) {
-      if( data.name === "Batería" ) {
+      this.selectVariables.push(data.name);
+    }
+  }
+
+  /* Read data for Graph */
+  generateDataGraph(variable:any) {    
+    for( let data of this.station['data'] ) {
+      if( data.name === variable ) {
         this.nameGraph = data.name;
         this.symbolGraph = data.symbol;
         let aux = [];
@@ -82,15 +108,23 @@ export class StationDetailsPage {
   }
 
   /* Read data for Table */
-  generateDataTable() {    
+  generateDataTable(variable:any) {    
     for( let data of this.station['data'] ) {
-      let aux = [];
-      for( let values of data.values ) {
-        /* Convert Timestamp to Date */
-        let date = moment.unix(values.timestamp).format("MM-DD-YYYY - HH:mm:ss");
-        aux.push( [date, values.value] );
+      if( data.name === variable ) {
+        let aux = [];
+        for( let values of data.values ) {
+          /* Convert Timestamp to Date */
+          let date = moment.unix(values.timestamp).format("MM-DD-YYYY - HH:mm:ss");
+          aux.push( [date, values.value] );
+        }
+        this.dataTable = aux;
       }
-      this.dataTable = aux;
     }
+  }
+
+  /* Control Change Select */
+  onChange(value:any) {
+    this.generateDataGraph(value);
+    this.generateDataTable(value);
   }
 }
