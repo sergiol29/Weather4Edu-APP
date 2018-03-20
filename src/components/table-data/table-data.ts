@@ -28,7 +28,7 @@ export class TableDataComponent implements OnChanges {
   symbol: string;
 
   constructor() {
-    console.log('Hello TableDataComponent Component');
+    //console.log('Hello TableDataComponent Component');
   }
 
   ngOnChanges(changes: any) {

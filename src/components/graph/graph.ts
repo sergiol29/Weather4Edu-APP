@@ -33,7 +33,7 @@ export class GraphComponent implements OnChanges {
   symbol: string;
 
   constructor() {
-    console.log('Hello GraphComponent Component');
+    //console.log('Hello GraphComponent Component');
   }
 
   ngOnChanges(changes: any) {

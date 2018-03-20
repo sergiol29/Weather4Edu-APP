@@ -3,8 +3,14 @@
   <ion-list-header>
       {{ _name }}
   </ion-list-header>
-  <ion-item *ngFor="let datum of _data"> 
+  <!--<ion-item *ngFor="let datum of _data"> 
       {{ datum[0] }}
       <ion-note item-end>{{ datum[1] }} {{ _symbol }}</ion-note>
+  </ion-item>-->
+  <ion-item *ngFor="let datum of _data"> 
+    <h2>{{ datum[1] }}{{ _symbol }}</h2>
+    <!--<p>{{ datum[1] }}{{ _symbol }}</p>-->
+    <ion-note item-end><strong>{{ datum[0] }}</strong></ion-note>
   </ion-item>
 </ion-list>
+  
