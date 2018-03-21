@@ -35,20 +35,17 @@ export class StationComponent {
     loader.present().then(() => {
     
       /* Get data in API */
+      /* aqui con el observable accedemos a la funcion user$ en vez de gelAllStation y luego hacemos
+      this.apiProv.loadUser().subscribe y ya solo se consulta esa funcion de la api 1 vez y se guarda en memoria */
       this.apiProv.getAllStation().subscribe(
         (data) => {
           this.stations = data;
-          
+          console.log(data);
           /* Hide loading spinner */
           loader.dismiss();
         });
 
     });
-  }
-
-  getUrl(latitude: any, longitude: any){
-    console.log(`https://www.google.es/maps/@${latitude},${longitude},15z&output=embed`);
-    return `https://www.google.es/maps/@${latitude},${longitude},15z&output=embed`;
   }
 
   getMoreDetails(id: number){

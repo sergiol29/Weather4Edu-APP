@@ -33,19 +33,20 @@
             <ion-list>
               <ion-item>
                 <ion-label>Variables</ion-label>
-                <ion-select formControlName="variables" (ngModelChange)="onChange($event)">
+                <ion-select formControlName="variables" (ngModelChange)="onChangeVariable($event)">
                   <ion-option *ngFor="let value of selectVariables" [value]="value">{{ value }}</ion-option>
                 </ion-select>
               </ion-item>
             
               <ion-item>
                 <ion-label>Range</ion-label>
-                <ion-select formControlName="range" (ngModelChange)="onChange($event)">
-                  <ion-option *ngFor="let value of selectRange" [value]="value">{{ value }}</ion-option>
+                <ion-select formControlName="range" (ngModelChange)="onChangeRange($event)">
+                  <ion-option *ngFor="let value of selectRange" [value]="value">{{ value }} days</ion-option>
                 </ion-select>
               </ion-item>    
             </ion-list>
           </form>
+          {{ form.value | json }}
         </ion-card-content>
 
         <!-- Segment in content -->

@@ -1,11 +1,9 @@
 <!-- Generated template for the StationComponent component -->
 <ion-card *ngFor="let station of stations">
-  <div id="map"></div>
-  <!--<iframe *ngIf="station?.latitude" type="text/html"
-  [src]="getUrl(station.latitude, station.longitude) | safePipe" frameborder="0" allowfullscreen>
-  </iframe>-->
   <div style="position: relative">
-    <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">
+    <!--<img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">-->
+    <!-- Component maps station -->
+    <app-maps-station [latitude]="station.latitude" [longitude]="station.longitude" [idmap]="station.id"></app-maps-station>
     <ion-fab right top>
       <button ion-fab class="fab-map">
         <ion-icon name='pin'></ion-icon>

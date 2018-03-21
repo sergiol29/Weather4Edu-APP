@@ -41,7 +41,7 @@ export class StationDetailsPage {
   /* Variable form */
   form: FormGroup;
   selectVariables = [];
-  selectRange = ['7 days', '15 days', '30 days'];
+  selectRange = ['7', '15', '30'];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder) {
@@ -50,8 +50,16 @@ export class StationDetailsPage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad StationDetailsPage');
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
+
+    let from = moment().subtract(7, 'days').unix();
+    this.getDataAPI(from);
+  }
+
+  getDataAPI(from:number) {
+    /* Now timestamp */
+    let to = moment().unix();
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -61,35 +69,45 @@ export class StationDetailsPage {
     /* Show loading spinner */
     loader.present().then(() => {
       /* Get data in API */
-      this.apiProv.getShowStation(this.idStation).subscribe(
+      this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
 
           /* Generate data */
           this.generateSelectVariable();
 
-          /* Create form */
-          this.form = this.fb.group({
-            variables: [this.selectVariables[0], Validators.required],
-            range: [this.selectRange[0], Validators.required],
-          });
+          this.createForm();
           
           /* Generate data */
-          this.generateDataGraph(this.selectVariables[0]);
-          this.generateDataTable(this.selectVariables[0]);
+          this.generateDataGraph(this.form.get('variables').value);
+          this.generateDataTable(this.form.get('variables').value);
 
           /* Hide loading spinner */
           loader.dismiss();
         });
+    });
+  }
 
+  /* Created form */
+  createForm() {
+    /* If form is created, dont created again */
+    if (this.form) return;
+
+    /* Create form */
+    this.form = this.fb.group({
+      variables: [this.selectVariables[0], Validators.required],
+      range: [this.selectRange[0], Validators.required],
     });
   }
 
   /* Complete values in select variables */
   generateSelectVariable() {
+    let aux = [];
     for( let data of this.station['data'] ) {
-      this.selectVariables.push(data.name);
+      aux.push(data.name);
     }
+
+    this.selectVariables = aux;
   }
 
   /* Read data for Graph */
@@ -123,8 +141,14 @@ export class StationDetailsPage {
   }
 
   /* Control Change Select */
-  onChange(value:any) {
-    this.generateDataGraph(value);
-    this.generateDataTable(value);
+  onChangeVariable(variable:any) {
+    this.generateDataGraph(variable);
+    this.generateDataTable(variable);
+  }
+
+  /* Control Change Select */
+  onChangeRange(range:any) {
+    let from = moment().subtract(range, 'days').unix();
+    this.getDataAPI(from);
   }
 }
