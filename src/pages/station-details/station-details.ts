@@ -13,6 +13,9 @@ import * as moment from 'moment';
 /* Import for form */
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+/* Modal */
+import { ModalController } from 'ionic-angular';
+
 /**
  * Generated class for the StationDetailsPage page.
  *
@@ -35,8 +38,8 @@ export class StationDetailsPage {
   /* Variables Graph and Table */
   dataGraph = [];
   dataTable = [];
-  nameGraph: string;
-  symbolGraph: string;
+  rangeGraph: string;
+  symbolGraph = [];
 
   /* Variable form */
   form: FormGroup;
@@ -44,14 +47,15 @@ export class StationDetailsPage {
   selectRange = ['7', '15', '30'];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder) {
+    private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder,
+    private modalCtrl: ModalController) {
     
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad StationDetailsPage');
-    this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
+    //this.idStation = this.navParams.get('id');
+    this.idStation = 3;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
@@ -72,7 +76,7 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-
+          console.log("data = ", data);
           /* Generate data */
           this.generateSelectVariable();
 
@@ -111,44 +115,66 @@ export class StationDetailsPage {
   }
 
   /* Read data for Graph */
-  generateDataGraph(variable:any) {    
+  generateDataGraph(variables:any) {    
+    this.dataGraph = [];
+
     for( let data of this.station['data'] ) {
-      if( data.name === variable ) {
-        this.nameGraph = data.name;
-        this.symbolGraph = data.symbol;
-        let aux = [];
+      /* Check if data.name exist in variables */
+      if( variables.indexOf(data.name) !== -1 ) {
+        this.rangeGraph = this.form.get('range').value;
+        this.symbolGraph.push(data.symbol);
+        let aux = [];    
         for( let values of data.values ) {
           aux.push( [values.timestamp * 1000, +values.value] );
         }
-        this.dataGraph = aux;
+        this.dataGraph.push( {name: data.name, data: aux} );
       }
     }
   }
 
   /* Read data for Table */
-  generateDataTable(variable:any) {    
+  generateDataTable(variables:any) {    
+    this.dataTable = [];
     for( let data of this.station['data'] ) {
-      if( data.name === variable ) {
+      /* Check if data.name exist in variables */
+      if( variables.indexOf(data.name) !== -1 ) {
         let aux = [];
         for( let values of data.values ) {
           /* Convert Timestamp to Date */
           let date = moment.unix(values.timestamp).format("MM-DD-YYYY - HH:mm:ss");
           aux.push( [date, values.value] );
         }
-        this.dataTable = aux;
+        this.dataTable.push( {name: data.name, symbol: data.symbol, data: aux} );
       }
     }
   }
 
   /* Control Change Select */
-  onChangeVariable(variable:any) {
-    this.generateDataGraph(variable);
-    this.generateDataTable(variable);
+  onChangeVariable(variables:any) {
+    this.generateDataGraph(variables);
+    this.generateDataTable(variables);
   }
 
   /* Control Change Select */
   onChangeRange(range:any) {
     let from = moment().subtract(range, 'days').unix();
-    this.getDataAPI(from);
+
+    if( range != 'custom' ) {
+      this.getDataAPI(from);
+    } else {
+      this.openModalCustomDate();
+    }
+  }
+
+  openModalCustomDate(){
+    /* Open Modal Page */
+    let modal = this.modalCtrl.create('AlertDateTimeComponent',{},{showBackdrop:true, enableBackdropDismiss:true});
+
+    /* When close modal refresh data */
+    modal.onDidDismiss(data => {
+      console.log(data);
+    });
+
+    modal.present();
   }
 }

@@ -18,14 +18,9 @@ export class TableDataComponent implements OnChanges {
   data: any;
   
   /* Name of charts */
-  _name: string;
+  _range: string;
   @Input()
-  name: string;
-
-  /* Symbol of charts */
-  _symbol: string;
-  @Input()
-  symbol: string;
+  range: string;
 
   constructor() {
     //console.log('Hello TableDataComponent Component');
@@ -36,12 +31,8 @@ export class TableDataComponent implements OnChanges {
       this._data = this.data;
     }
 
-    if (changes && changes.symbol && changes.symbol.currentValue != undefined) {
-        this._symbol = this.symbol;
-    }
-
-    if (changes && changes.name && changes.name.currentValue != undefined) {
-        this._name = this.name;
+    if (changes && changes.range && changes.range.currentValue != undefined) {
+        this._range = this.range;
     }
   }
 }

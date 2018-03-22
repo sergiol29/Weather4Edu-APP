@@ -26,8 +26,8 @@ export class MyApp {
       { title: 'Home', component: 'HomePage', params: '' }
     ];
 
-    /* Get data in API */
-    this.apiProv.getAllStation().subscribe(
+    /* Get data in API with observable */
+    this.apiProv.stations$.subscribe(
       (data) => {
         this.menu = data;
         for(let value of this.menu) {

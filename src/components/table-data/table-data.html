@@ -1,16 +1,15 @@
 <!-- Generated template for the TableDataComponent component -->
 <ion-list>
   <ion-list-header>
-      {{ _name }}
+    Representation data of last {{ range }} days
   </ion-list-header>
-  <!--<ion-item *ngFor="let datum of _data"> 
-      {{ datum[0] }}
-      <ion-note item-end>{{ datum[1] }} {{ _symbol }}</ion-note>
-  </ion-item>-->
-  <ion-item *ngFor="let datum of _data"> 
-    <h2>{{ datum[1] }}{{ _symbol }}</h2>
-    <!--<p>{{ datum[1] }}{{ _symbol }}</p>-->
-    <ion-note item-end><strong>{{ datum[0] }}</strong></ion-note>
-  </ion-item>
 </ion-list>
+
+<ion-item-group *ngFor="let datum of _data">
+  <ion-item-divider color="light">{{ datum.name }}</ion-item-divider>
+  <ion-item *ngFor="let values of datum.data">
+    {{ values[1] }}{{ datum.symbol }}
+    <ion-note item-end><strong>{{ values[0] }}</strong></ion-note>
+  </ion-item>
+</ion-item-group>
   

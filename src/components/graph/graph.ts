@@ -23,9 +23,9 @@ export class GraphComponent implements OnChanges {
   data: any;
   
   /* Name of charts */
-  _name: string;
+  _range: string;
   @Input()
-  name: string;
+  range: string;
 
   /* Symbol of charts */
   _symbol: string;
@@ -45,11 +45,12 @@ export class GraphComponent implements OnChanges {
         this._symbol = this.symbol;
     }
 
-    if (changes && changes.name && changes.name.currentValue != undefined) {
-        this._name = this.name;
+    if (changes && changes.range && changes.range.currentValue != undefined) {
+        this._range = this.range;
     }
 
-    if (this._data && this._symbol && this._name) {
+    if (this._data && this._symbol && this._range) {
+        console.log(this._data);
         this.generateGraph();
     }
   }
@@ -61,7 +62,10 @@ export class GraphComponent implements OnChanges {
           type: 'spline'
       },
       title: {
-          text: this._name
+          text: "Representation data of last " +this._range+" days"
+      },
+      subtitle: {
+            text: "Representation data of last " +this._range+" days"
       },
       xAxis: {
           type: 'datetime',
@@ -92,10 +96,7 @@ export class GraphComponent implements OnChanges {
           }
       },
   
-      series: [{
-          name: this._name,
-          data: this._data
-      }]          
+      series: this._data
     });
   }
 
