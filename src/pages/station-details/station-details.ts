@@ -55,15 +55,18 @@ export class StationDetailsPage {
   ionViewDidLoad() {
     //console.log('ionViewDidLoad StationDetailsPage');
     //this.idStation = this.navParams.get('id');
-    this.idStation = 3;
+    this.idStation = 1;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
   }
 
-  getDataAPI(from:number) {
+  /* Variable to is opcional */
+  getDataAPI(from:number, to?:number) {
     /* Now timestamp */
-    let to = moment().unix();
+    if( !to ) {
+      to = moment().unix();
+    }
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -76,15 +79,15 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          console.log("data = ", data);
+
           /* Generate data */
           this.generateSelectVariable();
 
           this.createForm();
           
           /* Generate data */
-          this.generateDataGraph(this.form.get('variables').value);
-          this.generateDataTable(this.form.get('variables').value);
+          //this.generateDataGraph(this.form.get('variables').value);
+          //this.generateDataTable(this.form.get('variables').value);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -108,7 +111,7 @@ export class StationDetailsPage {
   generateSelectVariable() {
     let aux = [];
     for( let data of this.station['data'] ) {
-      aux.push(data.name);
+      aux.push({ 'name': data.name, 'type': data.type, 'symbol': data.symbol });
     }
 
     this.selectVariables = aux;
@@ -117,11 +120,11 @@ export class StationDetailsPage {
   /* Read data for Graph */
   generateDataGraph(variables:any) {    
     this.dataGraph = [];
+    this.rangeGraph = this.form.get('range').value;
 
     for( let data of this.station['data'] ) {
       /* Check if data.name exist in variables */
       if( variables.indexOf(data.name) !== -1 ) {
-        this.rangeGraph = this.form.get('range').value;
         this.symbolGraph.push(data.symbol);
         let aux = [];    
         for( let values of data.values ) {
@@ -168,11 +171,14 @@ export class StationDetailsPage {
 
   openModalCustomDate(){
     /* Open Modal Page */
-    let modal = this.modalCtrl.create('AlertDateTimeComponent',{},{showBackdrop:true, enableBackdropDismiss:true});
+    let modal = this.modalCtrl.create('ModalPage',{},{showBackdrop:true, enableBackdropDismiss:true});
 
     /* When close modal refresh data */
     modal.onDidDismiss(data => {
-      console.log(data);
+      /* If data is !null, get data in API */
+      if( data ) {
+        this.getDataAPI( moment(data.from).unix(), moment(data.to).unix() );
+      }
     });
 
     modal.present();

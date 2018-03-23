@@ -1,0 +1,29 @@
+<!--
+  Generated template for the ModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Select date</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>From</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="from"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>To</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="to"></ion-datetime>
+  </ion-item>
+
+  <button ion-button round (tap)="cancelModal()" color="danger" block>Cancel</button>
+  <button ion-button round (tap)="acceptModal()" color="success" block>Accept</button>
+</ion-content>

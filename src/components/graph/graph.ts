@@ -50,7 +50,6 @@ export class GraphComponent implements OnChanges {
     }
 
     if (this._data && this._symbol && this._range) {
-        console.log(this._data);
         this.generateGraph();
     }
   }
