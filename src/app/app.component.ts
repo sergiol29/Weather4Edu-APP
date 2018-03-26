@@ -15,27 +15,30 @@ export class MyApp {
   rootPage: any = 'HomePage';
 
   pages: Array<{title: string, component: any, params: any}>;
-  menu: any;
+  //menu: any;
 
   constructor(public platform: Platform, public statusBar: StatusBar, 
               public splashScreen: SplashScreen, private apiProv: ApiProvider) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: 'HomePage', params: '' }
-    ];
-
+    
     /* Get data in API with observable */
     this.apiProv.stations$.subscribe(
       (data) => {
-        this.menu = data;
-        for(let value of this.menu) {
+        let menu = data;
+        this.initializeMenu();
+        for(let value of menu) {
           this.pages.push(
             { title: value.name, component: 'StationDetailsPage', params: value.id });
         }
-      });
+      }
+    );
+  }
 
+  /* Initialize menu APP */
+  initializeMenu() {
+    this.pages = [
+      { title: 'Home', component: 'HomePage', params: '' }
+    ];
   }
 
   initializeApp() {

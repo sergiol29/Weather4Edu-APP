@@ -40,6 +40,7 @@ export class StationDetailsPage {
   dataTable = [];
   rangeGraph: string;
   symbolGraph = [];
+  typeGraph: string = "float";
 
   /* Variable form */
   form: FormGroup;
@@ -81,7 +82,7 @@ export class StationDetailsPage {
           this.station = data;
 
           /* Generate data */
-          this.generateSelectVariable();
+          if(this.selectVariables.length === 0) this.generateSelectVariable();
 
           this.createForm();
           
@@ -99,7 +100,7 @@ export class StationDetailsPage {
   createForm() {
     /* If form is created, dont created again */
     if (this.form) return;
-
+      
     /* Create form */
     this.form = this.fb.group({
       variables: [this.selectVariables[0], Validators.required],
@@ -117,13 +118,19 @@ export class StationDetailsPage {
     this.selectVariables = aux;
   }
 
+  /* Get Range for Graph */
+  getRangeGraph() {
+    this.rangeGraph = this.form.get('range').value;
+  }
+
   /* Read data for Graph */
   generateDataGraphLines(variables:any) {    
     this.dataGraph = [];
-    this.rangeGraph = this.form.get('range').value;
+    this.getRangeGraph();
 
     for( let data of this.station['data'] ) {
       /* Check if data.name exist in variables */
+      debugger
       if( variables.indexOf(data.name) !== -1 ) {
         this.symbolGraph.push(data.symbol);
         let aux = [];    
@@ -131,6 +138,31 @@ export class StationDetailsPage {
           aux.push( [values.timestamp * 1000, +values.value] );
         }
         this.dataGraph.push( {name: data.name, data: aux} );
+      }
+    }
+  }
+
+  /* Read data for Graph */
+  generateDataGraphBar(variables:any) {    
+    this.dataGraph = [];
+    this.getRangeGraph();
+    
+    for( let data of this.station['data'] ) {
+      /* Check if data.name exist in variables */
+      if( variables.indexOf(data.name) !== -1 ) {
+        this.symbolGraph.push(data.symbol);
+        let _contStop = 0;
+        let _contMove = 0;
+        
+        for( let values of data.values ) {
+          if( values.value === "PARADO" ) {
+            _contStop++;
+          } else {
+            _contMove++;
+          }
+        }
+        this.dataGraph.push( {name: "STOP", data: [_contStop]} );
+        this.dataGraph.push( {name: "MOVEMENT", data: [_contMove]} );
       }
     }
   }
@@ -158,12 +190,18 @@ export class StationDetailsPage {
     let auxTypes = [];
     variables.forEach(element => { auxVariables.push(element.name) });
     variables.forEach(element => { auxTypes.push(element.type) });
-    if( auxTypes.indexOf("string") ) {
-      console.log("entro");
-      //this.generateDataGraphLines(aux);
+    if( auxTypes.indexOf("string") !== -1 && auxTypes.indexOf("float") !== -1 ) {
+      this.typeGraph = "errorGraph";
+    } else if( auxTypes.indexOf("float") !== -1 ) {
+      this.typeGraph = "float";
+      this.generateDataGraphLines(auxVariables);
+    } else {
+      this.typeGraph = "string";
+      this.generateDataGraphBar(auxVariables);
     }
 
-    //this.generateDataTable(aux);
+    /* Data for table */
+    this.generateDataTable(auxVariables);
   }
 
   /* Control Change Select */

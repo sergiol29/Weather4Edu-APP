@@ -69,7 +69,13 @@
         <div [ngSwitch]="segment">
           <div *ngSwitchCase="'graph'">
               <!-- Component Graph -->
-              <app-graph [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
+              <app-graph *ngIf="typeGraph === 'float'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
+              <app-graph-bars *ngIf="typeGraph === 'string'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph-bars>
+              <ion-card *ngIf="typeGraph === 'errorGraph'">
+                <ion-card-content>
+                  Can not create a graph with variables float and string type
+                </ion-card-content>
+              </ion-card>
           </div>
           
           <ion-list *ngSwitchCase="'table'">

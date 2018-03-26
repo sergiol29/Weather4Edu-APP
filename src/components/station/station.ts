@@ -20,7 +20,7 @@ import { LoadingController } from 'ionic-angular';
 export class StationComponent {
 
   stations: any;
-
+  element
   constructor(private apiProv: ApiProvider, private loadingCtrl: LoadingController, private navCtrl: NavController) {
     //console.log('Hello StationComponent Component');
   }
@@ -35,8 +35,9 @@ export class StationComponent {
     loader.present().then(() => {
     
       /* Get data in API with observable*/
-      this.apiProv.stations$.subscribe(
+      this.apiProv.filteredStations$.subscribe(
         (data) => {
+          //variables.forEach(element => { auxVariables.push(element.name) });
           this.stations = data;
       });
       
