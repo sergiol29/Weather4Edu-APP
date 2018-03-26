@@ -34,7 +34,7 @@
               <ion-item>
                 <ion-label>Variables</ion-label>
                 <ion-select formControlName="variables" (ngModelChange)="onChangeVariable($event)" multiple="true">
-                  <ion-option *ngFor="let value of selectVariables" [value]="value">{{ value.name }} {{ value.symbol }}</ion-option>
+                  <ion-option *ngFor="let value of selectVariables" [value]="value">{{ value.name }} ({{ value.symbol }})</ion-option>
                 </ion-select>
               </ion-item>
             

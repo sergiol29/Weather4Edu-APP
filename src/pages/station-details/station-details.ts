@@ -55,7 +55,7 @@ export class StationDetailsPage {
   ionViewDidLoad() {
     //console.log('ionViewDidLoad StationDetailsPage');
     //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = 3;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
@@ -86,8 +86,8 @@ export class StationDetailsPage {
           this.createForm();
           
           /* Generate data */
-          //this.generateDataGraph(this.form.get('variables').value);
-          //this.generateDataTable(this.form.get('variables').value);
+          this.generateDataGraphLines(this.form.get('variables').value.name);
+          this.generateDataTable(this.form.get('variables').value.name);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -118,7 +118,7 @@ export class StationDetailsPage {
   }
 
   /* Read data for Graph */
-  generateDataGraph(variables:any) {    
+  generateDataGraphLines(variables:any) {    
     this.dataGraph = [];
     this.rangeGraph = this.form.get('range').value;
 
@@ -154,8 +154,16 @@ export class StationDetailsPage {
 
   /* Control Change Select */
   onChangeVariable(variables:any) {
-    this.generateDataGraph(variables);
-    this.generateDataTable(variables);
+    let auxVariables = [];
+    let auxTypes = [];
+    variables.forEach(element => { auxVariables.push(element.name) });
+    variables.forEach(element => { auxTypes.push(element.type) });
+    if( auxTypes.indexOf("string") ) {
+      console.log("entro");
+      //this.generateDataGraphLines(aux);
+    }
+
+    //this.generateDataTable(aux);
   }
 
   /* Control Change Select */
