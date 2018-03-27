@@ -80,15 +80,20 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-
+          
           /* Generate data */
-          if(this.selectVariables.length === 0) this.generateSelectVariable();
+          if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
 
           this.createForm();
           
           /* Generate data */
-          this.generateDataGraphLines(this.form.get('variables').value.name);
-          this.generateDataTable(this.form.get('variables').value.name);
+          if( this.typeGraph === "float" ) {
+            this.generateDataGraphLines( this.getVariablesForm() );
+          } else {
+            this.generateDataGraphBar( this.getVariablesForm() );
+          }
+
+          this.generateDataTable( this.getVariablesForm() );
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -118,19 +123,29 @@ export class StationDetailsPage {
     this.selectVariables = aux;
   }
 
-  /* Get Range for Graph */
-  getRangeGraph() {
+  /* Get Range select in form for Graph */
+  getRangeForm() {
     this.rangeGraph = this.form.get('range').value;
+  }
+
+  /* Get Variables select in form for Graph */
+  getVariablesForm() {
+    let auxVariables = [];
+    if( !Array.isArray( this.form.get('variables').value ) ) {
+      auxVariables.push( this.form.get('variables').value.name );
+    } else {
+      this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
+    }
+    return auxVariables;
   }
 
   /* Read data for Graph */
   generateDataGraphLines(variables:any) {    
     this.dataGraph = [];
-    this.getRangeGraph();
+    this.getRangeForm();
 
     for( let data of this.station['data'] ) {
-      /* Check if data.name exist in variables */
-      debugger
+      /* Check if data.name exist in variables */ 
       if( variables.indexOf(data.name) !== -1 ) {
         this.symbolGraph.push(data.symbol);
         let aux = [];    
@@ -145,7 +160,7 @@ export class StationDetailsPage {
   /* Read data for Graph */
   generateDataGraphBar(variables:any) {    
     this.dataGraph = [];
-    this.getRangeGraph();
+    this.getRangeForm();
     
     for( let data of this.station['data'] ) {
       /* Check if data.name exist in variables */

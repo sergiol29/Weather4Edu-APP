@@ -31,29 +31,16 @@ export class HomePage {
   }
 
   initializeItemsSearch() {
-    console.log("iniatilize");
     this.elementsSearch = [];
 
     /* Get data in API with observable */
     this.apiProv.filteredStations$.subscribe(
       (data) => {
-        let menu = data;
+        //let menu = data;
     });
   }
 
   getItems(ev) {
     this.apiProv.doFilterStation(ev.target.value);
-    /*// Reset items back to all of the items
-    this.initializeItemsSearch();
-    console.log(this.elementsSearch);
-    // set val to the value of the ev target
-    var val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.elementsSearch = this.elementsSearch.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }*/
   }
 }
