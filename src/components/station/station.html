@@ -13,11 +13,11 @@
     </ion-fab>
   </div>
 
-  <ion-slides>
+  <ion-slides [slidesPerView]="options.slidesPerView">
     <ion-slide *ngFor="let data of station.latest_data">
       <ion-item>
         <ion-icon name="football" item-start large></ion-icon>
-        <h2>{{ data.name }}</h2>
+        <h2>{{ data.name }}</h2> <!-- explicity set the icon for each mode -->
         <p>{{ data.value }} {{ data.symbol }}</p>
       </ion-item>
     </ion-slide>
@@ -25,7 +25,11 @@
 
   <ion-item>
     <span item-left>{{ station.name }}</span>
-    <!--<span item-left>(2.6 mi)</span>-->
+    <button ion-button icon-left (tap)="openModalEditDevice(station.id, station.name)">
+      <ion-icon name="edit"></ion-icon>
+      Edit
+    </button>
+
     <button ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
       <ion-icon name="navigate"></ion-icon>
       More details

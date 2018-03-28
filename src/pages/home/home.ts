@@ -19,9 +19,7 @@ import { ApiProvider } from '../../providers/api/api';
 export class HomePage {
 
   map: any;
-
-  elementsSearch = [];
-
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
   }
 
@@ -31,8 +29,6 @@ export class HomePage {
   }
 
   initializeItemsSearch() {
-    this.elementsSearch = [];
-
     /* Get data in API with observable */
     this.apiProv.filteredStations$.subscribe(
       (data) => {

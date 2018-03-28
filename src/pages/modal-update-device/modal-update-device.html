@@ -15,4 +15,33 @@
 
 <ion-content padding>
 
+  <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-item>
+        <!--<ion-label color="primary">Name</ion-label>-->
+        <ion-input type="text" formControlName="nameDevice"></ion-input>
+      </ion-item>
+
+      <ion-item class="alert alert-danger" *ngIf="form.get('nameDevice').hasError('required') && form.get('nameDevice').touched 
+                                                        || ( form.get('nameDevice').hasError('maxlength') || form.get('nameDevice').hasError('minlength') )">
+        <p style="color:darkred">Name <strong>is required</strong>, <strong>max length 128 caracter</strong> and <strong>min length 10 caracter</strong></p>
+      </ion-item>
+    </ion-list>
+
+    <div padding>
+      <button ion-button block icon-right [disabled]="form.invalid">
+        Send
+        <ion-icon name="arrow-dropright-circle"></ion-icon>
+      </button>
+    </div>
+    <div padding>
+      <button ion-button color="danger" block icon-left (tap)="cancelModal()">
+        <ion-icon name="close-circle"></ion-icon>
+        Close
+      </button>
+    </div>
+  </form>
+  <div *ngIf="form">
+      {{ form.value | json }}
+  </div>
 </ion-content>

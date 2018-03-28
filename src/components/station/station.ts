@@ -7,6 +7,9 @@ import { ApiProvider } from '../../providers/api/api';
 /* Loading Spinner */
 import { LoadingController } from 'ionic-angular';
 
+/* Modal */
+import { ModalController } from 'ionic-angular';
+
 /**
  * Generated class for the StationComponent component.
  *
@@ -20,8 +23,19 @@ import { LoadingController } from 'ionic-angular';
 export class StationComponent {
 
   stations: any;
-  element
-  constructor(private apiProv: ApiProvider, private loadingCtrl: LoadingController, private navCtrl: NavController) {
+  options = {
+    loop: true,
+    effect: 'cube',
+    speed: 100000,
+    centeredSlides: true,
+    paginationType: 'progress',
+    parallax: true,
+    slidesPerView: 2.5,
+    spaceBetween: 10
+  }
+
+  constructor(private apiProv: ApiProvider, private loadingCtrl: LoadingController, 
+              private navCtrl: NavController, private modalCtrl: ModalController) {
     //console.log('Hello StationComponent Component');
   }
 
@@ -50,8 +64,22 @@ export class StationComponent {
     });
   }
 
-  getMoreDetails(id: number){
+  getMoreDetails(id: number) {
     this.navCtrl.push('StationDetailsPage', { id: id });
+  }
+
+  openModalEditDevice(idDevice: number, nameDevice: any) {
+    /* Open Modal Page */
+    console.log(nameDevice);
+    let modal = this.modalCtrl.create('ModalUpdateDevicePage',{nameDevice: nameDevice},{showBackdrop:true, enableBackdropDismiss:true});
+
+    /* When close modal refresh data */
+    modal.onDidDismiss(data => {
+      /* If data is !null, get data in API */
+      console.log(data);
+    });
+
+    modal.present();
   }
 
 }
