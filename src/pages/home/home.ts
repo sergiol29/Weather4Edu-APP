@@ -19,7 +19,15 @@ import { ApiProvider } from '../../providers/api/api';
 export class HomePage {
 
   map: any;
-  
+  showsearch: boolean = false;
+
+  /* Options Slider */
+  optionSearch = {
+    showButton: true,
+    debounce: 400,
+    animated: true
+  }
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
   }
 
@@ -38,5 +46,17 @@ export class HomePage {
 
   getItems(ev) {
     this.apiProv.doFilterStation(ev.target.value);
+  }
+
+  setShowSearch(value: boolean) {
+    this.showsearch = value;
+  }
+
+  showSearch() {
+    this.setShowSearch(true);
+  }
+
+  cancelSearch() {
+    this.setShowSearch(false);
   }
 }

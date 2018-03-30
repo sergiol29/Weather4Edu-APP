@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CONFIG } from '../config';
 
@@ -19,6 +19,9 @@ export class ApiProvider {
   /* Observable  */
   private stations = new BehaviorSubject<any>([]);
   private filtered_stations = new BehaviorSubject<any>([]);
+
+  /* API KEY ACCUWEATHER */
+  apikey = "k11v2IFEW6dFiQJeofaKvhvh17DFXkvZ";
 
   constructor(public http: HttpClient) {
     //console.log('Hello ApiProvider Provider');
@@ -58,5 +61,32 @@ export class ApiProvider {
       return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
     });
     this.filtered_stations.next(result);
+  }
+
+  /*  update station */
+  putUpdateStation(id:number, data:any) {
+    console.log('data = ', data);
+    const url = `${CONFIG.API_URL_INPUT}/device_update/${id}`;
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.put(url, data, httpOptions);
+    //return this.http.put(url, JSON.stringify(data));
+    //return this.http.put(url, status);
+  }
+
+  getKeyCity(latitude: number, longitude: number) {
+    /* Get KEY city */
+    const url = `${CONFIG.API_ACCUWEATHER}/locations/v1/cities/geoposition/search?apikey=${this.apikey}&q=${latitude}%2C${longitude}`;
+    return this.http.get(url);
+  }
+
+  getWeatherForecasts5days(keycity: number){
+    const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&language=es-ES&metric=true`;
+    return this.http.get(url);
   }
 }

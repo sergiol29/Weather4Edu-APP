@@ -11,6 +11,7 @@ import { GraphComponent } from './graph/graph';
 import { TableDataComponent } from './table-data/table-data';
 import { MapsStationComponent } from './maps-station/maps-station';
 import { GraphBarsComponent } from './graph-bars/graph-bars';
+import { WidgetWeatherComponent } from './widget-weather/widget-weather';
 
 @NgModule({
 	declarations: [StationComponent,
@@ -19,6 +20,7 @@ import { GraphBarsComponent } from './graph-bars/graph-bars';
     TableDataComponent,
     MapsStationComponent,
     GraphBarsComponent,
+    WidgetWeatherComponent,
     ],
 	imports: [IonicModule, PipesModule],
 	exports: [StationComponent,
@@ -27,6 +29,7 @@ import { GraphBarsComponent } from './graph-bars/graph-bars';
     TableDataComponent,
     MapsStationComponent,
     GraphBarsComponent,
+    WidgetWeatherComponent,
     ]
 })
 export class ComponentsModule {}

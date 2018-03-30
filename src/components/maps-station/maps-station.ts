@@ -26,7 +26,7 @@ export class MapsStationComponent {
   @Input()
   idmap: string;
 
-  constructor(private geolocation: Geolocation) {
+  constructor() {
     //console.log('Hello MapsStationComponent Component');
   }
 
@@ -47,16 +47,47 @@ export class MapsStationComponent {
     // create map
     this.map = new google.maps.Map(mapEle, {
       center: myLatLng,
-      zoom: 12
+      zoom: 16
     });
   
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      /* Marker maps */
+      var image = 'https://image.ibb.co/nM0XX7/marker_station.png';
       let marker = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
+        animation: google.maps.Animation.DROP,
+        icon: image,
+        streetViewControl: false,
         title: 'Hello World!'
       });
+
+      /* Add class css */
       mapEle.classList.add('show-map');
+
+      /* Show traffic layer, in maps of type Vehicle */
+      var trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(this.map);
+
+      /* Info windows when click in marker */
+      var contentString = 
+            '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+              '<div id="bodyContent">'+
+                '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                'sandstone rock formation in the southern part of the </p>'+
+              '</div>'+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(this.map, marker);
+        });
     });
   }
 

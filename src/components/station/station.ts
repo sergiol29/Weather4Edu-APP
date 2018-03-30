@@ -23,6 +23,8 @@ import { ModalController } from 'ionic-angular';
 export class StationComponent {
 
   stations: any;
+
+  /* Options Slider */
   options = {
     loop: true,
     effect: 'cube',
@@ -51,7 +53,7 @@ export class StationComponent {
       /* Get data in API with observable*/
       this.apiProv.filteredStations$.subscribe(
         (data) => {
-          //variables.forEach(element => { auxVariables.push(element.name) });
+          console.log(data);
           this.stations = data;
       });
       
@@ -70,8 +72,7 @@ export class StationComponent {
 
   openModalEditDevice(idDevice: number, nameDevice: any) {
     /* Open Modal Page */
-    console.log(nameDevice);
-    let modal = this.modalCtrl.create('ModalUpdateDevicePage',{nameDevice: nameDevice},{showBackdrop:true, enableBackdropDismiss:true});
+    let modal = this.modalCtrl.create('ModalUpdateDevicePage',{id: idDevice, name: nameDevice},{showBackdrop:true, enableBackdropDismiss:true});
 
     /* When close modal refresh data */
     modal.onDidDismiss(data => {

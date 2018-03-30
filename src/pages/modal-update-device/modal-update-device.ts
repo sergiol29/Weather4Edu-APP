@@ -4,6 +4,9 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 /* Import for form */
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+/* Load Provider */
+import { ApiProvider } from '../../providers/api/api';
+
 /**
  * Generated class for the ModalUpdateDevicePage page.
  *
@@ -20,16 +23,18 @@ export class ModalUpdateDevicePage {
 
   form: FormGroup;
   nameDevice: any;
+  idDevice: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-              private viewCtrl: ViewController, private renderer: Renderer, private fb: FormBuilder) {
+              private viewCtrl: ViewController, private renderer: Renderer, private fb: FormBuilder,
+              private apiProv: ApiProvider) {
     this.renderer.setElementClass(viewCtrl.pageRef().nativeElement, 'custom-modal', true);
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ModalUpdateDevicePage');
-    this.nameDevice = this.navParams.get('nameDevice');
-    console.log(this.nameDevice);
+    this.nameDevice = this.navParams.get('name');
+    this.idDevice = this.navParams.get('id');
     this.createForm();
   }
 
@@ -40,7 +45,7 @@ export class ModalUpdateDevicePage {
       
     /* Create form */
     this.form = this.fb.group({
-      nameDevice: [this.nameDevice, [Validators.required, Validators.maxLength(128), Validators.minLength(5)]],
+      name: [this.nameDevice, [Validators.required, Validators.maxLength(128), Validators.minLength(5)]],
     });
   }
 
@@ -52,8 +57,13 @@ export class ModalUpdateDevicePage {
   /* Accept modal page */
   onSubmit(){
     let data = this.form.value;
-    console.log(data);
-    //this.viewCtrl.dismiss(data);
+    /* Get data in API */
+    this.apiProv.putUpdateStation(this.idDevice, data).subscribe(
+      (data) => {
+        console.log('a = ', data);
+       }
+    );
+    this.viewCtrl.dismiss();
   }
 
 }

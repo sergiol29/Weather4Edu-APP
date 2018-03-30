@@ -1,14 +1,14 @@
 <!-- Generated template for the StationComponent component -->
-
-
 <ion-card *ngFor="let station of stations">
   <div style="position: relative">
-    <!--<img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">-->
     <!-- Component maps station -->
-    <app-maps-station [latitude]="station.latitude" [longitude]="station.longitude" [idmap]="station.id"></app-maps-station>
+    <app-maps-station *ngIf="station.type_device === 'station'" [latitude]="station.latitude" [longitude]="station.longitude" [idmap]="station.id"></app-maps-station>
+    <app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data['latitude'].value" [longitude]="station.latest_data['longitude'].value" [idmap]="station.id"></app-maps-station>
+
     <ion-fab right top>
       <button ion-fab class="fab-map">
-        <ion-icon name='pin'></ion-icon>
+        <ion-icon *ngIf="station.type_device === 'station'" name='thermometer'></ion-icon>
+        <ion-icon *ngIf="station.type_device === 'gps'" name='car'></ion-icon>
       </button>
     </ion-fab>
   </div>
@@ -16,7 +16,7 @@
   <ion-slides [slidesPerView]="options.slidesPerView">
     <ion-slide *ngFor="let data of station.latest_data">
       <ion-item>
-        <ion-icon name="football" item-start large></ion-icon>
+        <ion-icon name="football" colors="danger" item-start large></ion-icon>
         <h2>{{ data.name }}</h2> <!-- explicity set the icon for each mode -->
         <p>{{ data.value }} {{ data.symbol }}</p>
       </ion-item>

@@ -8,12 +8,26 @@
 <!-- components header-menu -->
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-title>Home</ion-title>
-    
+    <ion-grid>
+      <ion-row>
+        <ion-col col-1>
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-5>
+          <ion-title class="padding-6">Home</ion-title>
+        </ion-col>
+        <ion-col col-6>
+          <ion-searchbar *ngIf="showsearch" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)" [showCancelButton]="optionSearch.showButton" [animated]="optionSearch.animated" [debounce]="optionSearch.debounce"></ion-searchbar>
+          <ion-buttons *ngIf="!showsearch" end>
+            <button ion-button icon-only (tap)="showSearch()">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-navbar>
 </ion-header>
 
