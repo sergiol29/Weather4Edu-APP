@@ -26,6 +26,9 @@ export class MapsStationComponent {
   @Input()
   idmap: string;
 
+  @Input()
+  typeDevice: string;
+
   constructor() {
     //console.log('Hello MapsStationComponent Component');
   }
@@ -49,46 +52,56 @@ export class MapsStationComponent {
       center: myLatLng,
       zoom: 16
     });
-  
+    
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
-      /* Marker maps */
-      var image = 'https://image.ibb.co/nM0XX7/marker_station.png';
+      /* Marker maps according type device */
+      if( this.typeDevice === 'gps' ) {
+        var image = 'https://image.ibb.co/ipWY77/marker_vehicle.png';
+      } else {
+        var image = 'https://image.ibb.co/nM0XX7/marker_station.png';
+      }
+
+      /* Create Marker map */
       let marker = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
         animation: google.maps.Animation.DROP,
         icon: image,
         streetViewControl: false,
-        title: 'Hello World!'
       });
 
-      /* Add class css */
+      /* Add class css */ 
       mapEle.classList.add('show-map');
 
-      /* Show traffic layer, in maps of type Vehicle */
-      var trafficLayer = new google.maps.TrafficLayer();
-      trafficLayer.setMap(this.map);
+      /* If device is type GPS */
+      if( this.typeDevice === 'gps' ) {
+        var contentString = "";
+        /* Show traffic layer */
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(this.map);
 
-      /* Info windows when click in marker */
-      var contentString = 
-            '<div id="content">'+
-              '<div id="siteNotice">'+
-              '</div>'+
-              '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-              '<div id="bodyContent">'+
-                '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-                'sandstone rock formation in the southern part of the </p>'+
-              '</div>'+
-            '</div>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
+        /* Info windows when click in marker */
+        var infowindow = new google.maps.InfoWindow;
+  
         marker.addListener('click', function() {
           infowindow.open(this.map, marker);
         });
-    });
+
+        /* Inverse Geocoder for get street with latitude and longitude */
+        var geocoder = new google.maps.Geocoder;
+
+        geocoder.geocode({'location': myLatLng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[1]) {
+              infowindow.setContent(results[0].formatted_address);
+            } 
+          } else {
+            console.log('Geocoder failed due to: ' + status);
+          }
+        });
+      }
+
+    }); /* End addListenerOnce */
   }
 
 }

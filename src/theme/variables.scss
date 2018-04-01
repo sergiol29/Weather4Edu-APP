@@ -34,12 +34,15 @@ $background-color: #f5f5f5;
 
 $colors: (
   primary: #0074ac,
-  icon: #0088c9,
-  white: #fff,
+  text-blue: #0084bf,
+  text-white: #fff,
+  text-black: #000,
   secondary: #5b5ef4,
+  success: #28a745,
   danger: #f53d3d,
   bg-navbar: #273e49,
-  bg-searchbar: #e1e9ee
+  bg-searchbar: #e1e9ee,
+  bg-grid: #7a8b98
 );
 
 
@@ -91,24 +94,106 @@ $ionicons-font-path: "../assets/fonts";
 //font-family: 'Roboto', sans-serif;
 //font-family: 'Ubuntu', sans-serif;
 
+/* Property APP */
+ion-app {
+  font-family: 'Ubuntu', sans-serif !important;
+} 
+
 /* Custom CSS */
-.card-md {
-  border: 1px solid #ccc;
+.font17 { 
+  font-size: 1.7rem !important; /* 17px */
 }
 
-.item-md {
-  background: color($colors, white) !important;
+.font20 { 
+  font-size: 2rem !important; /* 20px */
 }
+
+.bold {
+  font-weight: 500 !important;
+}
+
+.light {
+  font-weight: 300 !important;
+}
+
+.color-white {
+  color: color($colors, text-white) !important;
+}
+
+.color-black {
+  color: color($colors, text-black) !important;
+}
+
+.color-blue {
+  color: color($colors, text-blue) !important;
+}
+
+.font-fira {
+  font-family: 'Fira Sans', sans-serif !important;
+}
+
+.padding-6 {
+  padding-top: 0.6rem !important;
+}
+
+.padding-left-0 {
+  padding-left: 0rem !important;
+}
+
+.padding-right-0 {
+  padding-right: 0rem !important;
+}
+
+.no-padding {
+  padding: 0rem !important;
+}
+
+.no-margin {
+  margin: 0rem !important;
+}
+
+.margin-top-9 {
+  margin-top: 0.9rem !important;
+}
+
+.card-md, .card-ios, .card-wp {
+  border: 1px solid #ccc !important;
+}
+
+.item-md, .item-ios, .item-wp {
+  background: color($colors, text-white) !important;
+}
+
+.bg-grid {
+  background: color($colors, bg-grid) !important;
+}
+
+.bg-grid-white {
+  background: color($colors, text-white) !important;
+}
+
+.divider-xs {
+  height: 0.6rem;
+}
+
+.no-bg {
+  background: transparent !important;
+}
+
+/* Menu 
+$menu-ios-background: color($colors, text-white) !important;
+$menu-md-background: color($colors, text-white) !important;
+$menu-wp-background: color($colors, text-white) !important; */
 
 /* NavBar */
-$color-text-icon-navbar: color($colors, white);
+$color-text-icon-navbar: color($colors, text-white);
 $border-radius-4: 0.4px; /* 4px */
 $font-weight-400: 400;
 $font-size-18: 1.8rem; /* 17px */
 
 $toolbar-ios-title-text-color: $color-text-icon-navbar;
 $toolbar-md-title-text-color: $color-text-icon-navbar;
-$toolbar-wp-title-text-color: $color-text-icon-navbar;
+$toolbar-wp-title-text-color: $color-text-icon-navbar;	
 
 $toolbar-ios-button-border-radius: $border-radius-4;
 $toolbar-wp-button-border-radius: $border-radius-4;
@@ -125,11 +210,11 @@ $toolbar-ios-title-font-size: $font-size-18;
 $toolbar-md-title-font-size: $font-size-18;
 $toolbar-wp-title-font-size: $font-size-18;
 
-.toolbar-background-md {
+.toolbar-background-md, .toolbar-background-ios, .toolbar-background-wp {
   background: color($colors, bg-navbar) !important;
 }
 
-.toolbar-md {
+.toolbar-md, .toolbar-ios, .toolbar-wp {
   padding-right: 2.5rem !important; /* 25px */
 }
 
@@ -149,12 +234,3 @@ $searchbar-wp-input-text-color: color($colors, bg-navbar) !important;
 $searchbar-ios-min-height: 3.0rem; /* 30px */
 $searchbar-md-input-height: 3.0rem;
 $searchbar-wp-input-height: 3.0rem;
-
-/* Property */
-.padding-6 {
-  padding-top: 0.6rem;
-}
-
-ion-app {
-  font-family: 'Ubuntu', sans-serif !important;
-}

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-/* Load Provider */
+/* Load Provider */                    
 import { ApiProvider } from '../../providers/api/api';
-
-/* Loading Spinner */
+ 
+/* Loading Spinner */        
 import { LoadingController } from 'ionic-angular';
 
-/* Modal */
+/* Modal */ 
 import { ModalController } from 'ionic-angular';
 
 /**
@@ -15,7 +15,7 @@ import { ModalController } from 'ionic-angular';
  *
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
- */
+ */ 
 @Component({
   selector: 'app-station',
   templateUrl: 'station.html'
@@ -53,7 +53,6 @@ export class StationComponent {
       /* Get data in API with observable*/
       this.apiProv.filteredStations$.subscribe(
         (data) => {
-          console.log(data);
           this.stations = data;
       });
       
@@ -65,7 +64,7 @@ export class StationComponent {
 
     });
   }
-
+ 
   getMoreDetails(id: number) {
     this.navCtrl.push('StationDetailsPage', { id: id });
   }

@@ -2,7 +2,7 @@ import { Component, Renderer } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /* Import for form */
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+import {Validators, FormBuilder, FormGroup } from '@angular/forms'; 
 
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
@@ -13,7 +13,7 @@ import { ApiProvider } from '../../providers/api/api';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+ 
 @IonicPage()
 @Component({
   selector: 'page-modal-update-device',
@@ -31,10 +31,10 @@ export class ModalUpdateDevicePage {
     this.renderer.setElementClass(viewCtrl.pageRef().nativeElement, 'custom-modal', true);
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad() { 
     //console.log('ionViewDidLoad ModalUpdateDevicePage');
     this.nameDevice = this.navParams.get('name');
-    this.idDevice = this.navParams.get('id');
+    this.idDevice = this.navParams.get('id');  
     this.createForm();
   }
 
