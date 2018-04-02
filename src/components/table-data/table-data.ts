@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
-
+ 
 /**
  * Generated class for the TableDataComponent component.
  *
@@ -13,7 +13,7 @@ import { Component, OnChanges, Input } from '@angular/core';
 export class TableDataComponent implements OnChanges {
 
   /* Data of charts */
-  _data: any;
+  _data: any; 
   @Input()  
   data: any;
   

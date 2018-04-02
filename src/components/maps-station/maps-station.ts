@@ -50,7 +50,8 @@ export class MapsStationComponent {
     // create map
     this.map = new google.maps.Map(mapEle, {
       center: myLatLng,
-      zoom: 16
+      zoom: 16,
+      streetViewControl: false
     });
     
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
@@ -66,8 +67,7 @@ export class MapsStationComponent {
         position: myLatLng,
         map: this.map,
         animation: google.maps.Animation.DROP,
-        icon: image,
-        streetViewControl: false,
+        icon: image
       });
 
       /* Add class css */ 

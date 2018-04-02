@@ -55,8 +55,8 @@ export class StationDetailsPage {
 
   ionViewDidLoad() { 
     //console.log('ionViewDidLoad StationDetailsPage');
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 3;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 3;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
@@ -80,7 +80,7 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          console.log(data);
+
           /* Generate data */
           if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
 
@@ -191,7 +191,7 @@ export class StationDetailsPage {
         let aux = [];
         for( let values of data.values ) {
           /* Convert Timestamp to Date */
-          let date = moment.unix(values.timestamp).format("MM-DD-YYYY - HH:mm:ss");
+          let date = moment.unix(values.timestamp).format("DD-MM-YYYY - HH:mm");
           aux.push( [date, values.value] );
         }
         this.dataTable.push( {name: data.name, symbol: data.symbol, data: aux} );
