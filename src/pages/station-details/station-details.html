@@ -18,73 +18,101 @@
 <ion-content padding>
 
   <ion-card>
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="https://ionicframework.com/dist/preview-app/www/assets/img/marty-avatar.png">
-      </ion-avatar>
-      <h2>{{ station?.name }}</h2>
-      <p>Dirección mediante latitude y longitude</p>
-    </ion-item>
-  
-    <img src="https://ionicframework.com/dist/preview-app/www/assets/img/advance-card-map-madison.png">
-  
-    <ion-card-content *ngIf="form">
-      <form novalidate [formGroup]="form">
-        <ion-list>
-          <ion-item>
-            <ion-label>Variables</ion-label>
-            <ion-select formControlName="variables" (ngModelChange)="onChangeVariable($event)" multiple="true">
-              <ion-option *ngFor="let value of selectVariables" [value]="value">{{ value.name }} ({{ value.symbol }})</ion-option>
-            </ion-select>
+    <ion-grid class="bg-grid-white">
+      <ion-row>
+        <ion-col col-12>
+          <ion-item class="no-padding">
+            <ion-fab right top>
+              <button ion-fab class="fab-map"> 
+                <ion-icon *ngIf="station?.type_device === 'station'" name='thermometer'></ion-icon>
+                <ion-icon *ngIf="station?.type_device === 'gps'" name='car'></ion-icon>
+              </button> 
+            </ion-fab>
+            <h2 class="font17 bold">{{ station?.name }}</h2>
+            <p>Dirección mediante latitude y longitude</p>
           </ion-item>
-        
-          <ion-item>
-            <ion-label>Range</ion-label>
-            <ion-select formControlName="range" (ngModelChange)="onChangeRange($event)">
-              <ion-option *ngFor="let value of selectRange" [value]="value">{{ value }} days</ion-option>
-              <ion-option value="custom" (tap)="openDatePicker()">Custom Range</ion-option>
-            </ion-select>
-          </ion-item>    
-        </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
+    <div style="position: relative" *ngIf="station"> 
+      <!-- Component maps station -->
+      <!--<app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data[0].value" [longitude]="station.latest_data[1].value" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>-->
+    </div>
+
+    <!-- Form -->
+    <ion-grid class="bg-grid" *ngIf="form">
+      <form novalidate [formGroup]="form">
+        <ion-row>
+          <ion-col col-12>
+              <h2 item-start class="font20 color-white light">Lasted Data</h2>    
+          </ion-col>
+          
+          <ion-col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+            <ion-item item-start class="font-fira">
+              <ion-label class="bold color-blue">Variables:</ion-label>
+              <ion-select class="bold color-black" formControlName="variables" (ngModelChange)="onChangeVariable($event)" multiple="true">
+                <ion-option *ngFor="let value of selectVariables" [value]="value">{{ value.name }} ({{ value.symbol }})</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
+          <ion-col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+            <ion-item item-end>
+              <ion-label class="bold color-blue">Range</ion-label>
+              <ion-select class="bold color-black" formControlName="range" (ngModelChange)="onChangeRange($event)">
+                <ion-option *ngFor="let value of selectRange" [value]="value">{{ value }} days</ion-option>
+                <ion-option value="custom" (tap)="openDatePicker()">Custom Range</ion-option>
+              </ion-select>
+            </ion-item> 
+          </ion-col>
+        </ion-row>
       </form>
-      {{ form.value | json }}
-    </ion-card-content>
+    </ion-grid>
+ 
+    <!-- Tabs for select Graph or Table --> 
+    <ion-grid class="bg-grid-white padding-6">
+      <ion-row>
+        <ion-segment [(ngModel)]="segment">
+          <ion-segment-button value="graph">
+              Graph
+          </ion-segment-button>
+          <ion-segment-button value="table">
+              Table
+          </ion-segment-button>
+        </ion-segment>
+      </ion-row>
+    </ion-grid>
 
-    <!-- Segment in content -->
-    <ion-segment [(ngModel)]="segment" color="primary">
-      <ion-segment-button value="graph">
-        <button ion-button icon-left block clear>
-          <ion-icon name="stats"></ion-icon>
-          Graph
-        </button>
-      </ion-segment-button>
-      <ion-segment-button value="table">
-        <button ion-button icon-left block clear>
-          <ion-icon name="list"></ion-icon>
-          Table
-        </button>
-      </ion-segment-button>
-    </ion-segment>
-
-    <div [ngSwitch]="segment">
+    <!-- Show segment select -->
+    <div [ngSwitch]="segment" class="padding-6 bg-grid-white">
+      <!-- Show Graph -->
       <div *ngSwitchCase="'graph'">
-          <!-- Component Graph -->
-          <app-graph *ngIf="typeGraph === 'float'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
-          <app-graph-bars *ngIf="typeGraph === 'string'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph-bars>
-          <ion-card *ngIf="typeGraph === 'errorGraph'">
-            <ion-card-content>
-              Can not create a graph with variables float and string type
-            </ion-card-content>
-          </ion-card>
+        <ion-grid class="bg-grid-white">
+          <ion-row>
+            <ion-col col-12>
+              <!-- Component Graph -->
+              <app-graph *ngIf="typeGraph === 'float'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
+              <app-graph-bars *ngIf="typeGraph === 'string'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph-bars>
+              
+              <!-- If not data show error -->
+              <ion-card *ngIf="typeGraph === 'errorGraph'">
+                <ion-card-content>
+                  Can not create a graph with variables float and string type
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
       
-      <ion-list *ngSwitchCase="'table'">
-        <ion-item>
-          <!-- Component Table Data -->
-          <app-table-data [data]="dataTable" [range]="rangeGraph"></app-table-data>
-        </ion-item>
-      </ion-list>
-    </div>
+      <!-- Show Table -->
+      <div *ngSwitchCase="'table'" class="padding-6 bg-grid-white">
+        <!-- Component Table Data -->
+        <app-table-data [data]="dataTable" [range]="rangeGraph"></app-table-data>
+      </div>
+
+    </div> <!-- end ngSwitch segment -->
   </ion-card>
 
   <ion-card *ngIf="station">

@@ -1,15 +1,24 @@
 <!-- Generated template for the TableDataComponent component -->
-<ion-list>
-  <ion-list-header>
-    Representation data of last {{ range }} days
-  </ion-list-header>
-</ion-list>
+<ion-grid class="bg-grid-white padding-6">
+  <ion-row>
+    <ion-col col-12>
+      <h2 item-start class="font20 light">Representation data of last {{ range }} days</h2>    
+    </ion-col>
+  </ion-row>
+</ion-grid>
 
-<ion-item-group *ngFor="let datum of _data">
-  <ion-item-divider color="light">{{ datum.name }}</ion-item-divider>
-  <ion-item *ngFor="let values of datum.data">
-    {{ values[1] }}{{ datum.symbol }}
-    <ion-note item-end><strong>{{ values[0] }}</strong></ion-note>
-  </ion-item>
-</ion-item-group>
+<ion-grid class="bg-grid padding-6">
+  <ion-row *ngFor="let datum of _data">
+    <ion-col col-12>
+      <h2 item-start class="font20 color-white bold">{{ datum.name }}</h2>    
+    </ion-col>
+    <ion-col col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 *ngFor="let values of datum.data">
+      <ion-item class="font-fira">
+        <!--<ion-icon name="football" colors="danger" item-start></ion-icon>-->
+        <h2 class="bold color-blue">{{ values[1] }}{{ datum.symbol }}</h2> <!-- explicity set the icon for each mode -->
+        <p class="bold color-black">{{ values[0] }}</p>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-grid>
   

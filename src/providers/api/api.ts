@@ -65,18 +65,15 @@ export class ApiProvider {
 
   /*  update station */
   putUpdateStation(id:number, data:any) {
-    console.log('data = ', data);
     const url = `${CONFIG.API_URL_INPUT}/device_update/${id}`;
     
-    const httpOptions = {
+    const httpOptions = { 
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
       })
     };
 
     return this.http.put(url, data, httpOptions);
-    //return this.http.put(url, JSON.stringify(data));
-    //return this.http.put(url, status);
   }
 
   getKeyCity(latitude: number, longitude: number) {

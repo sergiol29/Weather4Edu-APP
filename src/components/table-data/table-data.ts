@@ -4,7 +4,7 @@ import { Component, OnChanges, Input } from '@angular/core';
  * Generated class for the TableDataComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
- * Components.
+ * Components. 
  */
 @Component({
   selector: 'app-table-data',
@@ -14,7 +14,7 @@ export class TableDataComponent implements OnChanges {
 
   /* Data of charts */
   _data: any;
-  @Input()
+  @Input()  
   data: any;
   
   /* Name of charts */

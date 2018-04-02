@@ -39,21 +39,21 @@ export class StationDetailsPage {
   dataGraph = [];
   dataTable = [];
   rangeGraph: string;
-  symbolGraph = [];
-  typeGraph: string = "float";
-
+  symbolGraph = [];  
+  typeGraph: string = "float"; 
+   
   /* Variable form */
-  form: FormGroup;
-  selectVariables = [];
-  selectRange = ['7', '15', '30'];
-
+  form: FormGroup; 
+  selectVariables = [];                
+  selectRange = ['7', '15', '30']; 
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder,
     private modalCtrl: ModalController) {
-    
-  }
+       
+  } 
 
-  ionViewDidLoad() {
+  ionViewDidLoad() { 
     //console.log('ionViewDidLoad StationDetailsPage');
     //this.idStation = this.navParams.get('id');
     this.idStation = 3;
@@ -66,7 +66,7 @@ export class StationDetailsPage {
   getDataAPI(from:number, to?:number) {
     /* Now timestamp */
     if( !to ) {
-      to = moment().unix();
+      to = moment().unix(); 
     }
 
     /* Create loading spinner */
@@ -80,7 +80,7 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          
+          console.log(data);
           /* Generate data */
           if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
 

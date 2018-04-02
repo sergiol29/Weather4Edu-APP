@@ -5,15 +5,12 @@
     <app-maps-station *ngIf="station.type_device === 'station'" [latitude]="station.latitude" [longitude]="station.longitude" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>
     <app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data[0].value" [longitude]="station.latest_data[1].value" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>
 
-    <!--<ion-fab *ngIf="station.type_device === 'gps' && station.latest_data[2].value === 'PARADO'" right top color="danger">
-    <ion-fab *ngIf="station.type_device === 'gps' && station.latest_data[2].value === 'DESPLAZAMIENTO'" right top color="bg-navbar">
-    <ion-fab *ngIf="station.type_device === 'station'" right top>-->
     <ion-fab right top>
-      <button ion-fab class="fab-map"> 
+      <button [color]="getColorFab(station.type_device, station.latest_data[2].value)" ion-fab class="fab-map"> 
         <ion-icon *ngIf="station.type_device === 'station'" name='thermometer'></ion-icon>
         <ion-icon *ngIf="station.type_device === 'gps'" name='car'></ion-icon>
       </button> 
-    </ion-fab>
+    </ion-fab> 
   </div>
 
   <ion-grid class="bg-grid-white">
@@ -30,13 +27,13 @@
           <button *ngIf="station.latest_data[0].value > 30" color="success" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
             <img src="assets/icon/ok-battery.png">
             {{ station.latest_data[0].value }} %
-        </button>
+          </button>
 
           <button *ngIf="station.latest_data[0].value <= 30" color="danger" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
               <img src="assets/icon/low-battery.png">
               {{ station.latest_data[0].value }} %
           </button>
-
+ 
         </ion-item>
       </ion-col>
     </ion-row>
@@ -48,8 +45,8 @@
       <ion-col col-12>
           <h2 item-start class="font20 color-white light">Lasted Data</h2>    
       </ion-col>
-      
-      <ion-col col-4 *ngFor="let data of station.latest_data">
+
+      <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngFor="let data of station.latest_data">
         <ion-item class="font-fira">
           <!--<ion-icon name="football" colors="danger" item-start></ion-icon>-->
           <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->

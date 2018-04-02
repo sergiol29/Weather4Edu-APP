@@ -42,6 +42,10 @@ export class StationComponent {
   }
 
   ngOnInit() {
+    this.getDataAPI();
+  }
+  
+  getDataAPI() {
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
@@ -49,7 +53,7 @@ export class StationComponent {
 
     /* Show loading spinner */
     loader.present().then(() => {
-    
+       
       /* Get data in API with observable*/
       this.apiProv.filteredStations$.subscribe(
         (data) => {
@@ -64,7 +68,7 @@ export class StationComponent {
 
     });
   }
- 
+
   getMoreDetails(id: number) {
     this.navCtrl.push('StationDetailsPage', { id: id });
   }
@@ -72,14 +76,26 @@ export class StationComponent {
   openModalEditDevice(idDevice: number, nameDevice: any) {
     /* Open Modal Page */
     let modal = this.modalCtrl.create('ModalUpdateDevicePage',{id: idDevice, name: nameDevice},{showBackdrop:true, enableBackdropDismiss:true});
-
+ 
     /* When close modal refresh data */
-    modal.onDidDismiss(data => {
-      /* If data is !null, get data in API */
-      console.log(data);
+    modal.onDidDismiss(data => { 
+      this.getDataAPI();
     });
 
     modal.present();
+  } 
+
+  getColorFab(type_device:any, status?:any) {
+    let color = "";
+    if( type_device === 'gps' && status === 'PARADO' ){
+      color = 'danger';
+    } else if ( type_device === 'gps' && status === 'DESPLAZAMIENTO') {
+      color = 'success';
+    } else {
+      color = 'primary';
+    }
+
+    return color;
   }
 
 }

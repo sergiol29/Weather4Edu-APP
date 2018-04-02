@@ -60,7 +60,7 @@ export class ModalUpdateDevicePage {
     /* Get data in API */
     this.apiProv.putUpdateStation(this.idDevice, data).subscribe(
       (data) => {
-        console.log('a = ', data);
+        
        }
     );
     this.viewCtrl.dismiss();
