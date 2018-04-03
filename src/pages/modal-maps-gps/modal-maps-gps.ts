@@ -9,7 +9,7 @@ import { LoadingController } from 'ionic-angular';
 
 /* Import Lib MomentJS */
 import * as moment from 'moment';
-
+ 
 /* Import Geolocation for Google Maps */
 import { Geolocation } from '@ionic-native/geolocation';
 declare var google;

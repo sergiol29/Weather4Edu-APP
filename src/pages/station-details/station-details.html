@@ -112,7 +112,7 @@
     </div> <!-- end ngSwitch segment -->
   </ion-card>
 
-  <ion-card *ngIf="station">
-    <widget-weather *ngIf="station.type_device === 'station'" [latitude]="station.latitude" [longitude]="station.longitude"></widget-weather>
+  <ion-card *ngIf="station?.type_device === 'station'">
+    <widget-weather [latitude]="station.latitude" [longitude]="station.longitude"></widget-weather>
   </ion-card>
 </ion-content>

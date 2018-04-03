@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
 
-/* Load Provider */
+/* Load Provider */ 
 import { ApiProvider } from '../../providers/api/api';
 
+/* Import Lib MomentJS */ 
+import * as moment from 'moment';
+   
 /**
  * Generated class for the WidgetWeatherComponent component.
- *
+ * 
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
  */
@@ -16,19 +19,20 @@ import { ApiProvider } from '../../providers/api/api';
 export class WidgetWeatherComponent {
 
   keycity: number;
+  forecast: any;
 
   @Input()
-  latitude: number;
+  latitude: number; 
 
-  @Input()
-  longitude: number;
-
+  @Input()   
+  longitude: number; 
+    
   constructor(private apiProv: ApiProvider) {
     //console.log('Hello WidgetWeatherComponent Component');
-    
-  }
+     
+  } 
 
-  ngAfterViewInit(){
+  ngAfterViewInit(){ 
     this.getKeyCityAPI();
   }
 
@@ -39,14 +43,20 @@ export class WidgetWeatherComponent {
       (data) => {
         this.keycity = data['Key'];
         this.getWeatherCity();
-    });
-  }
+    });  
+  } 
 
-  getWeatherCity(){
+  getWeatherCity(){   
     /* Get data in API */
     this.apiProv.getWeatherForecasts5days(this.keycity).subscribe(
       (data) => {
-        console.log('forecast = ', data);
+        this.forecast = data;
+        console.log('aa = ', this.forecast.DailyForecasts);
     });
+  }
+
+  formatEpochDate(date: number) {
+    //console.log(moment.unix(date).format("DD/MM/YYYY"));
+    return moment.unix(date).format("ddd[,] MMM DD");
   }
 }

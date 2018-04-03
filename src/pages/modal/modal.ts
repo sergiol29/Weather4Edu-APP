@@ -16,7 +16,7 @@ import * as moment from 'moment';
   selector: 'app-page-modal',
   templateUrl: 'modal.html',
 })
-export class ModalPage {
+export class ModalPage { 
   from: string = moment().subtract(1, 'days').format();
   to: string = moment().format();
 

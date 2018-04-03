@@ -42,7 +42,8 @@ $colors: (
   danger: #f53d3d,
   bg-navbar: #273e49,
   bg-searchbar: #e1e9ee,
-  bg-grid: #7a8b98
+  bg-grid: #7a8b98,
+  day-weather: #00afbe
 );
 
 
@@ -100,6 +101,10 @@ ion-app {
 } 
 
 /* Custom CSS */
+.font14 { 
+  font-size: 1.4rem !important; /* 12px */
+}
+
 .font17 { 
   font-size: 1.7rem !important; /* 17px */
 }
@@ -110,6 +115,14 @@ ion-app {
 
 .font20 { 
   font-size: 2rem !important; /* 20px */
+}
+
+.font45 { 
+  font-size: 4.5rem !important; /* 45px */
+}
+
+.block {
+  display: block !important;
 }
 
 .bold {
@@ -132,8 +145,16 @@ ion-app {
   color: color($colors, text-blue) !important;
 }
 
+.color-day-weather {
+  color: color($colors, day-weather) !important;
+}
+
 .font-fira {
   font-family: 'Fira Sans', sans-serif !important;
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .padding-6 {
@@ -187,6 +208,52 @@ ion-app {
 .border-bottom {
   border-bottom: 1px solid #cdcfd2 !important;
 }
+
+/* CSS Mobile */
+@media (max-width: 500px) {
+  .label-md {
+      margin-right: 0px !important;
+  }
+
+  .font45 { 
+    font-size: 3rem !important; /* 35px */
+  }
+
+  .font14 { 
+    font-size: 1.3rem !important; /* 35px */
+  }
+}
+
+/* CSS Tablet */
+@media (min-width: 768px) {
+  .font45 { 
+    font-size: 6.5rem !important; /* 35px */
+  }
+
+  .font14 { 
+    font-size: 2.4rem !important; /* 35px */
+  }
+
+  .font20{
+    font-size: 3.1rem !important; /* 35px */
+  }
+}
+
+/* CSS Desktop */
+@media (min-width: 992px) {
+  .font45 { 
+    font-size: 8.5rem !important; /* 35px */
+  }
+
+  .font14 { 
+    font-size: 2.4rem !important; /* 35px */
+  }
+
+  .font20{
+    font-size: 3rem !important; /* 35px */
+  }
+}
+
 
 /* Menu 
 $menu-ios-background: color($colors, text-white) !important;

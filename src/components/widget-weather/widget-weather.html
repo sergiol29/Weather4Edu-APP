@@ -1,2 +1,59 @@
 <!-- Generated template for the WidgetWeatherComponent component -->
-<p>wheater</p>
+<!--*ngIf="forecast"-->
+<ion-grid class="bg-grid">
+    <ion-row>
+        <ion-col col-12>
+            <h2 item-start class="font20 color-white light">5 Days of Forecasts</h2>    
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-6> <!-- *ngFor="let value of forecast.DailyForecasts" -->
+            <!--<ion-item>
+                <ion-row>
+                    <ion-col col-12><span color="day-weather" class="font12 bold font-fira">{{ formatEpochDate(value.EpochDate) }}</span></ion-col>
+                </ion-row>
+                <ion-row> 
+                    <ion-col col-8>{{ value.Temperature.Maximum['Value'] }} {{ value.Temperature.Maximum['Unit'] }}</ion-col>
+                    <ion-col col-4> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>{{ value.Day['IconPhrase'] }}</ion-col>
+                </ion-row> 
+            </ion-item>-->
+            <ion-item class="no-padding"> 
+                <ion-row>
+                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">Sun, Apr 03</span></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-8>
+                        <span class="font45 font-roboto block">17 ºC</span>
+                        <span class="font14 light block">RealFeel&reg; 17º</span>
+                    </ion-col>
+                    <ion-col col-4 align-self-center="center"> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
+                </ion-row>
+                <ion-row class="padding-6">
+                    <ion-col col-12>Nublado</ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-col>
+
+        <ion-col col-6> <!-- *ngFor="let value of forecast.DailyForecasts" -->
+            <ion-item class="no-padding"> 
+                <ion-row>
+                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">Sun, Apr 03</span></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-8>
+                        <span class="font45 font-roboto block">17 ºC</span>
+                        <span class="font14 light block">RealFeel&reg; 17º</span>
+                    </ion-col>
+                    <ion-col col-4 align-self-center="center"> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
+                </ion-row>
+                <ion-row class="padding-6">
+                    <ion-col col-12>Nublado</ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-col>
+        
+    </ion-row>
+</ion-grid>

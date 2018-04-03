@@ -83,7 +83,7 @@ export class ApiProvider {
   }
 
   getWeatherForecasts5days(keycity: number){
-    const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&language=es-ES&metric=true`;
+    const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&language=es-ES&details=true&metric=true`;
     return this.http.get(url);
   }
 }

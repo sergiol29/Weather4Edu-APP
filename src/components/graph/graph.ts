@@ -64,7 +64,7 @@ export class GraphComponent implements OnChanges {
           text: "Representation data of last " +this._range+" days"
       },
       subtitle: {
-            text: "Representation data of last " +this._range+" days"
+            text: ""
       },
       xAxis: {
           type: 'datetime',

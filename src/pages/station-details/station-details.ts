@@ -22,7 +22,7 @@ import { ModalController } from 'ionic-angular';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+ 
 @IonicPage()
 @Component({
   selector: 'page-station-details',
@@ -55,8 +55,8 @@ export class StationDetailsPage {
 
   ionViewDidLoad() { 
     //console.log('ionViewDidLoad StationDetailsPage');
-    this.idStation = this.navParams.get('id');
-    //this.idStation = 3;
+    //this.idStation = this.navParams.get('id');
+    this.idStation = 1;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
