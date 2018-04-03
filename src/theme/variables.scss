@@ -177,7 +177,7 @@ ion-app {
 }
 
 .divider-xs {
-  height: 0.6rem;
+  height: 1.5rem;
 }
 
 .no-bg {
@@ -239,6 +239,6 @@ $searchbar-ios-input-text-color: color($colors, bg-navbar) !important;
 $searchbar-md-input-text-color: color($colors, bg-navbar) !important;
 $searchbar-wp-input-text-color: color($colors, bg-navbar) !important;
 
-$searchbar-ios-min-height: 3.0rem; /* 30px */
-$searchbar-md-input-height: 3.0rem;
-$searchbar-wp-input-height: 3.0rem;
+/*$searchbar-ios-min-height: 3.0rem; *//* 30px */
+/*$searchbar-md-input-height: 3.0rem;
+$searchbar-wp-input-height: 3.0rem;*/

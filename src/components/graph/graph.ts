@@ -84,7 +84,7 @@ export class GraphComponent implements OnChanges {
       },
       tooltip: {
           headerFormat: '<b>{series.name}</b><br>',
-          pointFormat: '{point.x:%e %b}: {point.y:.2f} '+this._symbol+''
+          pointFormat: '{point.x:%e %b}: {point.y:.2f}'
       },
   
       plotOptions: {

@@ -1,12 +1,12 @@
 import { Component, Renderer } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
-/* Import for form */
-import {Validators, FormBuilder, FormGroup } from '@angular/forms'; 
-
+/* Import for form */ 
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';  
+  
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
-
+ 
 /**
  * Generated class for the ModalUpdateDevicePage page.
  *
@@ -15,7 +15,7 @@ import { ApiProvider } from '../../providers/api/api';
  */
  
 @IonicPage()
-@Component({
+@Component({ 
   selector: 'page-modal-update-device',
   templateUrl: 'modal-update-device.html',
 })
@@ -28,7 +28,7 @@ export class ModalUpdateDevicePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, 
               private viewCtrl: ViewController, private renderer: Renderer, private fb: FormBuilder,
               private apiProv: ApiProvider) {
-    this.renderer.setElementClass(viewCtrl.pageRef().nativeElement, 'custom-modal', true);
+    this.renderer.setElementClass(viewCtrl.pageRef().nativeElement, 'custom-modal-update', true);
   }
 
   ionViewDidLoad() { 

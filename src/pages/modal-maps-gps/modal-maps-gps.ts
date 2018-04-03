@@ -30,7 +30,7 @@ export class ModalMapsGpsPage {
 
   map: any;
   idDevice: number;
-  dataDevice: any;  
+  dataDevice: any;   
   latLngDevice = []; 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -42,7 +42,6 @@ export class ModalMapsGpsPage {
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ModalMapsGpsPage');
     this.idDevice = this.navParams.get('id');
-    console.log('station = ', this.idDevice);
     this.getDataAPI();
   }
 
@@ -65,15 +64,15 @@ export class ModalMapsGpsPage {
       this.apiProv.getShowStation(this.idDevice, from, to).subscribe(
         (data) => {
           this.dataDevice = data;
-          console.log(data);
           this.getLatLngDevice();
           this.loadMap(); 
+
           /* Hide loading spinner */
           loader.dismiss();
         });
     });
   }
-
+  
   getLatLngDevice() {
     for(var i = 0; i < this.dataDevice.data[0].values.length; i++) {
       this.latLngDevice.push( {lat: +this.dataDevice.data[0].values[i].value, lng: +this.dataDevice.data[1].values[i].value} );
@@ -81,7 +80,6 @@ export class ModalMapsGpsPage {
   }
 
   loadMap() {    
-    let contMap = 1;
     // create a new map by passing HTMLElement
     let mapEle: HTMLElement = document.getElementById('map');
   
@@ -91,7 +89,7 @@ export class ModalMapsGpsPage {
     // create map
     this.map = new google.maps.Map(mapEle, {
       center: myLatLng,
-      zoom: 11,
+      zoom: 13,
       streetViewControl: false
     });
      
@@ -101,31 +99,30 @@ export class ModalMapsGpsPage {
 
       /* Add class css */ 
       mapEle.classList.add('show-map');
-
+ 
       /* Show traffic layer */
       var trafficLayer = new google.maps.TrafficLayer();
       trafficLayer.setMap(this.map);
-
-      /* Info windows when click in marker */
-      var infowindow = new google.maps.InfoWindow;
 
       for(let values of this.latLngDevice ) {
         /* Create Marker map */
         let marker = new google.maps.Marker({
           position: values,
-          map: this.map,
+          map: this.map, 
           animation: google.maps.Animation.DROP,
           icon: image,
-          label: contMap.toString(),
           streetViewControl: false,
         });
-
-        contMap++;
+        
+        /* Info windows when click in marker */
+        let infowindow = new google.maps.InfoWindow({
+          position: values,
+        });
 
         marker.addListener('click', function() {
           infowindow.open(this.map, marker);
         });
-
+ 
         /* Inverse Geocoder for get street with latitude and longitude */
         var geocoder = new google.maps.Geocoder;
 
@@ -137,8 +134,13 @@ export class ModalMapsGpsPage {
           } else {
             console.log('Geocoder failed due to: ' + status);
           }
-        });
-      }
+        }); 
+      }  
     }); /* End addListenerOnce */
+  }
+
+  /* Cancel modal page */
+  closeModal(){
+    this.viewCtrl.dismiss();
   }
 }

@@ -17,8 +17,8 @@
 
 <ion-content padding>
 
-  <ion-card>
-    <ion-grid class="bg-grid-white">
+  <ion-card class="bg-grid-white">
+    <ion-grid>
       <ion-row>
         <ion-col col-12>
           <ion-item class="no-padding">
@@ -34,21 +34,16 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  
-    <div style="position: relative" *ngIf="station"> 
-      <!-- Component maps station -->
-      <!--<app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data[0].value" [longitude]="station.latest_data[1].value" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>-->
-    </div>
 
     <!-- Form -->
-    <ion-grid class="bg-grid" *ngIf="form">
-      <form novalidate [formGroup]="form">
+    <ion-grid class="bg-grid">
+      <form novalidate *ngIf="form" [formGroup]="form">
         <ion-row>
           <ion-col col-12>
               <h2 item-start class="font20 color-white light">Lasted Data</h2>    
           </ion-col>
           
-          <ion-col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+          <ion-col col-12>
             <ion-item item-start class="font-fira">
               <ion-label class="bold color-blue">Variables:</ion-label>
               <ion-select class="bold color-black" formControlName="variables" (ngModelChange)="onChangeVariable($event)" multiple="true">
@@ -57,7 +52,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6>
+          <ion-col col-12>
             <ion-item item-end>
               <ion-label class="bold color-blue">Range</ion-label>
               <ion-select class="bold color-black" formControlName="range" (ngModelChange)="onChangeRange($event)">
@@ -69,7 +64,9 @@
         </ion-row>
       </form>
     </ion-grid>
- 
+    
+    <div class="divider-xs"></div>
+
     <!-- Tabs for select Graph or Table --> 
     <ion-grid class="bg-grid-white padding-6">
       <ion-row>

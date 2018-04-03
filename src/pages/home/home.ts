@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/* Load Provider */
+ 
+/* Load Provider */ 
 import { ApiProvider } from '../../providers/api/api';
-
+ 
 /**
  * Generated class for the HomePage page.
  *
@@ -14,7 +14,7 @@ import { ApiProvider } from '../../providers/api/api';
 @IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
+  templateUrl: 'home.html', 
 })
 export class HomePage {
 

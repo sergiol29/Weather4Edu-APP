@@ -11,7 +11,6 @@
 
     <ion-grid>
       <ion-row>
- 
         <ion-col col-1>
           <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
@@ -23,18 +22,23 @@
         </ion-col>
 
         <ion-col col-6>
-          <ion-searchbar *ngIf="showsearch" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)" [showCancelButton]="optionSearch.showButton" [animated]="optionSearch.animated" [debounce]="optionSearch.debounce"></ion-searchbar>
           <ion-buttons *ngIf="!showsearch" end>
             <button ion-button icon-only (tap)="showSearch()">
               <ion-icon name="search"></ion-icon>
             </button>
           </ion-buttons>
         </ion-col>
-
       </ion-row>
     </ion-grid>
-
   </ion-navbar>
+
+  <ion-grid *ngIf="showsearch" class="no-padding bg-grid">
+    <ion-row>
+      <ion-col col-12>
+        <ion-searchbar class="no-padding" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)" [showCancelButton]="optionSearch.showButton" [animated]="optionSearch.animated" [debounce]="optionSearch.debounce"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-header>
 
 <ion-content padding>

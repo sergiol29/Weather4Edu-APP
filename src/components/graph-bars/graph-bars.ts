@@ -82,7 +82,7 @@ export class GraphBarsComponent implements OnChanges {
           }
       },
       tooltip: {
-          valueSuffix: ' %'
+          valueSuffix: ' '
       },
       plotOptions: {
           bar: {

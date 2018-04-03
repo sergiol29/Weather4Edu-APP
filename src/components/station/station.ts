@@ -81,16 +81,23 @@ export class StationComponent {
     modal.onDidDismiss(data => { 
       this.getDataAPI();
     });
-
+ 
     modal.present();
   }
   
   openModalMapsGPS(idDevice: number) {
-    console.log('id = ', idDevice);
     /* Open Modal Page */
     let modal = this.modalCtrl.create('ModalMapsGpsPage',{id: idDevice},{showBackdrop:true, enableBackdropDismiss:true});
 
     modal.present();
+  }
+
+  getTabFab(id: number, type_device: any){
+    if( type_device === 'gps' ) {
+      this.openModalMapsGPS(id);
+    } else {
+      this.getMoreDetails(id);
+    }
   }
 
   getColorFab(type_device:any, status?:any) {

@@ -6,13 +6,36 @@
 -->
 <ion-header>
  
-  <ion-navbar>
-    <ion-title>modalMapsGPS</ion-title>
+  <ion-navbar> 
+    <ion-title>GPS Maps</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <div id="map" class="mapAllMarker" data-tap-disabled="true"></div>
+  <ion-card>
+      <ion-grid class="bg-grid-white border-bottom">
+        <ion-row>
+          <ion-col col-12>
+            <ion-item class="padding-left-0">
+              <h2 item-start class="font17 margin-top-9 bold">Lasted Position</h2>    
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <div style="position: relative">
+        <!-- Component maps station -->
+        <div id="map" class="mapAllMarker" data-tap-disabled="true"></div>
+      </div>
+
+      <ion-item>    
+        <button ion-button icon-left clear item-end (tap)="closeModal()" color="danger">
+          <ion-icon name="close"></ion-icon>
+          Close maps
+        </button>
+      </ion-item>
+    
+    </ion-card>
 </ion-content>

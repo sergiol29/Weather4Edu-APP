@@ -23,8 +23,8 @@ export class ModalPage {
   constructor(private renderer: Renderer, public navCtrl: NavController, public navParams: NavParams,
     public viewCtrl: ViewController) {
     this.renderer.setElementClass(viewCtrl.pageRef().nativeElement, 'custom-modal', true);
-  }
-
+  }  
+ 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ModalPage');
   }

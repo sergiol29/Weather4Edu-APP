@@ -2,14 +2,14 @@ page-modal-update-device {
 
 }
 
-ion-modal.custom-modal ion-backdrop {
+ion-modal.custom-modal-update ion-backdrop {
     visibility: visible !important;
     z-index: 0;
 }
-ion-modal.custom-modal .modal-wrapper{
+ion-modal.custom-modal-update .modal-wrapper{
     top: 20%;
     left: 6%;
     width: 85%;
-    height: 400px;
+    height: 250px;
     position: absolute;
 }

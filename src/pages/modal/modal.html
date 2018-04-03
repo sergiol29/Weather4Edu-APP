@@ -14,16 +14,39 @@
 
 
 <ion-content padding>
-  <ion-item>
-    <ion-label>From</ion-label>
-    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="from"></ion-datetime>
-  </ion-item>
+  <ion-card>
+    <ion-grid class="bg-grid-white">
+        <ion-row>
+          <ion-col col-12 class="border-bottom">
+            <ion-item item-start class="font-fira">
+              <ion-label class="bold color-blue">From:</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="from"></ion-datetime>
+            </ion-item>
+          </ion-col>
 
-  <ion-item>
-    <ion-label>To</ion-label>
-    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="to"></ion-datetime>
-  </ion-item>
+          <ion-col col-12>
+            <ion-item item-start class="font-fira">
+              <ion-label class="bold color-blue">To:</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="to"></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-  <button ion-button round (tap)="cancelModal()" color="danger" block>Cancel</button>
-  <button ion-button round (tap)="acceptModal()" color="success" block>Accept</button>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block icon-right (tap)="acceptModal()">
+              Accept
+              <ion-icon name="arrow-dropright-circle"></ion-icon>
+            </button>
+          </ion-col>
+
+          <ion-col col-6>
+            <button ion-button color="danger" block icon-left (tap)="cancelModal()">
+              <ion-icon name="close-circle"></ion-icon>
+              Cancel
+            </button>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+  </ion-card>
 </ion-content>

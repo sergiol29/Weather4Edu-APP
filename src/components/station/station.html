@@ -6,7 +6,7 @@
     <app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data[0].value" [longitude]="station.latest_data[1].value" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>
 
     <ion-fab right top>
-      <button [color]="getColorFab(station.type_device, station.latest_data[2].value)" ion-fab class="fab-map" (tap)="openModalMapsGPS(station.id)"> 
+      <button [color]="getColorFab(station.type_device, station.latest_data[2].value)" ion-fab class="fab-map" (tap)="getTabFab(station.id, station.type_device)"> 
         <ion-icon *ngIf="station.type_device === 'station'" name='thermometer'></ion-icon>
         <ion-icon *ngIf="station.type_device === 'gps'" name='car'></ion-icon>
       </button>  
@@ -56,16 +56,6 @@
 
     </ion-row>
   </ion-grid>
-
-  <!--<ion-slides [slidesPerView]="options.slidesPerView">
-    <ion-slide *ngFor="let data of station.latest_data">
-      <ion-item>
-        <ion-icon name="football" colors="danger" item-start large></ion-icon>
-        <h2>{{ data.name }}</h2> 
-        <p>{{ data.value }} {{ data.symbol }}</p>
-      </ion-item>
-    </ion-slide>
-  </ion-slides>-->
 
   <ion-item>
     <button ion-button icon-left clear item-start (tap)="openModalEditDevice(station.id, station.name)">

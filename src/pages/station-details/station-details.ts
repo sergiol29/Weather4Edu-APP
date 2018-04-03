@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+ 
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
 
 /* Loading Spinner */
 import { LoadingController } from 'ionic-angular';
 
-/* Import Lib MomentJS */
+/* Import Lib MomentJS */ 
 import * as moment from 'moment';
 
 /* Import for form */

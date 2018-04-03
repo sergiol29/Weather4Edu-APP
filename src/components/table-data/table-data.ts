@@ -7,7 +7,7 @@ import { Component, OnChanges, Input } from '@angular/core';
  * Components. 
  */
 @Component({
-  selector: 'app-table-data',
+  selector: 'app-table-data', 
   templateUrl: 'table-data.html'
 })
 export class TableDataComponent implements OnChanges {
