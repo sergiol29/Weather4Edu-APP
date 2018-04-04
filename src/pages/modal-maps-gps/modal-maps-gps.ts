@@ -11,7 +11,7 @@ import { LoadingController } from 'ionic-angular';
 import * as moment from 'moment';
  
 /* Import Geolocation for Google Maps */
-import { Geolocation } from '@ionic-native/geolocation';
+/*import { Geolocation } from '@ionic-native/geolocation';*/
 declare var google;
 
 /**

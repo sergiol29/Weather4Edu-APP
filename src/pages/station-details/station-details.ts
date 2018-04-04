@@ -16,6 +16,9 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 /* Modal */
 import { ModalController } from 'ionic-angular';
 
+/* Import Geolocation for Google Maps */
+declare var google;
+
 /**
  * Generated class for the StationDetailsPage page.
  *
@@ -30,8 +33,9 @@ import { ModalController } from 'ionic-angular';
 })
 export class StationDetailsPage {
   idStation: number;
-  station: any;
-  
+  station: any; 
+  nameAddress: any;
+
   /* Value for Taps Segment */
   segment: string = "graph";
 
@@ -40,7 +44,7 @@ export class StationDetailsPage {
   dataTable = [];
   rangeGraph: string;
   symbolGraph = [];  
-  typeGraph: string; 
+  typeGraph: any; 
    
   /* Variable form */
   form: FormGroup; 
@@ -66,7 +70,7 @@ export class StationDetailsPage {
   getDataAPI(from:number, to?:number) {
     /* Now timestamp */
     if( !to ) {
-      to = moment().unix(); 
+      to = moment().unix();  
     }
 
     /* Create loading spinner */
@@ -81,18 +85,26 @@ export class StationDetailsPage {
         (data) => {
           this.station = data;
 
+          /* Get Adress of station */
+          if( this.station.type_device === 'gps' ) {
+            /* Get last latitude and longitude */
+            let last = this.station.data[0].values.length - 1;
+            this.getStreetGoogleMaps(this.station.data[0].values[last].value, this.station.data[1].values[last].value);
+          } else {
+            this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
+          }
+          
           /* Generate data */
           if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
 
           this.createForm();
           
           /* Generate data */
-          this.typeGraph = this.form.get('variables').value.type;
+          this.typeGraph = this.getTypeVariablesForm();
           if( this.typeGraph === "float" ) {
             this.generateDataGraphLines( this.getVariablesForm() );
           } else {
             this.generateDataGraphBar( this.getVariablesForm() );
-            console.log('ddd');
           }
 
           this.generateDataTable( this.getVariablesForm() );
@@ -144,8 +156,16 @@ export class StationDetailsPage {
     } else {
       this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
     }
-    console.log(auxVariables);
+
     return auxVariables;
+  }
+
+  getTypeVariablesForm() {
+    if( !Array.isArray( this.form.get('variables').value ) ) {
+      return this.form.get('variables').value.type;
+    } else {
+      return this.form.get('variables').value[0].type;
+    }
   }
 
   /* Read data for Graph */
@@ -170,7 +190,7 @@ export class StationDetailsPage {
   generateDataGraphBar(variables:any) {    
     this.dataGraph = [];
     this.getRangeForm();
-    console.log('fff = ', this.station['data'])
+    
     for( let data of this.station['data'] ) {
       /* Check if data.name exist in variables */
       if( variables.indexOf(data.name) !== -1 ) {
@@ -248,9 +268,28 @@ export class StationDetailsPage {
       /* If data is !null, get data in API */
       if( data ) {
         this.getDataAPI( moment(data.from).unix(), moment(data.to).unix() );
+      } 
+    });
+  
+    modal.present();
+  }
+
+  /* Get street with Lat and Lng */
+  getStreetGoogleMaps(latitude: number, longitude: number) {
+    let latLngDevice = { lat: +latitude, lng: +longitude };
+
+    /* Inverse Geocoder for get street with latitude and longitude */
+    var geocoder = new google.maps.Geocoder;
+
+    geocoder.geocode({'location': latLngDevice}, function(results, status) {
+      if (status === 'OK') {
+        if (results[1]) {
+          this.nameAddress = results[0].formatted_address;
+          console.log(this.nameAddress);
+        } 
+      } else {
+        console.log('Geocoder failed due to: ' + status);
       }
     });
-
-    modal.present();
   }
 }

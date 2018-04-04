@@ -23,7 +23,7 @@
         <ion-col col-12>
           <ion-item class="no-padding">
             <h2 class="font17 bold">{{ station?.name }}</h2>
-            <p>Dirección mediante latitude y longitude</p>
+            <p>{{ nameAddress }}</p>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -89,7 +89,7 @@
               <!-- If not data show error -->
               <ion-card *ngIf="typeGraph === 'errorGraph'">
                 <ion-card-content>
-                  Can not create a graph with variables float and string type
+                  Can't create a graph with variables float and string
                 </ion-card-content>
               </ion-card>
             </ion-col>
