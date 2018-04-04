@@ -21,7 +21,7 @@ export class ApiProvider {
   private filtered_stations = new BehaviorSubject<any>([]);
 
   /* API KEY ACCUWEATHER */
-  apikey = "k11v2IFEW6dFiQJeofaKvhvh17DFXkvZ";
+  apikey = "CXal3U2IA8HAkiqGARcK8AqKLitxjjRo";
 
   constructor(public http: HttpClient) {
     //console.log('Hello ApiProvider Provider');
@@ -83,7 +83,7 @@ export class ApiProvider {
   }
 
   getWeatherForecasts5days(keycity: number){
-    const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&language=es-ES&details=true&metric=true`;
+    const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&details=true&metric=true`;
     return this.http.get(url);
   }
 }

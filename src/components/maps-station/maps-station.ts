@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 /* Import Geolocation for Google Maps */
-import { Geolocation } from '@ionic-native/geolocation';
+/*import { Geolocation } from '@ionic-native/geolocation';*/
 declare var google;
 
 /**
@@ -55,11 +55,12 @@ export class MapsStationComponent {
     });
     
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      var image: any;
       /* Marker maps according type device */
       if( this.typeDevice === 'gps' ) {
-        var image = 'https://image.ibb.co/ipWY77/marker_vehicle.png';
+        image = 'https://image.ibb.co/ipWY77/marker_vehicle.png';
       } else {
-        var image = 'https://image.ibb.co/nM0XX7/marker_station.png';
+        image = 'https://image.ibb.co/nM0XX7/marker_station.png';
       }
 
       /* Create Marker map */
@@ -75,17 +76,15 @@ export class MapsStationComponent {
 
       /* If device is type GPS */
       if( this.typeDevice === 'gps' ) {
-        var contentString = "";
         /* Show traffic layer */
         var trafficLayer = new google.maps.TrafficLayer();
         trafficLayer.setMap(this.map);
 
-        /* Info windows when click in marker */
+        /* Info windows in marker */
         var infowindow = new google.maps.InfoWindow;
   
-        marker.addListener('click', function() {
-          infowindow.open(this.map, marker);
-        });
+        /* InfoWindow automatically open on page load */
+        infowindow.open(this.map, marker);
 
         /* Inverse Geocoder for get street with latitude and longitude */
         var geocoder = new google.maps.Geocoder;

@@ -40,7 +40,7 @@ export class StationDetailsPage {
   dataTable = [];
   rangeGraph: string;
   symbolGraph = [];  
-  typeGraph: string = "float"; 
+  typeGraph: string; 
    
   /* Variable form */
   form: FormGroup; 
@@ -55,8 +55,8 @@ export class StationDetailsPage {
 
   ionViewDidLoad() { 
     //console.log('ionViewDidLoad StationDetailsPage');
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
@@ -87,10 +87,12 @@ export class StationDetailsPage {
           this.createForm();
           
           /* Generate data */
+          this.typeGraph = this.form.get('variables').value.type;
           if( this.typeGraph === "float" ) {
             this.generateDataGraphLines( this.getVariablesForm() );
           } else {
             this.generateDataGraphBar( this.getVariablesForm() );
+            console.log('ddd');
           }
 
           this.generateDataTable( this.getVariablesForm() );
@@ -115,9 +117,15 @@ export class StationDetailsPage {
 
   /* Complete values in select variables */
   generateSelectVariable() {
+    let valuesDontShow = ['Latitud', 'Longitud'];
     let aux = [];
     for( let data of this.station['data'] ) {
-      aux.push({ 'name': data.name, 'type': data.type, 'symbol': data.symbol });
+
+      /* Check if value inside in array  */
+      if( valuesDontShow.indexOf(data.name) === -1 ) { 
+        aux.push({ 'name': data.name, 'type': data.type, 'symbol': data.symbol });
+      }
+    
     }
 
     this.selectVariables = aux;
@@ -136,6 +144,7 @@ export class StationDetailsPage {
     } else {
       this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
     }
+    console.log(auxVariables);
     return auxVariables;
   }
 
@@ -161,7 +170,7 @@ export class StationDetailsPage {
   generateDataGraphBar(variables:any) {    
     this.dataGraph = [];
     this.getRangeForm();
-    
+    console.log('fff = ', this.station['data'])
     for( let data of this.station['data'] ) {
       /* Check if data.name exist in variables */
       if( variables.indexOf(data.name) !== -1 ) {

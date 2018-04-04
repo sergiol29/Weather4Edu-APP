@@ -45,7 +45,7 @@ export class StationComponent {
     this.getDataAPI();
   }
   
-  getDataAPI() {
+  getDataAPI() { 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
@@ -91,10 +91,10 @@ export class StationComponent {
 
     modal.present();
   }
-
+ 
   getTabFab(id: number, type_device: any){
-    if( type_device === 'gps' ) {
-      this.openModalMapsGPS(id);
+    if( type_device === 'gps' ) { 
+      this.openModalMapsGPS(id); 
     } else {
       this.getMoreDetails(id);
     }
@@ -106,11 +106,21 @@ export class StationComponent {
       color = 'danger';
     } else if ( type_device === 'gps' && status === 'DESPLAZAMIENTO') {
       color = 'success';
-    } else {
-      color = 'primary';
-    }
+    } else { 
+      color = 'primary';  
+    } 
 
     return color;
   }
 
+  getFilterLastedData(value: any) {
+    let valuesDontShow = ['Batería', 'Latitud', 'Longitud'];
+    
+    /* value is include in array */
+    if( valuesDontShow.indexOf(value) > -1 ) { 
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

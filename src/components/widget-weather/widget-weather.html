@@ -1,56 +1,72 @@
 <!-- Generated template for the WidgetWeatherComponent component -->
 <!--*ngIf="forecast"-->
-<ion-grid class="bg-grid">
+<ion-grid class="bg-grid" *ngIf="forecast">
     <ion-row>
-        <ion-col col-12>
-            <h2 item-start class="font20 color-white light">5 Days of Forecasts</h2>    
+        <ion-col col-6>
+            <h2 item-start class="font20 padding-8 color-white light">5 Days of Forecasts</h2>    
+        </ion-col>
+        <ion-col col-6 class="align-right no-padding" align-self-end="flex-end">
+            <button class="font12 color-white no-margin" ion-button icon-left clear item-end (tap)="showMoreWeather()">
+                <ion-icon name="cloudy-night"></ion-icon>
+                Show details
+            </button>
         </ion-col>
     </ion-row>
-    <ion-row>
-        <ion-col col-6> <!-- *ngFor="let value of forecast.DailyForecasts" -->
-            <!--<ion-item>
-                <ion-row>
-                    <ion-col col-12><span color="day-weather" class="font12 bold font-fira">{{ formatEpochDate(value.EpochDate) }}</span></ion-col>
-                </ion-row>
+    <ion-row *ngFor="let value of forecast.DailyForecasts">
+        <ion-col col-6> 
+            <ion-item class="no-padding border-bottom"> 
                 <ion-row> 
-                    <ion-col col-8>{{ value.Temperature.Maximum['Value'] }} {{ value.Temperature.Maximum['Unit'] }}</ion-col>
-                    <ion-col col-4> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col col-12>{{ value.Day['IconPhrase'] }}</ion-col>
-                </ion-row> 
-            </ion-item>-->
-            <ion-item class="no-padding"> 
-                <ion-row>
-                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">Sun, Apr 03</span></ion-col>
+                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">{{ formatEpochDate(value.EpochDate) }} <small>(day)</small></span></ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-8>
-                        <span class="font45 font-roboto block">17 ºC</span>
-                        <span class="font14 light block">RealFeel&reg; 17º</span>
+                        <span class="font45 block">{{ value.Temperature.Maximum['Value'] }}º</span>
+                        <span class="font14 light block">RealFeel&reg; {{ value.RealFeelTemperature.Maximum['Value'] }}º</span>
+                        <span class="font14 light block">Precipitation {{ value.Day['PrecipitationProbability'] }}%</span>
                     </ion-col>
-                    <ion-col col-4 align-self-center="center"> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
+                    <ion-col col-4> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/{{value.Day['Icon']}}.svg"> </ion-col>
                 </ion-row>
                 <ion-row class="padding-6">
-                    <ion-col col-12>Nublado</ion-col>
+                    <ion-col col-12>{{ value.Day['IconPhrase'] }}</ion-col>
+                </ion-row>
+            </ion-item>
+            <ion-item *ngIf="moreInfoWeather" class="no-padding bg-grid-info-weather"> 
+                <ion-row> 
+                    <ion-col col-8>
+                        <span class="font14 light block">Winds from {{ value.Day['Wind'].Direction['English'] }} {{ value.Day['Wind'].Speed['Value'] }} {{ value.Day['Wind'].Speed['Unit'] }}</span>
+                        <span class="font14 light block">Rain: {{ value.Day['Rain'].Value }} {{ value.Day['Rain'].Unit }}</span>
+                        <span class="font14 light block">Snow: {{ value.Day['Snow'].Value }} {{ value.Day['Snow'].Unit }}</span>
+                        <span class="font14 light block">Ice: {{ value.Day['Ice'].Value }} {{ value.Day['Ice'].Unit }}</span>
+                    </ion-col>
                 </ion-row>
             </ion-item>
         </ion-col>
 
-        <ion-col col-6> <!-- *ngFor="let value of forecast.DailyForecasts" -->
-            <ion-item class="no-padding"> 
+        <ion-col col-6> 
+            <ion-item class="no-padding border-bottom"> 
                 <ion-row>
-                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">Sun, Apr 03</span></ion-col>
+                    <ion-col col-12 align-self-start="flex-start"><span class="font14 color-day-weather bold">{{ formatEpochDate(value.EpochDate) }} <small>(night)</small></span></ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-8>
-                        <span class="font45 font-roboto block">17 ºC</span>
-                        <span class="font14 light block">RealFeel&reg; 17º</span>
+                        <span class="font45 block">{{ value.Temperature.Minimum['Value'] }}º</span>
+                        <span class="font14 light block">RealFeel&reg; {{ value.RealFeelTemperature.Minimum['Value'] }}º</span>
+                        <span class="font14 light block">Precipitation {{ value.Night['PrecipitationProbability'] }}%</span>
                     </ion-col>
-                    <ion-col col-4 align-self-center="center"> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/4.svg"> </ion-col>
+                    <ion-col col-4 align-self-center="center"> <img src="https://vortex.accuweather.com/adc2010/images/slate/icons/{{value.Night['Icon']}}.svg"> </ion-col>
                 </ion-row>
                 <ion-row class="padding-6">
-                    <ion-col col-12>Nublado</ion-col>
+                    <ion-col col-12>{{ value.Night['IconPhrase'] }}</ion-col>
+                </ion-row>
+            </ion-item>
+            <ion-item *ngIf="moreInfoWeather" class="no-padding bg-grid-info-weather"> 
+                <ion-row>
+                    <ion-col col-12>
+                        <span class="font14 light block">Winds from the {{ value.Night['Wind'].Direction['English'] }} {{ value.Night['Wind'].Speed['Value'] }} {{ value.Night['Wind'].Speed['Unit'] }}</span>
+                        <span class="font14 light block">Rain: {{ value.Night['Rain'].Value }} {{ value.Night['Rain'].Unit }} </span>
+                        <span class="font14 light block">Snow: {{ value.Night['Snow'].Value }} {{ value.Night['Snow'].Unit }}</span>
+                        <span class="font14 light block">Ice: {{ value.Night['Ice'].Value }} {{ value.Night['Ice'].Unit }}</span>
+                    </ion-col>
                 </ion-row>
             </ion-item>
         </ion-col>

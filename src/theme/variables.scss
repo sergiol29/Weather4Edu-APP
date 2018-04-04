@@ -43,7 +43,8 @@ $colors: (
   bg-navbar: #273e49,
   bg-searchbar: #e1e9ee,
   bg-grid: #7a8b98,
-  day-weather: #00afbe
+  day-weather: #00afbe,
+  info-weather: #f7f6f5
 );
 
 
@@ -100,9 +101,17 @@ ion-app {
   font-family: 'Ubuntu', sans-serif !important;
 } 
 
+ion-content {
+  background: $background-color;
+}
+
 /* Custom CSS */
+.font12 { 
+  font-size: 1.2rem !important; /* 12px */
+}
+
 .font14 { 
-  font-size: 1.4rem !important; /* 12px */
+  font-size: 1.4rem !important; /* 14px */
 }
 
 .font17 { 
@@ -133,6 +142,10 @@ ion-app {
   font-weight: 300 !important;
 }
 
+.align-right {
+  text-align: right;
+}
+
 .color-white {
   color: color($colors, text-white) !important;
 }
@@ -159,6 +172,10 @@ ion-app {
 
 .padding-6 {
   padding-top: 0.6rem !important;
+}
+
+.padding-8 {
+  padding-top: 0.8rem !important;
 }
 
 .padding-left-0 {
@@ -197,12 +214,20 @@ ion-app {
   background: color($colors, text-white) !important;
 }
 
+.bg-grid-info-weather {
+  background: color($colors, info-weather) !important;
+}
+
 .divider-xs {
   height: 1.5rem;
 }
 
 .no-bg {
   background: transparent !important;
+}
+
+.border-top {
+  border-top: 1px solid #cdcfd2 !important;
 }
 
 .border-bottom {
@@ -216,41 +241,41 @@ ion-app {
   }
 
   .font45 { 
-    font-size: 3rem !important; /* 35px */
+    font-size: 3rem !important; /* 30px */
   }
 
   .font14 { 
-    font-size: 1.3rem !important; /* 35px */
+    font-size: 1.2rem !important; /* 12px */
   }
 }
 
 /* CSS Tablet */
 @media (min-width: 768px) {
   .font45 { 
-    font-size: 6.5rem !important; /* 35px */
+    font-size: 6.5rem !important; /* 65px */
   }
 
   .font14 { 
-    font-size: 2.4rem !important; /* 35px */
+    font-size: 2.4rem !important; /* 24px */
   }
 
   .font20{
-    font-size: 3.1rem !important; /* 35px */
+    font-size: 3.1rem !important; /* 31px */
   }
 }
 
 /* CSS Desktop */
 @media (min-width: 992px) {
   .font45 { 
-    font-size: 8.5rem !important; /* 35px */
+    font-size: 8.5rem !important; /* 85px */
   }
 
   .font14 { 
-    font-size: 2.4rem !important; /* 35px */
+    font-size: 2.4rem !important; /* 24px */
   }
 
   .font20{
-    font-size: 3rem !important; /* 35px */
+    font-size: 3rem !important; /* 30px */
   }
 }
 

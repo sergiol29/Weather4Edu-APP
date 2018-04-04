@@ -5,21 +5,22 @@ import { ApiProvider } from '../../providers/api/api';
 
 /* Import Lib MomentJS */ 
 import * as moment from 'moment';
-   
+    
 /**
  * Generated class for the WidgetWeatherComponent component.
  * 
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
  */
-@Component({
-  selector: 'widget-weather',
+@Component({   
+  selector: 'widget-weather',  
   templateUrl: 'widget-weather.html'
 })
 export class WidgetWeatherComponent {
 
   keycity: number;
-  forecast: any;
+  forecast: any; 
+  moreInfoWeather: boolean = false;
 
   @Input()
   latitude: number; 
@@ -31,7 +32,7 @@ export class WidgetWeatherComponent {
     //console.log('Hello WidgetWeatherComponent Component');
      
   } 
-
+ 
   ngAfterViewInit(){ 
     this.getKeyCityAPI();
   }
@@ -43,20 +44,23 @@ export class WidgetWeatherComponent {
       (data) => {
         this.keycity = data['Key'];
         this.getWeatherCity();
-    });  
+    });    
   } 
 
-  getWeatherCity(){   
+  getWeatherCity(){    
     /* Get data in API */
     this.apiProv.getWeatherForecasts5days(this.keycity).subscribe(
       (data) => {
-        this.forecast = data;
-        console.log('aa = ', this.forecast.DailyForecasts);
+        this.forecast = data; 
     });
-  }
-
+  }     
+   
   formatEpochDate(date: number) {
     //console.log(moment.unix(date).format("DD/MM/YYYY"));
     return moment.unix(date).format("ddd[,] MMM DD");
+  }
+
+  showMoreWeather() {
+    this.moreInfoWeather = !this.moreInfoWeather;
   }
 }

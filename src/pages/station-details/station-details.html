@@ -22,12 +22,6 @@
       <ion-row>
         <ion-col col-12>
           <ion-item class="no-padding">
-            <ion-fab right top>
-              <button ion-fab class="fab-map"> 
-                <ion-icon *ngIf="station?.type_device === 'station'" name='thermometer'></ion-icon>
-                <ion-icon *ngIf="station?.type_device === 'gps'" name='car'></ion-icon>
-              </button> 
-            </ion-fab>
             <h2 class="font17 bold">{{ station?.name }}</h2>
             <p>Dirección mediante latitude y longitude</p>
           </ion-item>
@@ -40,7 +34,7 @@
       <form novalidate *ngIf="form" [formGroup]="form">
         <ion-row>
           <ion-col col-12>
-              <h2 item-start class="font20 color-white light">Lasted Data</h2>    
+              <h2 item-start class="font20 color-white light">Latest Data</h2>    
           </ion-col>
           
           <ion-col col-12>
