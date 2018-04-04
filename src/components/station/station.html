@@ -8,6 +8,8 @@
     <ion-fab right top>
       <button [color]="getColorFab(station.type_device, station.latest_data[2].value)" ion-fab class="fab-map" (tap)="getTabFab(station.id, station.type_device)"> 
         <ion-icon *ngIf="station.type_device === 'station'" name='thermometer'></ion-icon>
+        
+        <ion-icon *ngIf="station.type_device === 'gps'" mini name='arrow-dropleft'></ion-icon>
         <ion-icon *ngIf="station.type_device === 'gps'" name='car'></ion-icon>
       </button>  
     </ion-fab> 

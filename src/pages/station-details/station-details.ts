@@ -285,7 +285,6 @@ export class StationDetailsPage {
       if (status === 'OK') {
         if (results[1]) {
           this.nameAddress = results[0].formatted_address;
-          console.log(this.nameAddress);
         } 
       } else {
         console.log('Geocoder failed due to: ' + status);

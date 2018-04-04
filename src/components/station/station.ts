@@ -3,14 +3,14 @@ import { NavController } from 'ionic-angular';
 
 /* Load Provider */                    
 import { ApiProvider } from '../../providers/api/api';
- 
+      
 /* Loading Spinner */        
 import { LoadingController } from 'ionic-angular';
 
 /* Modal */ 
 import { ModalController } from 'ionic-angular';
 
-/**
+/** 
  * Generated class for the StationComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
