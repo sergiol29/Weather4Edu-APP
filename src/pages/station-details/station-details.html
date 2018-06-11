@@ -21,8 +21,8 @@
     <ion-grid>
       <ion-row>
         <ion-col col-12>
-          <ion-item class="no-padding">
-            <h2 class="font17 bold">{{ station?.name }}</h2>
+          <ion-item class="no-padding" *ngIf="station">
+            <h2 class="font17 bold">{{ station.name }}</h2>
             <p>{{ nameAddress }}</p>
           </ion-item>
         </ion-col>
@@ -83,15 +83,7 @@
           <ion-row>
             <ion-col col-12>
               <!-- Component Graph -->
-              <app-graph *ngIf="typeGraph === 'float'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
-              <app-graph-bars *ngIf="typeGraph === 'string'" [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph-bars>
-              
-              <!-- If not data show error -->
-              <ion-card *ngIf="typeGraph === 'errorGraph'">
-                <ion-card-content>
-                  Can't create a graph with variables float and string
-                </ion-card-content>
-              </ion-card>
+              <app-graph [data]="dataGraph" [range]="rangeGraph" [symbol]="symbolGraph"></app-graph>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -106,7 +98,7 @@
     </div> <!-- end ngSwitch segment -->
   </ion-card>
 
-  <ion-card *ngIf="station?.type_device === 'station'">
+  <ion-card *ngIf="station">
     <widget-weather [latitude]="station.latitude" [longitude]="station.longitude"></widget-weather>
   </ion-card>
 </ion-content>

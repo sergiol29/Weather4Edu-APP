@@ -26,11 +26,8 @@ export class MapsStationComponent {
   @Input()
   idmap: string;
 
-  @Input()
-  typeDevice: string;
-
   constructor() {
-    //console.log('Hello MapsStationComponent Component');
+
   }
 
   ngAfterViewInit(){
@@ -55,13 +52,9 @@ export class MapsStationComponent {
     });
     
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      /* Marker maps */
       var image: any;
-      /* Marker maps according type device */
-      if( this.typeDevice === 'gps' ) {
-        image = 'https://image.ibb.co/ipWY77/marker_vehicle.png';
-      } else {
-        image = 'https://image.ibb.co/nM0XX7/marker_station.png';
-      }
+      image = 'https://image.ibb.co/nM0XX7/marker_station.png';
 
       /* Create Marker map */
       let marker = new google.maps.Marker({
@@ -73,32 +66,6 @@ export class MapsStationComponent {
 
       /* Add class css */ 
       mapEle.classList.add('show-map');
-
-      /* If device is type GPS */
-      if( this.typeDevice === 'gps' ) {
-        /* Show traffic layer */
-        var trafficLayer = new google.maps.TrafficLayer();
-        trafficLayer.setMap(this.map);
-
-        /* Info windows in marker */
-        var infowindow = new google.maps.InfoWindow;
-  
-        /* InfoWindow automatically open on page load */
-        infowindow.open(this.map, marker);
-
-        /* Inverse Geocoder for get street with latitude and longitude */
-        var geocoder = new google.maps.Geocoder;
-
-        geocoder.geocode({'location': myLatLng}, function(results, status) {
-          if (status === 'OK') {
-            if (results[1]) {
-              infowindow.setContent(results[0].formatted_address);
-            } 
-          } else {
-            console.log('Geocoder failed due to: ' + status);
-          }
-        });
-      }
 
     }); /* End addListenerOnce */
   }

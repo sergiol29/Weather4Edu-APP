@@ -206,6 +206,10 @@ ion-content {
   background: color($colors, text-white) !important;
 }
 
+.bg-danger {
+  background: color($colors, danger) !important;
+}
+
 .bg-grid {
   background: color($colors, bg-grid) !important;
 }
@@ -330,6 +334,13 @@ $searchbar-md-input-search-icon-color: color($colors, bg-navbar) !important;
 $searchbar-ios-input-text-color: color($colors, bg-navbar) !important;
 $searchbar-md-input-text-color: color($colors, bg-navbar) !important;
 $searchbar-wp-input-text-color: color($colors, bg-navbar) !important;
+
+/* Toast Login */
+$toast-ios-background: color($colors, danger) !important;
+$toast-md-background: color($colors, danger) !important;
+$toast-wp-background: color($colors, danger) !important;
+$toast-ios-border-radius: 65rem;
+$toast-wp-border-radius: 65rem;
 
 /*$searchbar-ios-min-height: 3.0rem; *//* 30px */
 /*$searchbar-md-input-height: 3.0rem;

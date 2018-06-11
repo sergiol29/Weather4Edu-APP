@@ -36,7 +36,7 @@ export class StationDetailsPage {
   station: any; 
   nameAddress: any;
 
-  /* Value for Taps Segment */
+  /* Value for Taps Segment in view */
   segment: string = "graph";
 
   /* Variables Graph and Table */
@@ -44,7 +44,6 @@ export class StationDetailsPage {
   dataTable = [];
   rangeGraph: string;
   symbolGraph = [];  
-  typeGraph: any; 
    
   /* Variable form */
   form: FormGroup; 
@@ -58,9 +57,8 @@ export class StationDetailsPage {
   } 
 
   ionViewDidLoad() { 
-    //console.log('ionViewDidLoad StationDetailsPage');
-    this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
+    //this.idStation = this.navParams.get('id');
+    this.idStation = 1;
 
     let from = moment().subtract(7, 'days').unix();
     this.getDataAPI(from);
@@ -68,10 +66,12 @@ export class StationDetailsPage {
 
   /* Variable to is opcional */
   getDataAPI(from:number, to?:number) {
+    console.log('from ', from);
     /* Now timestamp */
     if( !to ) {
       to = moment().unix();  
     }
+    console.log('to = ', to);
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -84,30 +84,16 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-
-          /* Get Adress of station */
-          if( this.station.type_device === 'gps' ) {
-            /* Get last latitude and longitude */
-            let last = this.station.data[0].values.length - 1;
-            this.getStreetGoogleMaps(this.station.data[0].values[last].value, this.station.data[1].values[last].value);
-          } else {
-            this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
-          }
-          
+          console.log(this.station);
           /* Generate data */
           if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
 
           this.createForm();
           
           /* Generate data */
-          this.typeGraph = this.getTypeVariablesForm();
-          if( this.typeGraph === "float" ) {
-            this.generateDataGraphLines( this.getVariablesForm() );
-          } else {
-            this.generateDataGraphBar( this.getVariablesForm() );
-          }
-
+          this.generateDataGraphLines( this.getVariablesForm() );
           this.generateDataTable( this.getVariablesForm() );
+          this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -135,17 +121,19 @@ export class StationDetailsPage {
 
       /* Check if value inside in array  */
       if( valuesDontShow.indexOf(data.name) === -1 ) { 
-        aux.push({ 'name': data.name, 'type': data.type, 'symbol': data.symbol });
+        aux.push({ 'name': data.name, 'symbol': data.symbol });
       }
     
     }
-
+    
     this.selectVariables = aux;
+    console.log("generateSelectVariable = ", this.selectVariables);
   }
 
   /* Get Range select in form for Graph */
   getRangeForm() {
     this.rangeGraph = this.form.get('range').value;
+    console.log("getRangeForm = ", this.rangeGraph);
   }
 
   /* Get Variables select in form for Graph */
@@ -157,15 +145,8 @@ export class StationDetailsPage {
       this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
     }
 
+    console.log("getVariablesForm = ", auxVariables);
     return auxVariables;
-  }
-
-  getTypeVariablesForm() {
-    if( !Array.isArray( this.form.get('variables').value ) ) {
-      return this.form.get('variables').value.type;
-    } else {
-      return this.form.get('variables').value[0].type;
-    }
   }
 
   /* Read data for Graph */
@@ -182,31 +163,6 @@ export class StationDetailsPage {
           aux.push( [values.timestamp * 1000, +values.value] );
         }
         this.dataGraph.push( {name: data.name, data: aux} );
-      }
-    }
-  }
-
-  /* Read data for Graph */
-  generateDataGraphBar(variables:any) {    
-    this.dataGraph = [];
-    this.getRangeForm();
-    
-    for( let data of this.station['data'] ) {
-      /* Check if data.name exist in variables */
-      if( variables.indexOf(data.name) !== -1 ) {
-        this.symbolGraph.push(data.symbol);
-        let _contStop = 0;
-        let _contMove = 0;
-        
-        for( let values of data.values ) {
-          if( values.value === "PARADO" ) {
-            _contStop++;
-          } else {
-            _contMove++;
-          }
-        }
-        this.dataGraph.push( {name: "STOP", data: [_contStop]} );
-        this.dataGraph.push( {name: "MOVEMENT", data: [_contMove]} );
       }
     }
   }
@@ -234,15 +190,9 @@ export class StationDetailsPage {
     let auxTypes = [];
     variables.forEach(element => { auxVariables.push(element.name) });
     variables.forEach(element => { auxTypes.push(element.type) });
-    if( auxTypes.indexOf("string") !== -1 && auxTypes.indexOf("float") !== -1 ) {
-      this.typeGraph = "errorGraph";
-    } else if( auxTypes.indexOf("float") !== -1 ) {
-      this.typeGraph = "float";
-      this.generateDataGraphLines(auxVariables);
-    } else {
-      this.typeGraph = "string";
-      this.generateDataGraphBar(auxVariables);
-    }
+    console.log("auxVariables = ", auxVariables);
+    console.log("auxTypes = ", auxTypes);
+    this.generateDataGraphLines(auxVariables);
 
     /* Data for table */
     this.generateDataTable(auxVariables);
@@ -270,7 +220,7 @@ export class StationDetailsPage {
         this.getDataAPI( moment(data.from).unix(), moment(data.to).unix() );
       } 
     });
-  
+   
     modal.present();
   }
 
@@ -284,7 +234,7 @@ export class StationDetailsPage {
     geocoder.geocode({'location': latLngDevice}, function(results, status) {
       if (status === 'OK') {
         if (results[1]) {
-          this.nameAddress = results[0].formatted_address;
+          this.nameAddress = results[0].formatted_address;          
         } 
       } else {
         console.log('Geocoder failed due to: ' + status);

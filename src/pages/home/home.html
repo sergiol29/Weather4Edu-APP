@@ -43,5 +43,12 @@
 
 <ion-content padding>
   <!-- components station -->
-  <app-station></app-station>
+  <app-station [idUser]="idUser"></app-station>
+
+  <ion-tabs>
+    <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="chat"></ion-tab>
+    <ion-tab [root]="chatDetails" [rootParams]="chatParams" tabTitle="Chat" tabIcon="chat"></ion-tab>
+   </ion-tabs>
 </ion-content>
+
+

@@ -1,44 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
-/* Load Provider */                    
-import { ApiProvider } from '../../providers/api/api';
+   
+/* Load Provider */                     
+import { ApiProvider } from '../../providers/api/api'; 
       
-/* Loading Spinner */        
+/* Loading Spinner */          
 import { LoadingController } from 'ionic-angular';
 
 /* Modal */ 
 import { ModalController } from 'ionic-angular';
 
-/** 
+/* Import Lib MomentJS */  
+import * as moment from 'moment';
+
+/**   
  * Generated class for the StationComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
- */ 
+ */  
 @Component({
   selector: 'app-station',
   templateUrl: 'station.html'
 })
 export class StationComponent {
+  /* Get data send by component in HomePage */
+  @Input()      
+  idUser: number;
 
   stations: any;
 
-  /* Options Slider */
-  options = {
-    loop: true,
-    effect: 'cube',
-    speed: 100000,
-    centeredSlides: true,
-    paginationType: 'progress',
-    parallax: true,
-    slidesPerView: 2.5,
-    spaceBetween: 10
-  }
-
   constructor(private apiProv: ApiProvider, private loadingCtrl: LoadingController, 
               private navCtrl: NavController, private modalCtrl: ModalController) {
-    //console.log('Hello StationComponent Component');
+
   }
 
   ngOnInit() {
@@ -61,9 +55,12 @@ export class StationComponent {
       });
       
       /* Get subscription */
-      this.apiProv.getAllStation().subscribe( () => {
-        /* Hide loading spinner */
-        loader.dismiss();
+      this.apiProv.getAllStation(this.idUser).subscribe( 
+        (data) => {
+          this.stations = data;
+          console.log(this.stations);
+          /* Hide loading spinner */
+          loader.dismiss();
       });
 
     });
@@ -73,54 +70,36 @@ export class StationComponent {
     this.navCtrl.push('StationDetailsPage', { id: id });
   }
 
-  openModalEditDevice(idDevice: number, nameDevice: any) {
+  openModalEditDevice(idStation: number, nameStation: any) {
     /* Open Modal Page */
-    let modal = this.modalCtrl.create('ModalUpdateDevicePage',{id: idDevice, name: nameDevice},{showBackdrop:true, enableBackdropDismiss:true});
+    let modal = this.modalCtrl.create('ModalUpdateDevicePage',{id: idStation, name: nameStation},{showBackdrop:true, enableBackdropDismiss:true});
  
     /* When close modal refresh data */
     modal.onDidDismiss(data => { 
       this.getDataAPI();
     });
- 
-    modal.present();
-  }
   
-  openModalMapsGPS(idDevice: number) {
-    /* Open Modal Page */
-    let modal = this.modalCtrl.create('ModalMapsGpsPage',{id: idDevice},{showBackdrop:true, enableBackdropDismiss:true});
-
     modal.present();
   }
- 
-  getTabFab(id: number, type_device: any){
-    if( type_device === 'gps' ) { 
-      this.openModalMapsGPS(id); 
-    } else {
-      this.getMoreDetails(id);
-    }
-  }
-
-  getColorFab(type_device:any, status?:any) {
-    let color = "";
-    if( type_device === 'gps' && status === 'PARADO' ){
-      color = 'danger';
-    } else if ( type_device === 'gps' && status === 'DESPLAZAMIENTO') {
-      color = 'success';
-    } else { 
-      color = 'primary';  
-    } 
-
-    return color;
-  }
+    
+  openModalMapsGPS(idStation: number) {
+    /* Open Modal Page */
+    let modal = this.modalCtrl.create('ModalMapsGpsPage',{id: idStation},{showBackdrop:true, enableBackdropDismiss:true});
+    modal.present();
+  } 
 
   getFilterLastedData(value: any) {
-    let valuesDontShow = ['Batería', 'Latitud', 'Longitud'];
-    
+    let valuesDontShow = ['Batería'];
+     
     /* value is include in array */
     if( valuesDontShow.indexOf(value) > -1 ) { 
       return false;
     } else {
-      return true;
+      return true; 
     }
+  }
+
+  formatDate(timestamp: any) {
+    return moment.unix(timestamp).format("dddd, MMMM D YYYY - H:mm");
   }
 }

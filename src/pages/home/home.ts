@@ -12,16 +12,25 @@ import { ApiProvider } from '../../providers/api/api';
  */
 
 @IonicPage()
-@Component({
+@Component({ 
   selector: 'page-home',
   templateUrl: 'home.html', 
 })
-export class HomePage {
+export class HomePage {  
 
   map: any;
   showsearch: boolean = false;
+  idUser: number = 1;
 
-  /* Options Slider */
+  chatRoot = 'HomePage';
+  chatDetails = 'StationDetailsPage'
+
+  // set some user information on chatParams
+  chatParams = {
+    id: this.idUser
+  };
+
+  /* Options Search */
   optionSearch = {
     showButton: true,
     debounce: 400,
@@ -32,7 +41,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad HomePage');
+    //this.idUser = this.navParams.get('id');
     this.initializeItemsSearch();
   }
 

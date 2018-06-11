@@ -23,7 +23,7 @@ export class ModalUpdateDevicePage {
 
   form: FormGroup;
   nameDevice: any;
-  idDevice: number;
+  idStation: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
               private viewCtrl: ViewController, private renderer: Renderer, private fb: FormBuilder,
@@ -34,10 +34,10 @@ export class ModalUpdateDevicePage {
   ionViewDidLoad() { 
     //console.log('ionViewDidLoad ModalUpdateDevicePage');
     this.nameDevice = this.navParams.get('name');
-    this.idDevice = this.navParams.get('id');  
+    this.idStation = this.navParams.get('id');  
     this.createForm();
   }
-
+ 
   /* Created form */
   createForm() {
     /* If form is created, dont created again */
@@ -51,14 +51,14 @@ export class ModalUpdateDevicePage {
 
   /* Cancel modal page */
   cancelModal(){
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(); 
   }
 
   /* Accept modal page */
   onSubmit(){
     let data = this.form.value;
     /* Get data in API */
-    this.apiProv.putUpdateStation(this.idDevice, data).subscribe(
+    this.apiProv.putUpdateStation(this.idStation, data).subscribe(
       (data) => {
         
        }

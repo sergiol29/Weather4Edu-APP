@@ -1,74 +1,76 @@
 <!-- Generated template for the StationComponent component -->
-<ion-card *ngFor="let station of stations">
-  <div style="position: relative">
-    <!-- Component maps station -->
-    <app-maps-station *ngIf="station.type_device === 'station'" [latitude]="station.latitude" [longitude]="station.longitude" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>
-    <app-maps-station *ngIf="station.type_device === 'gps'" [latitude]="station.latest_data[0].value" [longitude]="station.latest_data[1].value" [typeDevice]="station.type_device" [idmap]="station.id"></app-maps-station>
-
-    <ion-fab right top>
-      <button [color]="getColorFab(station.type_device, station.latest_data[2].value)" ion-fab class="fab-map" (tap)="getTabFab(station.id, station.type_device)"> 
-        <ion-icon *ngIf="station.type_device === 'station'" name='thermometer'></ion-icon>
-        
-        <ion-icon *ngIf="station.type_device === 'gps'" mini name='arrow-dropleft'></ion-icon>
-        <ion-icon *ngIf="station.type_device === 'gps'" name='car'></ion-icon>
-      </button>  
-    </ion-fab> 
-  </div>
-
-  <ion-grid class="bg-grid-white">
-    <ion-row>
-      <ion-col col-6>
-        <ion-item class="padding-left-0">
-          <h2 item-start class="font17 margin-top-9 bold">{{ station.name }}</h2>    
-        </ion-item>
-      </ion-col>
+<div *ngIf="stations">
+  <ion-card *ngFor="let station of stations.stations">
+    <div style="position: relative">
+      <!-- Component maps station -->
+      <app-maps-station [latitude]="station.latitude" [longitude]="station.longitude" [idmap]="station.id"></app-maps-station>
     
-      <ion-col col-6 *ngIf="station.type_device === 'station'">
-        <ion-item class="padding-right-0">
-          
-          <button *ngIf="station.latest_data[0].value > 30" color="success" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
-            <img src="assets/icon/ok-battery.png">
-            {{ station.latest_data[0].value }} %
-          </button>
+      <ion-fab right top>
+        <button ion-fab class="fab-map" (tap)="openModalMapsGPS(station.id)"> 
+          <ion-icon name='thermometer'></ion-icon>
+        </button>  
+      </ion-fab> 
+    </div>
 
-          <button *ngIf="station.latest_data[0].value <= 30" color="danger" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
-              <img src="assets/icon/low-battery.png">
-              {{ station.latest_data[0].value }} %
-          </button>
- 
-        </ion-item>
-      </ion-col> 
-    </ion-row>
-  </ion-grid>
-   
-  <ion-grid class="bg-grid">
-    <ion-row>
-        
-      <ion-col col-12>
-          <h2 item-start class="font20 color-white light">Latest Data</h2>    
-      </ion-col>
+    <ion-grid class="bg-grid-white">
+      <ion-row>
+        <ion-col col-6>
+          <ion-item class="padding-left-0">
+            <h2 item-start class="font17 margin-top-9 bold">{{ station.name }} - {{ stations.company }}</h2>    
+          </ion-item>
+        </ion-col>
+      
+        <ion-col col-6>
+          <ion-item class="padding-right-0">
 
-      <ng-container *ngFor="let data of station.latest_data">
-        <ion-col col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngIf="getFilterLastedData(data.name)">
-          <ion-item class="font-fira">
-            <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
-            <p class="bold color-black">{{ data.name }}</p>
+            <button *ngIf="station.last_frame[0].value > 30" color="success" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
+              <img src="assets/icon/ok-battery.png">
+              {{ station.last_frame[0].value }} %
+            </button>
+
+            <button *ngIf="station.last_frame[0].value <= 30" color="danger" class="font17 bold no-padding no-margin" ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
+                <img src="assets/icon/low-battery.png">
+                {{ station.last_frame[0].value }} %
+            </button>
+  
           </ion-item>
         </ion-col> 
-      </ng-container>
-    </ion-row>
-  </ion-grid>
+      </ion-row>
+    </ion-grid> 
+    
+    <ion-grid class="bg-grid">
+      <ion-row>
+          
+        <ion-col col-5>
+            <h2 item-start class="font20 color-white light">Latest Data</h2>    
+        </ion-col>
 
-  <ion-item>
-    <button ion-button icon-left clear item-start (tap)="openModalEditDevice(station.id, station.name)">
-      <ion-icon name="create"></ion-icon>
-      Edit
-    </button>
+        <ion-col col-7>
+          <h2 item-start text-right class="font20 color-white light">{{ formatDate(station.last_frame[0].timestamp) }}</h2>    
+        </ion-col>
 
-    <button ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
-      <ion-icon name="navigate"></ion-icon>
-      More details
-    </button>
-  </ion-item>
+        <ng-container *ngFor="let data of station.last_frame">
+          <ion-col col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngIf="getFilterLastedData(data.name)">
+            <ion-item class="font-fira">
+              <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
+              <p class="bold color-black">{{ data.name }}</p>
+            </ion-item>
+          </ion-col> 
+        </ng-container>
+      </ion-row>
+    </ion-grid>
 
-</ion-card>
+    <ion-item>
+      <button ion-button icon-left clear item-start (tap)="openModalEditDevice(station.id, station.name)">
+        <ion-icon name="create"></ion-icon>
+        Edit
+      </button>
+
+      <button ion-button icon-left clear item-end (tap)="getMoreDetails(station.id)">
+        <ion-icon name="navigate"></ion-icon>
+        More details
+      </button>
+    </ion-item>
+
+  </ion-card>
+</div>

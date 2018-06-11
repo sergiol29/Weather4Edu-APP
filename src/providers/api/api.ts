@@ -4,6 +4,7 @@ import { CONFIG } from '../config';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
+import { callNgModuleLifecycle } from '@angular/core/src/view/ng_module';
 
 /*
   Generated class for the ApiProvider provider.
@@ -37,9 +38,15 @@ export class ApiProvider {
     return this.filtered_stations.asObservable();
   }
 
+  /* Check if exist User in API */
+  getUserLogin(email: any, password: any) {
+    const url = `${CONFIG.API_URL}/login_user?email=${email}&password=${password}`;
+    return this.http.get(url);
+  }
+
   /* get all station in API */
-  getAllStation() {
-    const url = `${CONFIG.API_URL}/devices_latest_data`;
+  getAllStation(idUser: number) {
+    const url = `${CONFIG.API_URL}/stations_user/${idUser}`;
     return this.http.get(url).do( (data) => {
       this.stationsCopy = data;
       this.stations.next(data);
@@ -49,7 +56,7 @@ export class ApiProvider {
 
   /* get show data of station with from and to timestamp*/
   getShowStation(id:number, from:number, to:number) {
-    const url = `${CONFIG.API_URL}/device_data/${id}?from=${from}&to=${to}`;
+    const url = `${CONFIG.API_URL}/station_lasted_data/${id}?from=${from}&to=${to}`;
     return this.http.get(url);
   }
 
@@ -63,10 +70,10 @@ export class ApiProvider {
     this.filtered_stations.next(result);
   }
 
-  /*  update station */
+  /*  update station */ 
   putUpdateStation(id:number, data:any) {
-    const url = `${CONFIG.API_URL_INPUT}/device_update/${id}`;
-    
+    const url = `${CONFIG.API_URL_INPUT}/update_station/${id}`;
+  
     const httpOptions = { 
       headers: new HttpHeaders({
         'Content-Type':  'application/json',

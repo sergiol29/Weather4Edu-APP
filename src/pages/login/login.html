@@ -1,0 +1,96 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- components header-menu -->
+<!-- components header-menu -->
+<ion-header>
+  <ion-navbar>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-1>
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-col>
+        
+        <ion-col col-5>
+          <ion-title class="padding-6">Home</ion-title>
+        </ion-col>
+
+        <ion-col col-6>
+          <ion-buttons *ngIf="!showsearch" end>
+            <button ion-button icon-only (tap)="showSearch()">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-navbar>
+
+  <ion-grid *ngIf="showsearch" class="no-padding bg-grid">
+    <ion-row>
+      <ion-col col-12>
+        <ion-searchbar class="no-padding" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)" [showCancelButton]="optionSearch.showButton" [animated]="optionSearch.animated" [debounce]="optionSearch.debounce"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-grid class="bg-grid-white">
+      <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ion-row>
+          <ion-col col-12>
+            <ion-item item-start text-center class="font-fira">
+              <ion-label class="bold">Email:</ion-label>
+              <ion-input type="text" formControlName="email"></ion-input>
+            </ion-item>
+          </ion-col>
+ 
+          <ion-col col-12>
+              <ion-item class="alert alert-danger" *ngIf="form.get('email').hasError('required') && form.get('email').touched">
+                <p style="color:darkred">Email <strong>is required</strong></p>
+              </ion-item>
+              <ion-item class="alert alert-danger" *ngIf="form.get('email').hasError('pattern') && form.get('email').touched">
+                <p style="color:darkred">Email <strong>incorrect format</strong>, example: info@lopezsergio.com</p>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-12>
+            <ion-item item-start text-center class="font-fira">
+              <ion-label class="bold">Password:</ion-label>
+            </ion-item>
+            <ion-item item-start class="font-fira">
+              <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+          </ion-col>
+ 
+          <ion-col col-12>
+              <ion-item class="alert alert-danger" *ngIf="form.get('password').hasError('required') && form.get('password').touched 
+              || ( form.get('password').hasError('minlength') )">
+                <p style="color:darkred">Password <strong>is required</strong> and <strong>min length 6 caracter</strong></p>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-12 align-self-center>
+            <button ion-button round icon-right [disabled]="form.invalid">
+              Log in
+              <ion-icon name="arrow-dropright-circle"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </form>
+
+    </ion-grid>
+  </ion-card>
+</ion-content>
