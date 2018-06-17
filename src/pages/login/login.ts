@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /* Import for form */ 
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';  
@@ -26,7 +26,7 @@ export class LoginPage {
   user: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-              private fb: FormBuilder, private apiProv: ApiProvider, private toastCtrl: ToastController) {
+              private fb: FormBuilder, private apiProv: ApiProvider) {
   }
 
   ionViewDidLoad() {
@@ -38,7 +38,7 @@ export class LoginPage {
   createForm() {
     /* If form is created, dont created again */
     if (this.form) return;
-      
+        
     /* Create form */
     this.form = this.fb.group({                                     
       email: [this.email, [Validators.required, Validators.pattern('^[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$')]],
@@ -47,26 +47,15 @@ export class LoginPage {
   }
 
   /* Accept modal page */
-  onSubmit(){
-    let data = this.form.value;
-    
+  onSubmit() {
+    let value = this.form.value;
+
     /* Get data in API */
-    this.apiProv.getUserLogin(data.email, data.password).subscribe(
-      data => {
+    this.apiProv.getUserLogin(value.email, value.password).subscribe(
+      (data) => {
         this.user = data;
         this.navCtrl.push('HomePage', { id: this.user.id });
-      }, 
-      error => { 
-        /* If user not exist show alert error */
-        let alert = this.toastCtrl.create({
-          message: 'Error, email or password incorrect',
-          position: 'top',
-          showCloseButton: true,
-          closeButtonText: 'OK'
-        });
-        alert.present(); 
-      }    
-    );
+      });
   }
 
 }

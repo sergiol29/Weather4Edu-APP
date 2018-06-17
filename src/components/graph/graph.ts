@@ -61,7 +61,7 @@ export class GraphComponent implements OnChanges {
           type: 'spline'
       },
       title: {
-          text: "Representation data of last " +this._range+" days"
+          text: "Representation data of last " +this._range['number'] + " " + this._range['time']
       },
       subtitle: {
             text: ""

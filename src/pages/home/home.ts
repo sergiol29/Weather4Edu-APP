@@ -22,25 +22,17 @@ export class HomePage {
   showsearch: boolean = false;
   idUser: number = 1;
 
-  chatRoot = 'HomePage';
-  chatDetails = 'StationDetailsPage'
-
-  // set some user information on chatParams
-  chatParams = {
-    id: this.idUser
-  };
-
   /* Options Search */
   optionSearch = {
     showButton: true,
     debounce: 400,
     animated: true
-  }
-
+  } 
+ 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
   }
-
-  ionViewDidLoad() {
+   
+  ionViewDidLoad() { 
     //this.idUser = this.navParams.get('id');
     this.initializeItemsSearch();
   }
@@ -53,7 +45,10 @@ export class HomePage {
     });
   }
 
-  getItems(ev) {
+  logout() {
+    this.navCtrl.push('LoginPage');
+  }
+  /*getItems(ev) {
     this.apiProv.doFilterStation(ev.target.value);
   }
 
@@ -67,5 +62,5 @@ export class HomePage {
 
   cancelSearch() {
     this.setShowSearch(false);
-  }
+  }*/
 }

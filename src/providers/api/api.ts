@@ -4,7 +4,6 @@ import { CONFIG } from '../config';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/do';
-import { callNgModuleLifecycle } from '@angular/core/src/view/ng_module';
 
 /*
   Generated class for the ApiProvider provider.
@@ -57,6 +56,18 @@ export class ApiProvider {
   /* get show data of station with from and to timestamp*/
   getShowStation(id:number, from:number, to:number) {
     const url = `${CONFIG.API_URL}/station_lasted_data/${id}?from=${from}&to=${to}`;
+    return this.http.get(url);
+  }
+
+  /* get show values maxes of station */
+  getValuesMaxes(id:number) {
+    const url = `${CONFIG.API_URL}/values_maxes_station/${id}`;
+    return this.http.get(url);
+  }
+
+  /* get show values mins of station */
+  getValuesMins(id:number) {
+    const url = `${CONFIG.API_URL}/values_mins_station/${id}`;
     return this.http.get(url);
   }
 

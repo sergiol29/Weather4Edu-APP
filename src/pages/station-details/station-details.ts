@@ -17,7 +17,7 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController } from 'ionic-angular';
 
 /* Import Geolocation for Google Maps */
-declare var google;
+//declare var google;
 
 /**
  * Generated class for the StationDetailsPage page.
@@ -44,11 +44,18 @@ export class StationDetailsPage {
   dataTable = [];
   rangeGraph: string;
   symbolGraph = [];  
-   
+  showMessageError: boolean = false;
+
   /* Variable form */
   form: FormGroup; 
   selectVariables = [];                
-  selectRange = ['7', '15', '30']; 
+  selectRange = [
+    { 'number': 3, 'time': 'hours' }, 
+    { 'number': 9, 'time': 'hours' }, 
+    { 'number': 24, 'time': 'hours' }, 
+    { 'number': 7, 'time': 'days' }, 
+    { 'number': 15, 'time': 'days' },
+    { 'number': 30, 'time': 'days' }]; 
   
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder,
@@ -60,18 +67,16 @@ export class StationDetailsPage {
     //this.idStation = this.navParams.get('id');
     this.idStation = 1;
 
-    let from = moment().subtract(7, 'days').unix();
+    let from = moment().subtract(3, 'hours').unix();
     this.getDataAPI(from);
   }
 
   /* Variable to is opcional */
   getDataAPI(from:number, to?:number) {
-    console.log('from ', from);
     /* Now timestamp */
     if( !to ) {
       to = moment().unix();  
     }
-    console.log('to = ', to);
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -84,16 +89,26 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          console.log(this.station);
-          /* Generate data */
-          if(this.selectVariables.length === 0) { this.generateSelectVariable(); }
-
-          this.createForm();
           
-          /* Generate data */
-          this.generateDataGraphLines( this.getVariablesForm() );
-          this.generateDataTable( this.getVariablesForm() );
-          this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
+          if( this.station['data'].length ) {
+            /* Generate data */
+            if(this.selectVariables.length === 0) {  
+              this.generateSelectVariable(); }
+          }
+          
+          this.createForm();
+
+          if( this.station['data'].length ) {  
+            /* Generate data */
+            this.generateDataGraphLines( this.getVariablesForm() );
+            this.generateDataTable( this.getVariablesForm() );
+            this.showMessageError = false; /* Dont show message not exist data at API */
+          } else {
+            /* Show message not exist data at API */
+            this.showMessageError = true;
+          }
+
+          //this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -104,7 +119,13 @@ export class StationDetailsPage {
   /* Created form */
   createForm() {
     /* If form is created, dont created again */
-    if (this.form) return;
+    if (this.form) {      
+      /* If value at select variables not array then not exist value active and assigned value */
+      if( this.selectVariables.length ) {        
+        this.form.get('variables').setValue([this.selectVariables[0]]);
+      }
+      return;
+    }
       
     /* Create form */
     this.form = this.fb.group({
@@ -116,36 +137,33 @@ export class StationDetailsPage {
   /* Complete values in select variables */
   generateSelectVariable() {
     let valuesDontShow = ['Latitud', 'Longitud'];
-    let aux = [];
-    for( let data of this.station['data'] ) {
+    let aux = [];    
 
+    for( let data of this.station['data'] ) {
       /* Check if value inside in array  */
       if( valuesDontShow.indexOf(data.name) === -1 ) { 
         aux.push({ 'name': data.name, 'symbol': data.symbol });
       }
-    
     }
     
     this.selectVariables = aux;
-    console.log("generateSelectVariable = ", this.selectVariables);
   }
 
   /* Get Range select in form for Graph */
   getRangeForm() {
     this.rangeGraph = this.form.get('range').value;
-    console.log("getRangeForm = ", this.rangeGraph);
   }
 
   /* Get Variables select in form for Graph */
   getVariablesForm() {
     let auxVariables = [];
-    if( !Array.isArray( this.form.get('variables').value ) ) {
-      auxVariables.push( this.form.get('variables').value.name );
-    } else {
+
+    if( !Array.isArray( this.form.get('variables').value && this.form.get('variables').value[0] != undefined ) ) {
+      auxVariables.push( this.form.get('variables').value[0].name );
+    } else if( !this.form.get('variables').value[0] != undefined ) {
       this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
     }
 
-    console.log("getVariablesForm = ", auxVariables);
     return auxVariables;
   }
 
@@ -186,21 +204,20 @@ export class StationDetailsPage {
 
   /* Control Change Select */
   onChangeVariable(variables:any) {
-    let auxVariables = [];
-    let auxTypes = [];
-    variables.forEach(element => { auxVariables.push(element.name) });
-    variables.forEach(element => { auxTypes.push(element.type) });
-    console.log("auxVariables = ", auxVariables);
-    console.log("auxTypes = ", auxTypes);
-    this.generateDataGraphLines(auxVariables);
+    if( variables[0] != undefined ) {
+      let auxVariables = []; 
+      variables.forEach(element => { auxVariables.push(element.name) });
 
-    /* Data for table */
-    this.generateDataTable(auxVariables);
+      this.generateDataGraphLines(auxVariables);
+
+      /* Data for table */
+      this.generateDataTable(auxVariables);
+    }
   }
 
   /* Control Change Select */
   onChangeRange(range:any) {
-    let from = moment().subtract(range, 'days').unix();
+    let from = moment().subtract(range.number, range.time).unix();
 
     if( range != 'custom' ) {
       this.getDataAPI(from);
@@ -225,10 +242,10 @@ export class StationDetailsPage {
   }
 
   /* Get street with Lat and Lng */
-  getStreetGoogleMaps(latitude: number, longitude: number) {
+  /*getStreetGoogleMaps(latitude: number, longitude: number) {
     let latLngDevice = { lat: +latitude, lng: +longitude };
 
-    /* Inverse Geocoder for get street with latitude and longitude */
+     Inverse Geocoder for get street with latitude and longitude 
     var geocoder = new google.maps.Geocoder;
 
     geocoder.geocode({'location': latLngDevice}, function(results, status) {
@@ -240,5 +257,5 @@ export class StationDetailsPage {
         console.log('Geocoder failed due to: ' + status);
       }
     });
-  }
+  }*/
 }

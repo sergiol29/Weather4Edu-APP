@@ -7,48 +7,30 @@
 
 <!-- components header-menu -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
 
     <ion-grid>
-      <ion-row>
-        <ion-col col-1>
-          <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-          </button>
-        </ion-col>
-        
-        <ion-col col-5>
+      <ion-row>    
+        <ion-col col-6>
           <ion-title class="padding-6">Home</ion-title>
         </ion-col>
 
         <ion-col col-6>
-          <ion-buttons *ngIf="!showsearch" end>
-            <button ion-button icon-only (tap)="showSearch()">
-              <ion-icon name="search"></ion-icon>
+          <ion-buttons end>
+            <button ion-button icon-only (tap)="logout()">
+              <ion-icon name="log-out"></ion-icon>
             </button>
           </ion-buttons>
         </ion-col>
       </ion-row>
     </ion-grid>
+    
   </ion-navbar>
-
-  <ion-grid *ngIf="showsearch" class="no-padding bg-grid">
-    <ion-row>
-      <ion-col col-12>
-        <ion-searchbar class="no-padding" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)" [showCancelButton]="optionSearch.showButton" [animated]="optionSearch.animated" [debounce]="optionSearch.debounce"></ion-searchbar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 </ion-header>
 
 <ion-content padding>
   <!-- components station -->
   <app-station [idUser]="idUser"></app-station>
-
-  <ion-tabs>
-    <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="chat"></ion-tab>
-    <ion-tab [root]="chatDetails" [rootParams]="chatParams" tabTitle="Chat" tabIcon="chat"></ion-tab>
-   </ion-tabs>
 </ion-content>
 
 

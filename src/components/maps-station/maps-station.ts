@@ -53,16 +53,16 @@ export class MapsStationComponent {
     
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
       /* Marker maps */
-      var image: any;
-      image = 'https://image.ibb.co/nM0XX7/marker_station.png';
+      //var image: any;
+      //image = 'https://image.ibb.co/nM0XX7/marker_station.png';
 
       /* Create Marker map */
-      let marker = new google.maps.Marker({
+      /*let marker = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
         animation: google.maps.Animation.DROP,
         icon: image
-      });
+      });*/
 
       /* Add class css */ 
       mapEle.classList.add('show-map');

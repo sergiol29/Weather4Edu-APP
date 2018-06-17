@@ -13,7 +13,7 @@ import { ModalController } from 'ionic-angular';
 /* Import Lib MomentJS */  
 import * as moment from 'moment';
 
-/**   
+/**     
  * Generated class for the StationComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
@@ -58,16 +58,24 @@ export class StationComponent {
       this.apiProv.getAllStation(this.idUser).subscribe( 
         (data) => {
           this.stations = data;
-          console.log(this.stations);
-          /* Hide loading spinner */
+
+          /* Hide loading spinner */ 
           loader.dismiss();
       });
 
-    });
+    });     
   }
 
   getMoreDetails(id: number) {
     this.navCtrl.push('StationDetailsPage', { id: id });
+  }
+
+  getValuesMaxes(id: number) {    
+    this.navCtrl.push('ValuesMaxesPage', { id: id });
+  }
+
+  getValuesMins(id: number) {
+    this.navCtrl.push('ValuesMinsPage', { id: id });
   }
 
   openModalEditDevice(idStation: number, nameStation: any) {
@@ -82,11 +90,10 @@ export class StationComponent {
     modal.present();
   }
     
-  openModalMapsGPS(idStation: number) {
-    /* Open Modal Page */
+  /*openModalMapsGPS(idStation: number) {
     let modal = this.modalCtrl.create('ModalMapsGpsPage',{id: idStation},{showBackdrop:true, enableBackdropDismiss:true});
     modal.present();
-  } 
+  }*/ 
 
   getFilterLastedData(value: any) {
     let valuesDontShow = ['Batería'];
