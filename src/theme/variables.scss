@@ -40,6 +40,7 @@ $colors: (
   secondary: #5b5ef4,
   success: #28a745,
   danger: #f53d3d,
+  darkred: darkred,
   bg-navbar: #273e49,
   bg-searchbar: #e1e9ee,
   bg-grid: #7a8b98,
@@ -110,6 +111,10 @@ ion-content {
   font-size: 1.2rem !important; /* 12px */
 }
 
+.font13 { 
+  font-size: 1.3rem !important; /* 13px */
+}
+
 .font14 { 
   font-size: 1.4rem !important; /* 14px */
 }
@@ -146,6 +151,10 @@ ion-content {
   text-align: right;
 }
 
+.white-space-normal {
+  white-space: normal;
+}
+
 .color-white {
   color: color($colors, text-white) !important;
 }
@@ -156,6 +165,10 @@ ion-content {
 
 .color-blue {
   color: color($colors, text-blue) !important;
+}
+
+.color-darkred {
+  color: color($colors, darkred) !important;
 }
 
 .color-day-weather {

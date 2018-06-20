@@ -28,7 +28,7 @@
           <ion-col col-12>
               <ion-item class="alert alert-danger" *ngIf="form.get('name').hasError('required') && form.get('name').touched 
               || ( form.get('name').hasError('maxlength') || form.get('name').hasError('minlength') )">
-              <p style="color:darkred">Name <strong>is required</strong>, <strong>max length 128 caracter</strong> and <br> <strong>min length 5 caracter</strong></p>
+              <p class="color-darkred white-space-normal">Name <strong>is required</strong>, <strong>max length 128 caracter</strong> and <strong>min length 5 caracter</strong></p>
               </ion-item>
           </ion-col>
         </ion-row>

@@ -3,7 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  
 /* Load Provider */ 
 import { ApiProvider } from '../../providers/api/api';
- 
+
+/* Loading Spinner */          
+import { LoadingController } from 'ionic-angular';
+
 /**
  * Generated class for the HomePage page.
  *
@@ -20,7 +23,7 @@ export class HomePage {
 
   map: any;
   showsearch: boolean = false;
-  idUser: number = 1;
+  idUser: number;
 
   /* Options Search */
   optionSearch = {
@@ -29,12 +32,14 @@ export class HomePage {
     animated: true
   } 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider,
+    private loadingCtrl: LoadingController ) {
   }
    
   ionViewDidLoad() { 
-    //this.idUser = this.navParams.get('id');
-    this.initializeItemsSearch();
+    this.idUser = this.navParams.get('id');
+    //this.idUser = 1;
+    //this.initializeItemsSearch();
   }
 
   initializeItemsSearch() {
@@ -45,9 +50,39 @@ export class HomePage {
     });
   }
 
+  getDataAPI() { 
+    /* Create loading spinner */
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...',
+    });
+
+    /* Show loading spinner */
+    loader.present().then(() => {  
+      /* Get subscription */
+      this.apiProv.getAllStation(this.idUser).subscribe( 
+        (data) => {
+
+          /* Hide loading spinner */ 
+          loader.dismiss();
+      });
+
+    });     
+  }
+
   logout() {
     this.navCtrl.push('LoginPage');
   }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.getDataAPI();
+      refresher.complete();
+    }, 2000);
+  }
+
   /*getItems(ev) {
     this.apiProv.doFilterStation(ev.target.value);
   }

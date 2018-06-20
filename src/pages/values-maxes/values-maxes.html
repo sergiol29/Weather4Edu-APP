@@ -9,12 +9,15 @@
 
     <ion-grid>
       <ion-row>    
-        <ion-col col-8>
+        <ion-col col-6>
           <ion-title class="padding-6">Values maxes</ion-title>
         </ion-col>
 
-        <ion-col col-4>
-          <ion-buttons end>
+        <ion-col col-6>
+          <ion-buttons end *ngIf="station">
+            <button ion-button icon-only (tap)="goToHome(station.user_id)">
+              <ion-icon name="home"></ion-icon>
+            </button>
             <button ion-button icon-only (tap)="logout()">
               <ion-icon name="log-out"></ion-icon>
             </button>

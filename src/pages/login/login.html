@@ -22,10 +22,10 @@
  
           <ion-col col-12>
               <ion-item class="alert alert-danger" *ngIf="form.get('email').hasError('required') && form.get('email').touched">
-                <p style="color:darkred">Email <strong>is required</strong></p>
+                <p class="color-darkred white-space-normal">Email <strong>is required</strong></p>
               </ion-item>
               <ion-item class="alert alert-danger" *ngIf="form.get('email').hasError('pattern') && form.get('email').touched">
-                <p style="color:darkred">Email <strong>incorrect format</strong>, <br> example: info@lopezsergio.com</p>
+                <p class="color-darkred white-space-normal">Email <strong>incorrect format</strong>, example: info@lopezsergio.com</p>
               </ion-item>
           </ion-col>
         </ion-row>
@@ -43,7 +43,7 @@
           <ion-col col-12>
               <ion-item class="alert alert-danger" *ngIf="form.get('password').hasError('required') && form.get('password').touched 
               || ( form.get('password').hasError('minlength') )">
-                <p style="color:darkred">Password <strong>is required</strong> and <strong>min length <br> 6 caracter</strong></p>
+              <p class="color-darkred white-space-normal">Password <strong>is required</strong> and <strong>min length 6 caracter</strong></p>
               </ion-item>
           </ion-col>
         </ion-row>

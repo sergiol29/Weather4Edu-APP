@@ -15,7 +15,7 @@ export class TableDataComponent implements OnChanges {
   /* Data of charts */
   _data: any; 
   @Input()  
-  data: any;
+  data: any; 
   
   /* Name of charts */
   _range: string;
@@ -32,7 +32,7 @@ export class TableDataComponent implements OnChanges {
     }
 
     if (changes && changes.range && changes.range.currentValue != undefined) {
-        this._range = this.range;
+      this._range = this.range;
     }
   }
 }

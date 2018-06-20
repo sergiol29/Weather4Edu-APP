@@ -46,19 +46,13 @@ export class StationComponent {
     });
 
     /* Show loading spinner */
-    loader.present().then(() => {
-       
-      /* Get data in API with observable*/
-      this.apiProv.filteredStations$.subscribe(
-        (data) => {
-          this.stations = data;
-      });
-      
+    loader.present().then(() => {  
       /* Get subscription */
       this.apiProv.getAllStation(this.idUser).subscribe( 
         (data) => {
-          this.stations = data;
-
+          this.stations = data; 
+          console.log(this.stations);
+          
           /* Hide loading spinner */ 
           loader.dismiss();
       });
@@ -104,6 +98,15 @@ export class StationComponent {
     } else {
       return true; 
     }
+  }
+
+  getValueBatery(last_frame: any):number {
+    let value: number = 0;
+    last_frame.forEach(element => { 
+      if( element.code == "BAT") { value = element.value };  
+    });
+
+    return value;
   }
 
   formatDate(timestamp: any) {

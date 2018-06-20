@@ -29,8 +29,8 @@ export class ValuesMaxesPage {
   }
 
   ngOnInit() {
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
     this.getDataAPI();
   }
   
@@ -69,14 +69,6 @@ export class ValuesMaxesPage {
   formatDate(timestamp: any) {
     return moment.unix(timestamp).format("dddd, MMMM D YYYY - H:mm");
   }
- 
-  getMoreDetails(id: number) {
-    this.navCtrl.push('StationDetailsPage', { id: id });
-  }
-
-  getValuesMins(id: number) {
-    this.navCtrl.push('ValuesMinsPage', { id: id });
-  }
 
   openModalEditDevice(idStation: number, nameStation: any) {
     /* Open Modal Page */
@@ -88,6 +80,22 @@ export class ValuesMaxesPage {
     });
   
     modal.present();
+  }
+
+  getMoreDetails(id: number) {
+    this.navCtrl.push('StationDetailsPage', { id: id });
+  }
+
+  getValuesMins(id: number) {
+    this.navCtrl.push('ValuesMinsPage', { id: id });
+  }
+
+  goToHome(id_user: number) {
+    this.navCtrl.push('HomePage', { id: id_user });
+  }
+
+  logout() {
+    this.navCtrl.push('LoginPage');
   }
 
 }

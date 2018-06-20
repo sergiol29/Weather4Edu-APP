@@ -42,7 +42,7 @@ export class StationDetailsPage {
   /* Variables Graph and Table */
   dataGraph = [];
   dataTable = [];
-  rangeGraph: string;
+  rangeGraph: any;
   symbolGraph = [];  
   showMessageError: boolean = false;
 
@@ -64,8 +64,8 @@ export class StationDetailsPage {
   } 
 
   ionViewDidLoad() { 
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
 
     let from = moment().subtract(3, 'hours').unix();
     this.getDataAPI(from);
@@ -76,7 +76,7 @@ export class StationDetailsPage {
     /* Now timestamp */
     if( !to ) {
       to = moment().unix();  
-    }
+    } 
 
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
@@ -89,11 +89,12 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          
+
           if( this.station['data'].length ) {
-            /* Generate data */
-            if(this.selectVariables.length === 0) {  
-              this.generateSelectVariable(); }
+            /* Generate array for select variables in view */
+            if(this.selectVariables.length != this.station['data'].length) {  
+              this.generateSelectVariable(); 
+            }
           }
           
           this.createForm();
@@ -151,15 +152,17 @@ export class StationDetailsPage {
 
   /* Get Range select in form for Graph */
   getRangeForm() {
-    this.rangeGraph = this.form.get('range').value;
+    if( this.form.get('range').value != 'custom' ) {
+      this.rangeGraph = this.form.get('range').value;
+    }
   }
 
   /* Get Variables select in form for Graph */
   getVariablesForm() {
     let auxVariables = [];
-
-    if( !Array.isArray( this.form.get('variables').value && this.form.get('variables').value[0] != undefined ) ) {
-      auxVariables.push( this.form.get('variables').value[0].name );
+    
+    if( !Array.isArray( this.form.get('variables').value ) ) {      
+      auxVariables.push( this.form.get('variables').value.name );
     } else if( !this.form.get('variables').value[0] != undefined ) {
       this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
     }
@@ -235,10 +238,31 @@ export class StationDetailsPage {
       /* If data is !null, get data in API */
       if( data ) {
         this.getDataAPI( moment(data.from).unix(), moment(data.to).unix() );
+        
+        /* Calculate different day beetween dates */
+        let from = moment(moment(data.from), "YYYYMMDD");
+        let to = moment(moment(data.to), "YYYYMMDD");
+        this.rangeGraph = { 'number': to.diff(from, "days"), 'time': 'days' };                
       } 
     });
    
     modal.present();
+  }
+
+  goToHome(id_user: number) {
+    this.navCtrl.push('HomePage', { id: id_user });
+  }
+
+  getValuesMins(id: number) {
+    this.navCtrl.push('ValuesMinsPage', { id: id });
+  }
+
+  getValuesMaxes(id: number) {
+    this.navCtrl.push('ValuesMaxesPage', { id: id });
+  }
+
+  logout() {
+    this.navCtrl.push('LoginPage');
   }
 
   /* Get street with Lat and Lng */
