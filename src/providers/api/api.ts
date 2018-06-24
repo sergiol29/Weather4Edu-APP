@@ -13,6 +13,8 @@ import 'rxjs/add/operator/do';
 */
 @Injectable()
 export class ApiProvider {
+  /* ID User active in APP */
+  public userActive:number;
 
   stationsCopy: any;
 
@@ -92,6 +94,19 @@ export class ApiProvider {
     };
 
     return this.http.put(url, data, httpOptions);
+  }
+
+  /*  add variable */ 
+  addVariable(data:any) {
+    const url = `${CONFIG.API_URL_INPUT}/create_variables`;
+
+    const httpOptions = { 
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.post(url, data, httpOptions);
   }
 
   getKeyCity(latitude: number, longitude: number) {

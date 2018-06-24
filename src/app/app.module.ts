@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 /* Import Service */
 import { ApiProvider } from '../providers/api/api';
+import { UserActiveProvider } from '../providers/user-active/user-active';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ApiProvider } from '../providers/api/api';
     SplashScreen,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiProvider
+    ApiProvider,
+    UserActiveProvider
   ]
 })
 export class AppModule {}

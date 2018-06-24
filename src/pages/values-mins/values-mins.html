@@ -31,48 +31,52 @@
 
 
 <ion-content padding>
-    <ion-card *ngIf="station">
-      <ion-grid class="bg-grid-white">
-        <ion-row>
-          <ion-col>
-            <ion-item class="padding-left-0">
-              <h2 item-start class="font17 margin-top-9 bold">{{ station.name }} - {{ station.company }}</h2>    
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid> 
-      
-      <ion-grid class="bg-grid">
-        <ion-row>
-            
-          <ion-col col-12>
-              <h2 item-start class="font20 color-white light">Values mins</h2>    
-          </ion-col>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-round-down" pullingText="Swipe to refresh"> </ion-refresher-content>
+  </ion-refresher>
   
-          <ng-container *ngFor="let data of station.values_mins">
-            <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngIf="getFilterLastedData(data.name)">
-              <ion-item class="font-fira">
-                <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
-                <p class="bold color-black">{{ data.name }}</p>
-                <p class="color-black font14">{{ formatDate(data.timestamp) }}</p>
-              </ion-item>
-            </ion-col> 
-          </ng-container>
-        </ion-row>
-      </ion-grid>
-      <ion-row no-padding class="bg-grid-white">
+  <ion-card *ngIf="station">
+    <ion-grid class="bg-grid-white">
+      <ion-row>
         <ion-col>
-          <button ion-button clear small icon-start (tap)="getValuesMaxes(station.id)">
-            <ion-icon name='arrow-round-down'></ion-icon>
-            Values maxes
-          </button>
-        </ion-col>
-        <ion-col text-right>
-          <button ion-button clear small icon-start (tap)="getMoreDetails(station.id)">
-            <ion-icon name='share-alt'></ion-icon>
-            More details
-          </button>
+          <ion-item class="padding-left-0">
+            <h2 item-start class="font17 margin-top-9 bold">{{ station.name }} - {{ station.company }}</h2>    
+          </ion-item>
         </ion-col>
       </ion-row>
-    </ion-card>
-  </ion-content>
+    </ion-grid> 
+    
+    <ion-grid class="bg-grid">
+      <ion-row>
+          
+        <ion-col col-12>
+            <h2 item-start class="font20 color-white light">Values mins</h2>    
+        </ion-col>
+
+        <ng-container *ngFor="let data of station.values_mins">
+          <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngIf="getFilterLastedData(data.name)">
+            <ion-item class="font-fira">
+              <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
+              <p class="bold color-black">{{ data.name }}</p>
+              <p class="color-black font14">{{ formatDate(data.timestamp) }}</p>
+            </ion-item>
+          </ion-col> 
+        </ng-container>
+      </ion-row>
+    </ion-grid>
+    <ion-row no-padding class="bg-grid-white">
+      <ion-col>
+        <button ion-button clear small icon-start (tap)="getValuesMaxes(station.id)">
+          <ion-icon name='arrow-round-down'></ion-icon>
+          Values maxes
+        </button>
+      </ion-col>
+      <ion-col text-right>
+        <button ion-button clear small icon-start (tap)="getMoreDetails(station.id)">
+          <ion-icon name='share-alt'></ion-icon>
+          More details
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

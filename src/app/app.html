@@ -1,15 +1,26 @@
-<ion-menu [content]="content">
+<ion-menu side="right" [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>Perfil</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+      <ion-item (tap)="addVariable()">
+        <ion-icon name="add" item-start></ion-icon>
+        Add variable
+      </ion-item>
+
+      <ion-item (tap)="logout()">
+        <ion-icon name="log-out" item-start></ion-icon>
+        Log out
+      </ion-item>
+
+      <ion-item menuClose>
+        <ion-icon name="close" item-start></ion-icon>
+        Close menu
+      </ion-item>
     </ion-list>
   </ion-content>
 

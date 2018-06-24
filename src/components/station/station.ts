@@ -4,7 +4,7 @@ import { NavController } from 'ionic-angular';
 /* Load Provider */                     
 import { ApiProvider } from '../../providers/api/api'; 
       
-/* Loading Spinner */          
+/* Loading Spinner */            
 import { LoadingController } from 'ionic-angular';
 
 /* Modal */ 
@@ -56,7 +56,7 @@ export class StationComponent {
           /* Hide loading spinner */ 
           loader.dismiss();
       });
-
+ 
     });     
   }
 
@@ -70,6 +70,10 @@ export class StationComponent {
 
   getValuesMins(id: number) {
     this.navCtrl.push('ValuesMinsPage', { id: id });
+  }
+
+  getConfigVariables(id: number) {
+    this.navCtrl.push('AddVariablePage', {user_id: id});
   }
 
   openModalEditDevice(idStation: number, nameStation: any) {

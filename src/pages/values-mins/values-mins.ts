@@ -92,10 +92,18 @@ export class ValuesMinsPage {
   
   goToHome(id_user: number) {
     this.navCtrl.push('HomePage', { id: id_user });
-  }
+  } 
 
   logout() {
     this.navCtrl.push('LoginPage');
+  }
+
+  doRefresh(refresher) {
+    this.getDataAPI();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 2000);
   }
 
 }

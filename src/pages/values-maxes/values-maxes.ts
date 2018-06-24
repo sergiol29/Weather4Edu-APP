@@ -87,7 +87,7 @@ export class ValuesMaxesPage {
   }
 
   getValuesMins(id: number) {
-    this.navCtrl.push('ValuesMinsPage', { id: id });
+    this.navCtrl.push('ValuesMinsPage', { id: id }); 
   }
 
   goToHome(id_user: number) {
@@ -96,6 +96,14 @@ export class ValuesMaxesPage {
 
   logout() {
     this.navCtrl.push('LoginPage');
+  }
+
+  doRefresh(refresher) {
+    this.getDataAPI();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 2000);
   }
 
 }

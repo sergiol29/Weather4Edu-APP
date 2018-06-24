@@ -20,18 +20,6 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, 
               public splashScreen: SplashScreen, private apiProv: ApiProvider) {
     this.initializeApp();
-    
-    /* Get data in API with observable */
-    this.apiProv.stations$.subscribe(
-      (data) => {
-        let menu = data;
-        this.initializeMenu();
-        for(let value of menu) {
-          this.pages.push(
-            { title: value.name, component: 'StationDetailsPage', params: value.id });
-        }
-      }
-    );
   }
 
   /* Initialize menu APP */

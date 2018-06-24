@@ -54,6 +54,7 @@ export class LoginPage {
     this.apiProv.getUserLogin(value.email, value.password).subscribe(
       data => {
         this.user = data;
+        this.apiProv.userActive = this.user.id;
         this.navCtrl.push('HomePage', { id: this.user.id });
       }, 
       error => { 

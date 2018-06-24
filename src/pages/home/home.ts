@@ -4,41 +4,40 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 /* Load Provider */ 
 import { ApiProvider } from '../../providers/api/api';
 
-/* Loading Spinner */          
-import { LoadingController } from 'ionic-angular';
-
-/**
+/**   
  * Generated class for the HomePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
-@IonicPage()
-@Component({ 
+ 
+@IonicPage() 
+@Component({   
   selector: 'page-home',
   templateUrl: 'home.html', 
 })
-export class HomePage {  
+export class HomePage {      
 
   map: any;
   showsearch: boolean = false;
   idUser: number;
-
-  /* Options Search */
+ 
+  /* Options Search */ 
   optionSearch = {
     showButton: true,
     debounce: 400,
     animated: true
   } 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider,
-    private loadingCtrl: LoadingController ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
   }
    
   ionViewDidLoad() { 
-    this.idUser = this.navParams.get('id');
-    //this.idUser = 1;
+    //this.idUser = this.navParams.get('id');
+    this.idUser = 1;
+    //this.apiProv.userActive = this.navParams.get('id');
+    console.log(this.apiProv.userActive);
+    
     //this.initializeItemsSearch();
   }
 
@@ -50,35 +49,10 @@ export class HomePage {
     });
   }
 
-  getDataAPI() { 
-    /* Create loading spinner */
-    let loader = this.loadingCtrl.create({
-      content: 'Please wait...',
-    });
-
-    /* Show loading spinner */
-    loader.present().then(() => {  
-      /* Get subscription */
-      this.apiProv.getAllStation(this.idUser).subscribe( 
-        (data) => {
-
-          /* Hide loading spinner */ 
-          loader.dismiss();
-      });
-
-    });     
-  }
-
-  logout() {
-    this.navCtrl.push('LoginPage');
-  }
-
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
+    this.navCtrl.setRoot(this.navCtrl.getActive().component, { id: this.idUser });
 
     setTimeout(() => {
-      console.log('Async operation has ended');
-      this.getDataAPI();
       refresher.complete();
     }, 2000);
   }
