@@ -35,7 +35,7 @@ export class ModalPage {
   }
 
   /* Accept modal page */
-  acceptModal(){
+  acceptModal() {
     let data = { 'from': this.from , 'to': this.to };
     this.viewCtrl.dismiss(data);
   }

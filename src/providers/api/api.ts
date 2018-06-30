@@ -13,9 +13,6 @@ import 'rxjs/add/operator/do';
 */
 @Injectable()
 export class ApiProvider {
-  /* ID User active in APP */
-  public userActive:number;
-
   stationsCopy: any;
 
   /* Observable  */
@@ -107,6 +104,37 @@ export class ApiProvider {
     };
 
     return this.http.post(url, data, httpOptions);
+  }
+
+  /* get variable of users */
+  getVariablesUser(id:number) {
+    const url = `${CONFIG.API_URL}/variables_user/${id}`;
+    return this.http.get(url);
+  }
+
+  /* get variable */
+  getDataVariables(id:number) {
+    const url = `${CONFIG.API_URL}/data_variables/${id}`;
+    return this.http.get(url);
+  }
+
+  /*  update Variable */ 
+  putUpdateVariable(id:number, data:any) {
+    const url = `${CONFIG.API_URL}/data_variables/${id}`;
+  
+    const httpOptions = { 
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.put(url, data, httpOptions);
+  }
+
+  /* delete variable of users */
+  destroyVariablesUser(id:number) {
+    const url = `${CONFIG.API_URL_INPUT}/delete_variables/${id}`;
+    return this.http.delete(url);
   }
 
   getKeyCity(latitude: number, longitude: number) {

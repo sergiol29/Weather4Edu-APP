@@ -4,6 +4,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 /* Load Provider */ 
 import { ApiProvider } from '../../providers/api/api';
 
+/* LocalStorage */
+import { LocalstorageProvider } from '../../providers/localstorage/localstorage';
+
 /**   
  * Generated class for the HomePage page.
  *
@@ -21,7 +24,7 @@ export class HomePage {
   map: any;
   showsearch: boolean = false;
   idUser: number;
- 
+
   /* Options Search */ 
   optionSearch = {
     showButton: true,
@@ -29,14 +32,15 @@ export class HomePage {
     animated: true
   } 
  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apiProv: ApiProvider,
+              private storage: LocalstorageProvider ) {
   }
    
-  ionViewDidLoad() { 
-    //this.idUser = this.navParams.get('id');
-    this.idUser = 1;
-    //this.apiProv.userActive = this.navParams.get('id');
-    console.log(this.apiProv.userActive);
+  ionViewWillEnter() { 
+    /* Read ID_User of localstorage */   
+    this.storage.getUserID().then(value => {
+      this.idUser = value;
+    })
     
     //this.initializeItemsSearch();
   }
@@ -55,6 +59,11 @@ export class HomePage {
     setTimeout(() => {
       refresher.complete();
     }, 2000);
+  }
+
+  logout() {
+    this.storage.clearStorage();
+    this.navCtrl.push('LoginPage');
   }
 
   /*getItems(ev) {

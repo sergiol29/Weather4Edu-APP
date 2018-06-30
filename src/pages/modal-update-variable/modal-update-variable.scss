@@ -1,0 +1,15 @@
+page-modal-update-device {
+
+}
+
+ion-modal.custom-modal-update ion-backdrop {
+    visibility: visible !important;
+    z-index: 0;
+}
+ion-modal.custom-modal-update .modal-wrapper{
+    top: 10%;
+    left: 5%;
+    width: 90%;
+    height: 470px;
+    position: absolute;
+}

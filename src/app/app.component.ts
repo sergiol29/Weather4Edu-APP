@@ -3,8 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-/* Load Provider */
-import { ApiProvider } from '../providers/api/api';
+/* LocalStorage */
+import { LocalstorageProvider } from '../providers/localstorage/localstorage';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,22 +14,28 @@ export class MyApp {
 
   rootPage: any = 'LoginPage';
 
-  pages: Array<{title: string, component: any, params: any}>;
+  pages: Array<{ title: string, component: any, params: any }>;
   //menu: any;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, 
-              public splashScreen: SplashScreen, private apiProv: ApiProvider) {
-    this.initializeApp();
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private storage: LocalstorageProvider) {
+    /* Check if user active, if active sending HomePage without Login */
+    this.storage.isUserActive().then(userActive => {
+      if (userActive) {
+        this.rootPage = 'HomePage';
+      } 
+
+      this.initializeApp();
+    })
   }
 
   /* Initialize menu APP */
   initializeMenu() {
-    this.pages = [
+    /*this.pages = [
       { title: 'Home', component: 'HomePage', params: '' }
-    ];
+    ];*/
   }
 
-  initializeApp() {
+  initializeApp() {    
     /* hide splash screen */
     this.splashScreen.hide();
 

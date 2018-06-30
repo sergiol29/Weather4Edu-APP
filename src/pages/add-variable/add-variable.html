@@ -14,8 +14,8 @@ Ionic pages and navigation.
         </ion-col>
 
         <ion-col col-6>
-          <ion-buttons end *ngIf="station">
-            <button ion-button icon-only (tap)="goToHome(station.user_id)">
+          <ion-buttons end>
+            <button ion-button icon-only (tap)="goToHome(idUser)">
               <ion-icon name="home"></ion-icon>
             </button>
             <button ion-button icon-only (tap)="logout()">
@@ -30,16 +30,11 @@ Ionic pages and navigation.
 </ion-header>
 
 <ion-content padding>
-  <ion-card>    
+  <ion-card>     
     <ion-grid class="bg-grid-white">
       <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <ion-row>
-          <ion-col col-12>
-            <ion-item item-start class="font-fira">
-              <ion-label class="bold color-blue">Code:</ion-label>
-              <ion-input class="border-bottom" type="text" formControlName="user_id" value="{{ idUser }}"></ion-input>
-            </ion-item>
-          </ion-col>
+          <ion-input type="hidden" formControlName="user_id" value="{{ idUser }}"></ion-input>
 
           <ion-col col-12>
             <ion-item item-start class="font-fira">
@@ -51,7 +46,7 @@ Ionic pages and navigation.
           <ion-col col-12>
             <ion-item class="alert alert-danger" *ngIf="form.get('code').hasError('required') && form.get('code').touched 
             || ( form.get('code').hasError('maxlength') || form.get('code').hasError('minlength') )">
-            <p class="color-darkred white-space-normal">Code <strong>is required</strong>, <strong>max length 5 caracter</strong> and <strong>min length 3 caracter</strong></p>
+            <p class="color-darkred white-space-normal">Code <strong>is required</strong>, <strong>max length 15 caracter</strong> and <strong>min length 3 caracter</strong></p>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -67,7 +62,7 @@ Ionic pages and navigation.
           <ion-col col-12>
               <ion-item class="alert alert-danger" *ngIf="form.get('name').hasError('required') && form.get('name').touched 
               || ( form.get('name').hasError('maxlength') || form.get('name').hasError('minlength') )">
-              <p class="color-darkred white-space-normal">Name <strong>is required</strong>, <strong>max length 15 caracter</strong> and <strong>min length 5 caracter</strong></p>
+              <p class="color-darkred white-space-normal">Name <strong>is required</strong>, <strong>max length 24 caracter</strong> and <strong>min length 4 caracter</strong></p>
               </ion-item>
           </ion-col>
         </ion-row>
@@ -89,6 +84,22 @@ Ionic pages and navigation.
         </ion-row>
 
         <ion-row>
+            <ion-col col-12>
+                <ion-item item-start class="font-fira">
+                    <ion-label class="bold color-blue">Color:</ion-label>
+                    <ion-input class="border-bottom" type="color" value="#000000" formControlName="color"></ion-input>
+                </ion-item>
+            </ion-col>
+
+            <ion-col col-12>
+                <ion-item class="alert alert-danger" *ngIf="form.get('color').touched 
+                && ( form.get('color').hasError('maxlength') || form.get('color').hasError('minlength') )">
+                <p class="color-darkred white-space-normal">Color <strong>is NOT required</strong>, <strong>length 7 caracter</strong></p>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
           <ion-col col-12>
             <button ion-button block icon-right [disabled]="form.invalid">
               Create
@@ -98,5 +109,40 @@ Ionic pages and navigation.
         </ion-row>
       </form>
     </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="variables">
+    <ion-grid class="bg-grid-white">
+      <ion-row>
+        <ion-col>
+          <ion-item class="padding-left-0">
+            <h2 item-start class="font17 margin-top-9 bold">Variables</h2>    
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid> 
+    
+    <ion-grid class="bg-grid">
+      <ion-row>
+        <ng-container *ngFor="let data of variables.variables">
+          <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4>
+            <ion-item class="font-fira">
+              <h2 class="bold color-blue">{{ data.code }} <span *ngIf="data.symbol != '' && data.symbol != null">({{ data.symbol }})</span></h2> 
+              <p class="bold color-black">{{ data.name }}</p>
+              <ion-icon name="settings" item-end color="bg-grid" (tap)="updateVariable(data.id)"></ion-icon>
+              <ion-icon name="trash" item-end color="darkred" (tap)="showConfirmDelete(data.id)"></ion-icon>
+            </ion-item>
+          </ion-col> 
+        </ng-container>
+      </ion-row>
+    </ion-grid>
+    <ion-row no-padding class="bg-grid-white">
+      <ion-col text-right>
+        <button ion-button clear small icon-start (tap)="getMoreDetails(idUser)">
+          <ion-icon name='share-alt'></ion-icon>
+          More details
+        </button>
+      </ion-col>
+    </ion-row>
   </ion-card>
 </ion-content>

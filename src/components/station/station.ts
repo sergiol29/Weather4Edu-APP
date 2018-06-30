@@ -51,7 +51,6 @@ export class StationComponent {
       this.apiProv.getAllStation(this.idUser).subscribe( 
         (data) => {
           this.stations = data; 
-          console.log(this.stations);
           
           /* Hide loading spinner */ 
           loader.dismiss();
@@ -87,11 +86,6 @@ export class StationComponent {
   
     modal.present();
   }
-    
-  /*openModalMapsGPS(idStation: number) {
-    let modal = this.modalCtrl.create('ModalMapsGpsPage',{id: idStation},{showBackdrop:true, enableBackdropDismiss:true});
-    modal.present();
-  }*/ 
 
   getFilterLastedData(value: any) {
     let valuesDontShow = ['Batería'];

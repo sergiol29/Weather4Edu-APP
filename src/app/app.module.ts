@@ -15,7 +15,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 /* Import Service */
 import { ApiProvider } from '../providers/api/api';
-import { UserActiveProvider } from '../providers/user-active/user-active';
+
+/* LocalStorage */
+import { IonicStorageModule } from '@ionic/storage';
+import { LocalstorageProvider } from '../providers/localstorage/localstorage';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { UserActiveProvider } from '../providers/user-active/user-active';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     HttpClientModule
   ],
   bootstrap: [IonicApp],
@@ -36,7 +40,7 @@ import { UserActiveProvider } from '../providers/user-active/user-active';
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ApiProvider,
-    UserActiveProvider
+    LocalstorageProvider
   ]
 })
 export class AppModule {}

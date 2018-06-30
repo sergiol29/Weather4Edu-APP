@@ -4,6 +4,9 @@ import { IonicPage, NavController, NavParams, LoadingController, ModalController
 /* Load Provider */                     
 import { ApiProvider } from '../../providers/api/api';   
 
+/* LocalStorage */
+import { LocalstorageProvider } from '../../providers/localstorage/localstorage';
+
 /* Import Lib MomentJS */  
 import * as moment from 'moment'; 
 
@@ -25,7 +28,7 @@ export class ValuesMaxesPage {
   station: any;
 
   constructor(private apiProv: ApiProvider, public navCtrl: NavController, public navParams: NavParams,
-              private loadingCtrl: LoadingController, private modalCtrl: ModalController ) {
+              private loadingCtrl: LoadingController, private modalCtrl: ModalController, private storage: LocalstorageProvider ) {
   }
 
   ngOnInit() {
@@ -95,6 +98,7 @@ export class ValuesMaxesPage {
   }
 
   logout() {
+    this.storage.clearStorage();
     this.navCtrl.push('LoginPage');
   }
 

@@ -4,6 +4,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
 
+/* LocalStorage */
+import { LocalstorageProvider } from '../../providers/localstorage/localstorage';
+
 /* Loading Spinner */
 import { LoadingController } from 'ionic-angular';
 
@@ -59,13 +62,13 @@ export class StationDetailsPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private loadingCtrl: LoadingController, private apiProv: ApiProvider, private fb: FormBuilder,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController, private storage: LocalstorageProvider) {
        
   } 
 
   ionViewDidLoad() { 
-    this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
+    //this.idStation = this.navParams.get('id');
+    this.idStation = 1;
 
     let from = moment().subtract(3, 'hours').unix();
     this.getDataAPI(from);
@@ -89,6 +92,7 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
+          //console.log(this.station);
 
           if( this.station['data'].length ) {
             /* Generate array for select variables in view */
@@ -183,7 +187,7 @@ export class StationDetailsPage {
         for( let values of data.values ) {
           aux.push( [values.timestamp * 1000, +values.value] );
         }
-        this.dataGraph.push( {name: data.name, data: aux} );
+        this.dataGraph.push( {name: data.name, color: data.color, data: aux} ); /* Create Series */
       }
     }
   }
@@ -261,7 +265,12 @@ export class StationDetailsPage {
     this.navCtrl.push('ValuesMaxesPage', { id: id });
   }
 
+  getConfigVariables(id: number) {
+    this.navCtrl.push('AddVariablePage', {user_id: id});
+  }
+
   logout() {
+    this.storage.clearStorage();
     this.navCtrl.push('LoginPage');
   }
 

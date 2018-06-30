@@ -7,6 +7,9 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
 
+/* LocalStorage */
+import { LocalstorageProvider } from '../../providers/localstorage/localstorage';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -26,7 +29,8 @@ export class LoginPage {
   user: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-              private fb: FormBuilder, private apiProv: ApiProvider, private toastCtrl: ToastController) {
+              private fb: FormBuilder, private apiProv: ApiProvider, private toastCtrl: ToastController,
+              private storage: LocalstorageProvider) {
   }
 
   ionViewDidLoad() {
@@ -54,8 +58,12 @@ export class LoginPage {
     this.apiProv.getUserLogin(value.email, value.password).subscribe(
       data => {
         this.user = data;
-        this.apiProv.userActive = this.user.id;
-        this.navCtrl.push('HomePage', { id: this.user.id });
+        
+        /* Create Storage For Session Users */
+        this.storage.setUser(this.user.id, this.user.email);
+
+        /* In HomePage, the app read id_user of localstorage */
+        this.navCtrl.push('HomePage');
       }, 
       error => { 
         /* If user not exist show alert error */
