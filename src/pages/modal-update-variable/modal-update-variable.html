@@ -19,9 +19,9 @@
             <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
                 <ion-row>
                     <ion-col col-12>
-                        <ion-item item-start class="font-fira">
+                        <ion-item item-start class="font-fira border-bottom">
                             <ion-label class="bold color-blue">Code:</ion-label>
-                            <ion-input type="text" formControlName="code"></ion-input>
+                            <ion-input type="text" formControlName="code" readonly="true"></ion-input>
                         </ion-item>
                     </ion-col>
 
@@ -34,7 +34,7 @@
                 </ion-row>
                 <ion-row>
                     <ion-col col-12>
-                        <ion-item item-start class="font-fira">
+                        <ion-item item-start class="font-fira border-bottom">
                             <ion-label class="bold color-blue">Name:</ion-label>
                             <ion-input type="text" formControlName="name"></ion-input>
                         </ion-item>
@@ -50,7 +50,7 @@
 
                 <ion-row>
                     <ion-col col-12>
-                        <ion-item item-start class="font-fira">
+                        <ion-item item-start class="font-fira border-bottom">
                             <ion-label class="bold color-blue">Symbol:</ion-label>
                             <ion-input type="text" formControlName="symbol"></ion-input>
                         </ion-item>
@@ -66,7 +66,7 @@
 
                 <ion-row>
                     <ion-col col-12>
-                        <ion-item item-start class="font-fira">
+                        <ion-item item-start class="font-fira border-bottom">
                             <ion-label class="bold color-blue">Color:</ion-label>
                             <ion-input type="color" formControlName="color"></ion-input>
                         </ion-item>
@@ -79,21 +79,104 @@
                         </ion-item>
                     </ion-col>
                 </ion-row>
+                
+                <!-- Actual view human -->
+                <ion-row>
+                    <ion-col col-12 padding>
+                        <p class="bold color-blue">View Human:</p>
+                        <p class="font-roboto font12 bold" *ngIf="!viewHumanVariable">Not defined</p>
+                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">def function( value ):</p>
+                        <ion-textarea class="font-roboto italic font12" type="text" formControlName="view_human" id="view_human" readonly></ion-textarea>
+                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">end</p>
+                    </ion-col>
+                </ion-row>
+                <!-- end actual view human -->
 
                 <ion-row>
-                <ion-col col-6>
-                    <button ion-button block icon-right [disabled]="form.invalid">
-                    Update
-                    <ion-icon name="arrow-dropright-circle"></ion-icon>
-                    </button>
-                </ion-col>
+                    <ion-col col-12>
+                        <ion-item item-start class="font-fira border-bottom">
+                            <ion-label class="bold color-blue" stacked>Update view human:</ion-label>
+                            <ion-select (ionChange)="onChangeTypeViewHuman($event)" interface="popover">
+                                <ion-option value="" selected>Select option</ion-option>
+                                <ion-option value="operation">Operation</ion-option>
+                                <ion-option value="case">Switch case</ion-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
 
-                <ion-col col-6>
-                    <button ion-button color="danger" block icon-left (tap)="cancelModal()">
-                    <ion-icon name="close-circle"></ion-icon>
-                    Cancel
+                <!-- Case Operation -->
+                <ion-row *ngIf="type_viewhuman == 'operation'">
+                    <ion-col col-12 padding>
+                        <p class="bold color-blue">New view vuman:</p>
+                        <p class="font-roboto font12 bold">def function( value ):</p>
+                        <ion-input class="font-roboto italic border font12" type="text" formControlName="new_view_human" placeholder="Enter a operation. Ex: value * 1000 / 2"></ion-input>
+                        <p class="font-roboto font12 bold">end</p>
+                    </ion-col>
+                </ion-row>
+                <!-- end case operation -->
+                
+                <!-- Case Switch case -->
+                <ng-container *ngIf="type_viewhuman == 'case'">
+                    <div formArrayName="switch_case" *ngFor="let item of groupSwitch.controls; let i = index">
+                        <ion-row [formGroupName]="i">
+                            <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
+                                <ion-item>
+                                    <ion-label class="bold color-blue" stacked>Value min:</ion-label>
+                                    <ion-input formControlName="value_min" placeholder="0" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
+                                <ion-item>
+                                    <ion-label class="bold color-blue" stacked>Value max:</ion-label>
+                                    <ion-input formControlName="value_max" placeholder="400" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-4>
+                                <ion-item>
+                                    <ion-label class="bold color-blue" stacked>Return:</ion-label>
+                                    <ion-input formControlName="return" placeholder="text" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+
+                    <button class="font12 no-margin" ion-button icon-left clear item-end (tap)="showMoreOptionAdvanced()">
+                        <ion-icon name="cloudy-night"></ion-icon>
+                        Show details
                     </button>
-                </ion-col>
+
+                    <ion-row *ngIf="showDetails">
+                        <ion-col col-12 padding>
+                            <p class="bold color-blue">Result swith case:</p>
+                            <p class="font-roboto font12 bold">def function( value ):</p>
+                            <ion-textarea class="font-roboto italic border" type="text" formControlName="new_view_human" id="new_view_human" readonly="true"></ion-textarea>
+                            <p class="font-roboto font12 bold">end</p>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+                <!-- end case switch case -->
+
+                <ion-row>
+                    <ion-col col-12 *ngIf="type_viewhuman">
+                        <button ion-button color="day-weather" block icon-left (tap)="onSubmitTestViewHuman()">
+                            <ion-icon name="code-working"></ion-icon>
+                            Test view human
+                        </button>
+                    </ion-col>
+                    <ion-col col-6>
+                        <button ion-button block icon-right [disabled]="form.invalid">
+                            Update
+                            <ion-icon name="arrow-dropright-circle"></ion-icon>
+                        </button>
+                    </ion-col>
+
+                    <ion-col col-6>
+                        <button ion-button color="danger" block icon-left (tap)="cancelModal()">
+                            <ion-icon name="close-circle"></ion-icon>
+                            Cancel
+                        </button>
+                    </ion-col>
                 </ion-row>
             </form>
         </ion-grid>

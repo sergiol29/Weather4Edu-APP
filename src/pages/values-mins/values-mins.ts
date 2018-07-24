@@ -85,12 +85,12 @@ export class ValuesMinsPage {
     modal.present();
   }
 
-  getMoreDetails(id: number) {
-    this.navCtrl.push('StationDetailsPage', { id: id });
+  getMoreDetails(id_station: number) {
+    this.navCtrl.push('StationDetailsPage', { id: id_station });
   }
 
-  getValuesMaxes(id: number) {
-    this.navCtrl.push('ValuesMaxesPage', { id: id });
+  getValuesMaxes(id_station: number) {
+    this.navCtrl.push('ValuesMaxesPage', { id: id_station });
   }
   
   goToHome(id_user: number) {

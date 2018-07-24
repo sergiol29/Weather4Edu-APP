@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
+
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
 
 /* Import for form */ 
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';  
+import {Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';  
 
 /* Load Provider */
 import { ApiProvider } from '../../providers/api/api';
 
 /* LocalStorage */
 import { LocalstorageProvider } from '../../providers/localstorage/localstorage';
+
+import { ElementRef } from '@angular/core';
+
 /**
  * Generated class for the AddVariablePage page.
  *
@@ -24,60 +28,69 @@ import { LocalstorageProvider } from '../../providers/localstorage/localstorage'
 export class AddVariablePage {
 
   form: FormGroup;
-  idUser: number;
-  nameVariable: any;
-  symbolVariable: any;
-  codeVariable: any;
-  colorVariable: any;
-
+  idStation: number;
+  type_viewhuman;
   variables: any;
+  idUser: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private fb: FormBuilder, private apiProv: ApiProvider, private toastCtrl: ToastController,
-              private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-              private modalCtrl: ModalController, private storage: LocalstorageProvider) {
+    private fb: FormBuilder, private apiProv: ApiProvider, private toastCtrl: ToastController,
+    private alertCtrl: AlertController, private element:ElementRef, private storage: LocalstorageProvider,
+    private loadingCtrl: LoadingController) {
   }
 
   ngOnInit() {
-    this.idUser = this.navParams.get('user_id');
-    //this.idUser = 1;
-    this.getDataAPI();
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
     this.createForm();
+    
+    /* Read ID_User of localstorage */
+    this.storage.getUserID().then(value => {
+      this.idUser = value;
+    })
   }
 
-  getDataAPI() { 
-    /* Create loading spinner */
-    let loader = this.loadingCtrl.create({
-      content: 'Please wait...',
-    });
-
-    /* Show loading spinner */
-    loader.present().then(() => {  
-      /* Get subscription */
-      this.apiProv.getVariablesUser(this.idUser).subscribe( 
-        (data) => {
-          this.variables = data; 
-          
-          /* Hide loading spinner */ 
-          loader.dismiss();
-      });
- 
-    });     
-  }
-
-  /* Created form */
+  /* Created form */ 
   createForm() {
     /* If form is created, dont created again */
     if (this.form) return;
       
     /* Create form */
     this.form = this.fb.group({
-      user_id: [this.idUser, [Validators.required]],
-      code: [this.codeVariable, [Validators.required, Validators.maxLength(15), Validators.minLength(3)]],
-      name: [this.nameVariable, [Validators.required, Validators.maxLength(24), Validators.minLength(4)]],
-      symbol: [this.symbolVariable, [Validators.maxLength(4)]],
-      color: [this.colorVariable, [Validators.maxLength(7), Validators.minLength(7)]]
+      station_id: [this.idStation, [Validators.required]],
+      code: [, [Validators.required, Validators.maxLength(15), Validators.minLength(3)]],
+      name: [, [Validators.required, Validators.maxLength(24), Validators.minLength(4)]],
+      symbol: [, [Validators.maxLength(4)]],
+      color: [, [Validators.maxLength(7), Validators.minLength(7)]],
+      view_human: [],
+      switch_case: this.fb.array( [] )
     });
+  } 
+
+  createGroupSwitch(): FormGroup {
+    return this.fb.group({
+      value_max: '',
+      value_min: '',
+      return: ''
+    });
+  }
+
+  get groupSwitch(): FormArray {
+    return this.form.get('switch_case') as FormArray;
+  }
+
+  resetGroupSwitch() {
+    let len = this.groupSwitch.length - 1;
+
+    for (var i = len; i >= 0; --i) {  
+      this.groupSwitch.removeAt(i);
+    }
+  }
+
+  addItemSwithCase(numberItem: number): void {
+    for (var i = 0; i < numberItem; ++i) {
+      this.groupSwitch.push( this.createGroupSwitch() );
+    }
   }
 
   /* Accept modal page */
@@ -85,11 +98,10 @@ export class AddVariablePage {
     let data = this.form.value;
     
     /* Get data in API */
-    this.apiProv.addVariable(data).subscribe(
+    this.apiProv.configVariable(data).subscribe(
       data => {
-        /* Call getDataAPI */
-        this.getDataAPI();
-        this.resetForm();
+        /* Call page ConfigVariablePage */
+        this.navCtrl.push('ConfigVariablePage', { id: this.idStation });
       },
       error => { 
         /* If exist error show alert error */
@@ -105,70 +117,132 @@ export class AddVariablePage {
     );
   }
 
+  onSubmitTestViewHuman() {
+    let view_human = this.form.get('view_human').value;
+
+    /* As create new variable dont exist last value, then asigned value by default */
+    let valueByDefault = 200;
+
+    /* If new view human is null, change to value */
+    if( !view_human ) { view_human = 'value'; }
+    
+    /* Create loading spinner */
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait...',
+    });
+
+    /* Show loading spinner */
+    loader.present().then(() => {
+      /* Get data in API */
+      this.apiProv.getCheckViewHuman(valueByDefault, view_human).subscribe(
+        (data) => {
+          let result = data;  
+
+          /* Show alert with result */
+          let alert = this.alertCtrl.create({
+            title: result['result'],
+            subTitle: result['message'],
+            buttons: ['Ok']
+          });
+          alert.present();
+
+          /* Hide loading spinner */
+          loader.dismiss();    
+        });
+    });
+  }
+
   /* Reset Input Form */
   resetForm() {
     this.form.get('code').reset();
     this.form.get('name').reset();
     this.form.get('symbol').reset();
     this.form.get('color').reset();
+    this.form.get('view_human').reset();
   }
 
-  updateVariable(id: number) {
-    /* Open Modal Page */
-    let modal = this.modalCtrl.create('ModalUpdateVariablePage',{id: id},{showBackdrop:true, enableBackdropDismiss:true});
-    
-    /* When close modal refresh data */
-    modal.onDidDismiss(data => { 
-      this.getDataAPI();
-    });
-  
-    modal.present();
+  /* Control change select type view human */
+  onChangeTypeViewHuman(type_view: any) {
+    if( type_view === 'case' ) {
+      this.type_viewhuman = 'case';
+      this.alertSwitchCase();
+    } else if( type_view === 'operation' ) {
+      this.type_viewhuman = 'operation';
+      this.resetGroupSwitch();
+    } else {
+      this.type_viewhuman = '';
+    }    
+
+    this.form.get('view_human').reset();
   }
 
-  showConfirmDelete(id_variable: number) {
-    let alert = this.alertCtrl.create({
-      title: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Cancel'
-        },
-        {
-          text: 'Delete!',
-          handler: () => {
-            this.deleteVariable(id_variable);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
+  alertSwitchCase() {
+    let alert = this.alertCtrl.create();
 
-  deleteVariable(id_variable: number) {
-    /* Get data in API */
-    this.apiProv.destroyVariablesUser(id_variable).subscribe(
-      data => {
-        /* Call getDataAPI */
-        this.getDataAPI();
-      },
-      error => { 
-        /* If exist error show alert error */
-        let alert = this.toastCtrl.create({
-          message: 'Error, not destroy variable',
-          position: 'top',
-          showCloseButton: true,
-          closeButtonText: 'OK'
-        });
+    alert.setTitle('Enter number of case');
+    alert.addInput({ type: 'radio', label: '2', value: '2', checked: true });
+    alert.addInput({ type: 'radio', label: '3', value: '3' }); 
+    alert.addInput({ type: 'radio', label: '4', value: '4' });
+    alert.addInput({ type: 'radio', label: '5', value: '5' });
+    alert.addButton('Cancel');
 
-        alert.present(); 
+    alert.addButton({
+      text: 'Ok',
+      handler: (data: any) => {
+        this.createSwitch(data);
       }
-    );
+    });
+    
+    alert.present();    
   }
 
-  getMoreDetails(id: number) {
-    this.navCtrl.push('StationDetailsPage', { id: id });
+  createSwitch(numberSelect: any) {    
+    switch(numberSelect) { 
+      case '2': { 
+        this.addItemSwithCase(2);
+        break; 
+      } 
+      case '3': { 
+        this.addItemSwithCase(3);
+        break; 
+      }
+      case '4': { 
+        this.addItemSwithCase(4);
+        break; 
+      }
+      case '5': { 
+        this.addItemSwithCase(5);
+        break; 
+      } 
+    }
+
+    this.onChangeGroupSwitch();
   }
-  
-  goToHome(id_user: number) {
+
+  onChangeGroupSwitch() {
+    let len = this.groupSwitch.length;  
+    let result = "";
+
+    for (var i = 0; i < this.groupSwitch.length; ++i) {
+      if( i == 0 ) {
+        result += `if value >= ${this.form.get('switch_case').value[i].value_min} and value <= ${this.form.get('switch_case').value[i].value_max} \n \t '${this.form.get('switch_case').value[i].return}' \n`;
+      } else if( i != len - 1) {
+        result += `elsif value >= ${this.form.get('switch_case').value[i].value_min} and value <= ${this.form.get('switch_case').value[i].value_max} \n \t '${this.form.get('switch_case').value[i].return}' \n`;
+      } else {
+        result += `else \n \t '${this.form.get('switch_case').value[i].return}' \n`;
+      }
+    }
+
+    result += "end"; 
+    
+    /* Change value of textarea */
+    this.form.get('view_human').setValue(result);
+
+    /* Update height of textarea, automatic depend value at textearea */
+    this.element.nativeElement.querySelector("textarea").style.height = this.element.nativeElement.querySelector("textarea").scrollHeight + 'px';
+  }
+
+  goToHome(id_user: number) {    
     this.navCtrl.push('HomePage', { id: id_user });
   }
 

@@ -39,9 +39,9 @@ export class StationComponent {
     this.getDataAPI();
   }
   
-  getDataAPI() { 
+  getDataAPI() {   
     /* Create loading spinner */
-    let loader = this.loadingCtrl.create({
+    let loader = this.loadingCtrl.create({ 
       content: 'Please wait...',
     });
 
@@ -54,25 +54,25 @@ export class StationComponent {
           
           /* Hide loading spinner */ 
           loader.dismiss();
-      });
+      }); 
  
     });     
   }
 
-  getMoreDetails(id: number) {
-    this.navCtrl.push('StationDetailsPage', { id: id });
+  getMoreDetails(id_station: number) {
+    this.navCtrl.push('StationDetailsPage', { id: id_station });
   }
 
-  getValuesMaxes(id: number) {    
-    this.navCtrl.push('ValuesMaxesPage', { id: id });
+  getValuesMaxes(id_station: number) {    
+    this.navCtrl.push('ValuesMaxesPage', { id: id_station });
   }
 
-  getValuesMins(id: number) {
-    this.navCtrl.push('ValuesMinsPage', { id: id });
+  getValuesMins(id_station: number) {
+    this.navCtrl.push('ValuesMinsPage', { id: id_station });
   }
 
-  getConfigVariables(id: number) {
-    this.navCtrl.push('AddVariablePage', {user_id: id});
+  getConfigVariables(id_station: number) {
+    this.navCtrl.push('ConfigVariablePage', { id: id_station });
   }
 
   openModalEditDevice(idStation: number, nameStation: any) {
@@ -88,7 +88,7 @@ export class StationComponent {
   }
 
   getFilterLastedData(value: any) {
-    let valuesDontShow = ['Batería'];
+    let valuesDontShow = ['BAT'];
      
     /* value is include in array */
     if( valuesDontShow.indexOf(value) > -1 ) { 
@@ -103,7 +103,7 @@ export class StationComponent {
     last_frame.forEach(element => { 
       if( element.code == "BAT") { value = element.value };  
     });
-
+    
     return value;
   }
 

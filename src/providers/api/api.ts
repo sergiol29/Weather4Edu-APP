@@ -22,6 +22,12 @@ export class ApiProvider {
   /* API KEY ACCUWEATHER */
   apikey = "CXal3U2IA8HAkiqGARcK8AqKLitxjjRo";
 
+  httpOptions: any = { 
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+    })
+  };
+
   constructor(public http: HttpClient) {
     //console.log('Hello ApiProvider Provider');
   }
@@ -83,32 +89,18 @@ export class ApiProvider {
   /*  update station */ 
   putUpdateStation(id:number, data:any) {
     const url = `${CONFIG.API_URL_INPUT}/update_station/${id}`;
-  
-    const httpOptions = { 
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-
-    return this.http.put(url, data, httpOptions);
+    return this.http.put(url, data, this.httpOptions);
   }
 
   /*  add variable */ 
-  addVariable(data:any) {
+  configVariable(data:any) {
     const url = `${CONFIG.API_URL_INPUT}/create_variables`;
-
-    const httpOptions = { 
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-
-    return this.http.post(url, data, httpOptions);
+    return this.http.post(url, data, this.httpOptions);
   }
 
   /* get variable of users */
-  getVariablesUser(id:number) {
-    const url = `${CONFIG.API_URL}/variables_user/${id}`;
+  getVariablesStation(id:number) {
+    const url = `${CONFIG.API_URL}/variables_station/${id}`;
     return this.http.get(url);
   }
 
@@ -121,18 +113,11 @@ export class ApiProvider {
   /*  update Variable */ 
   putUpdateVariable(id:number, data:any) {
     const url = `${CONFIG.API_URL}/data_variables/${id}`;
-  
-    const httpOptions = { 
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-
-    return this.http.put(url, data, httpOptions);
+    return this.http.put(url, data, this.httpOptions);
   }
 
   /* delete variable of users */
-  destroyVariablesUser(id:number) {
+  destroyVariablesStation(id:number) {
     const url = `${CONFIG.API_URL_INPUT}/delete_variables/${id}`;
     return this.http.delete(url);
   }
@@ -146,5 +131,14 @@ export class ApiProvider {
   getWeatherForecasts5days(keycity: number){
     const url = `${CONFIG.API_ACCUWEATHER}/forecasts/v1/daily/5day/${keycity}?apikey=${this.apikey}&details=true&metric=true`;
     return this.http.get(url);
+  }
+
+  getCheckViewHuman(value: number, view_human: any) {
+    const data = {
+      "value": value,
+      "view_human": view_human
+    }
+    const url = `${CONFIG.API_URL_INPUT}/test_viewhumans`;
+    return this.http.post(url, data, this.httpOptions);
   }
 }

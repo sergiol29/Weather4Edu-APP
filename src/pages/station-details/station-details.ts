@@ -67,8 +67,8 @@ export class StationDetailsPage {
   } 
 
   ionViewDidLoad() { 
-    //this.idStation = this.navParams.get('id');
-    this.idStation = 1;
+    this.idStation = this.navParams.get('id');
+    //this.idStation = 1;
 
     let from = moment().subtract(3, 'hours').unix();
     this.getDataAPI(from);
@@ -92,7 +92,6 @@ export class StationDetailsPage {
       this.apiProv.getShowStation(this.idStation, from, to).subscribe(
         (data) => {
           this.station = data;
-          //console.log(this.station);
 
           if( this.station['data'].length ) {
             /* Generate array for select variables in view */
@@ -147,10 +146,10 @@ export class StationDetailsPage {
     for( let data of this.station['data'] ) {
       /* Check if value inside in array  */
       if( valuesDontShow.indexOf(data.name) === -1 ) { 
-        aux.push({ 'name': data.name, 'symbol': data.symbol });
+        aux.push({ 'name': data.name, 'symbol': data.symbol, 'code': data.code });
       }
     }
-    
+      
     this.selectVariables = aux;
   }
 
@@ -166,11 +165,11 @@ export class StationDetailsPage {
     let auxVariables = [];
     
     if( !Array.isArray( this.form.get('variables').value ) ) {      
-      auxVariables.push( this.form.get('variables').value.name );
+      auxVariables.push( this.form.get('variables').value.code );
     } else if( !this.form.get('variables').value[0] != undefined ) {
-      this.form.get('variables').value.forEach(element => { auxVariables.push(element.name) });
+      this.form.get('variables').value.forEach(element => { auxVariables.push(element.code) });
     }
-
+    
     return auxVariables;
   }
 
@@ -180,14 +179,15 @@ export class StationDetailsPage {
     this.getRangeForm();
 
     for( let data of this.station['data'] ) {
-      /* Check if data.name exist in variables */ 
-      if( variables.indexOf(data.name) !== -1 ) {
+      /* Check if data.code exist in variables */ 
+      if( variables.indexOf(data.code) !== -1 ) {
         this.symbolGraph.push(data.symbol);
-        let aux = [];    
+        let aux = []; 
+        let name = data.name + " (" + data.code + ")";   
         for( let values of data.values ) {
           aux.push( [values.timestamp * 1000, +values.value] );
         }
-        this.dataGraph.push( {name: data.name, color: data.color, data: aux} ); /* Create Series */
+        this.dataGraph.push( {name: name, color: data.color, data: aux} ); /* Create Series */
       }
     }
   }
@@ -196,15 +196,16 @@ export class StationDetailsPage {
   generateDataTable(variables:any) {    
     this.dataTable = [];
     for( let data of this.station['data'] ) {
-      /* Check if data.name exist in variables */
-      if( variables.indexOf(data.name) !== -1 ) {
+      /* Check if data.code exist in variables */
+      if( variables.indexOf(data.code) !== -1 ) {
         let aux = [];
+        let name = data.name + " (" + data.code + ")";   
         for( let values of data.values ) {
           /* Convert Timestamp to Date */
           let date = moment.unix(values.timestamp).format("DD-MM-YYYY - HH:mm");
           aux.push( [date, values.value] );
         }
-        this.dataTable.push( {name: data.name, symbol: data.symbol, data: aux} );
+        this.dataTable.push( {name: name, symbol: data.symbol, data: aux} );
       }
     }
   }
@@ -213,7 +214,7 @@ export class StationDetailsPage {
   onChangeVariable(variables:any) {
     if( variables[0] != undefined ) {
       let auxVariables = []; 
-      variables.forEach(element => { auxVariables.push(element.name) });
+      variables.forEach(element => { auxVariables.push(element.code) });
 
       this.generateDataGraphLines(auxVariables);
 
@@ -257,16 +258,16 @@ export class StationDetailsPage {
     this.navCtrl.push('HomePage', { id: id_user });
   }
 
-  getValuesMins(id: number) {
-    this.navCtrl.push('ValuesMinsPage', { id: id });
+  getValuesMins(id_station: number) {
+    this.navCtrl.push('ValuesMinsPage', { id: id_station });
   }
 
-  getValuesMaxes(id: number) {
-    this.navCtrl.push('ValuesMaxesPage', { id: id });
+  getValuesMaxes(id_station: number) {
+    this.navCtrl.push('ValuesMaxesPage', { id: id_station });
   }
 
-  getConfigVariables(id: number) {
-    this.navCtrl.push('AddVariablePage', {user_id: id});
+  getConfigVariables(id_station: number) {
+    this.navCtrl.push('ConfigVariablePage', {id: id_station});
   }
 
   logout() {

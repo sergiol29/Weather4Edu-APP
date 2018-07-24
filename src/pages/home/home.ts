@@ -40,17 +40,7 @@ export class HomePage {
     /* Read ID_User of localstorage */   
     this.storage.getUserID().then(value => {
       this.idUser = value;
-    })
-    
-    //this.initializeItemsSearch();
-  }
-
-  initializeItemsSearch() {
-    /* Get data in API with observable */
-    this.apiProv.filteredStations$.subscribe(
-      (data) => {
-        //let menu = data;
-    });
+    })    
   }
 
   doRefresh(refresher) {
@@ -65,20 +55,4 @@ export class HomePage {
     this.storage.clearStorage();
     this.navCtrl.push('LoginPage');
   }
-
-  /*getItems(ev) {
-    this.apiProv.doFilterStation(ev.target.value);
-  }
-
-  setShowSearch(value: boolean) {
-    this.showsearch = value;
-  }
-
-  showSearch() {
-    this.setShowSearch(true);
-  }
-
-  cancelSearch() {
-    this.setShowSearch(false);
-  }*/
 }

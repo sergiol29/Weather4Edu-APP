@@ -1,8 +1,8 @@
 <!--
-Generated template for the ValuesMaxesPage page.
+  Generated template for the AddVariablePage page.
 
-See http://ionicframework.com/docs/components/#navigation for more info on
-Ionic pages and navigation.
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
 -->
 <ion-header>
   <ion-navbar>
@@ -10,7 +10,7 @@ Ionic pages and navigation.
     <ion-grid>
       <ion-row>    
         <ion-col col-6>
-          <ion-title class="padding-6">Variables</ion-title>
+          <ion-title class="padding-6">Add Variables</ion-title>
         </ion-col>
 
         <ion-col col-6>
@@ -34,12 +34,12 @@ Ionic pages and navigation.
     <ion-grid class="bg-grid-white">
       <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <ion-row>
-          <ion-input type="hidden" formControlName="user_id" value="{{ idUser }}"></ion-input>
+          <ion-input type="hidden" formControlName="station_id" value="{{ idStation }}"></ion-input>
 
           <ion-col col-12>
-            <ion-item item-start class="font-fira">
+            <ion-item item-start class="font-fira border-bottom">
               <ion-label class="bold color-blue">Code:</ion-label>
-              <ion-input class="border-bottom" type="text" formControlName="code"></ion-input>
+              <ion-input type="text" formControlName="code"></ion-input>
             </ion-item>
           </ion-col>
 
@@ -53,9 +53,9 @@ Ionic pages and navigation.
 
         <ion-row>
           <ion-col col-12>
-            <ion-item item-start class="font-fira">
+            <ion-item item-start class="font-fira border-bottom">
               <ion-label class="bold color-blue">Name:</ion-label>
-              <ion-input class="border-bottom" type="text" formControlName="name"></ion-input>
+              <ion-input type="text" formControlName="name"></ion-input>
             </ion-item>
           </ion-col>
   
@@ -69,9 +69,9 @@ Ionic pages and navigation.
 
         <ion-row>
           <ion-col col-12>
-            <ion-item item-start class="font-fira">
+            <ion-item item-start class="font-fira border-bottom">
               <ion-label class="bold color-blue">Symbol:</ion-label>
-              <ion-input class="border-bottom" type="text" formControlName="symbol"></ion-input>
+              <ion-input type="text" formControlName="symbol"></ion-input>
             </ion-item>
           </ion-col>
   
@@ -85,21 +85,87 @@ Ionic pages and navigation.
 
         <ion-row>
             <ion-col col-12>
-                <ion-item item-start class="font-fira">
-                    <ion-label class="bold color-blue">Color:</ion-label>
-                    <ion-input class="border-bottom" type="color" value="#000000" formControlName="color"></ion-input>
-                </ion-item>
+              <ion-item item-start class="font-fira border-bottom">
+                <ion-label class="bold color-blue">Color:</ion-label>
+                <ion-input type="color" value="#000000" formControlName="color"></ion-input>
+              </ion-item>
             </ion-col>
 
             <ion-col col-12>
-                <ion-item class="alert alert-danger" *ngIf="form.get('color').touched 
-                && ( form.get('color').hasError('maxlength') || form.get('color').hasError('minlength') )">
-                <p class="color-darkred white-space-normal">Color <strong>is NOT required</strong>, <strong>length 7 caracter</strong></p>
-                </ion-item>
+              <ion-item class="alert alert-danger" *ngIf="form.get('color').touched 
+              && ( form.get('color').hasError('maxlength') || form.get('color').hasError('minlength') )">
+              <p class="color-darkred white-space-normal">Color <strong>is NOT required</strong>, <strong>length 7 caracter</strong></p>
+              </ion-item>
             </ion-col>
         </ion-row>
+ 
+        <ion-row>
+          <ion-col col-12>
+            <ion-item item-start class="font-fira border-bottom">
+                <ion-label class="bold color-blue" stacked>Type View Human:</ion-label>
+                <ion-select (ionChange)="onChangeTypeViewHuman($event)" interface="popover">
+                  <ion-option value="" selected>Select option</ion-option>
+                  <ion-option value="operation">Operation</ion-option>
+                  <ion-option value="case">Switch case</ion-option>
+                </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        
+        <!-- Case Operation -->
+        <ion-row *ngIf="type_viewhuman == 'operation'">
+          <ion-col col-12 padding>
+            <p class="bold color-blue">View Human:</p>
+            <p class="font-roboto font12 bold">def function( value ):</p>
+            <ion-input class="font-roboto italic border font12" type="text" formControlName="view_human" placeholder="Enter a operation. Ex: value * 1000 / 2"></ion-input>
+            <p class="font-roboto font12 bold">end</p>
+          </ion-col>
+        </ion-row>
+        <!-- end case operation -->
+
+        <!-- Case Switch case -->
+        <ng-container *ngIf="type_viewhuman == 'case'">
+          <div formArrayName="switch_case" *ngFor="let item of groupSwitch.controls; let i = index">
+            <ion-row [formGroupName]="i">
+              <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
+                <ion-item>
+                  <ion-label class="bold color-blue" stacked>Value min:</ion-label>
+                  <ion-input formControlName="value_min" placeholder="0" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
+                <ion-item>
+                  <ion-label class="bold color-blue" stacked>Value max:</ion-label>
+                  <ion-input formControlName="value_max" placeholder="400" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-4>
+                <ion-item>
+                  <ion-label class="bold color-blue" stacked>Return:</ion-label>
+                  <ion-input formControlName="return" placeholder="text" (ionBlur)="onChangeGroupSwitch()"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <ion-row>
+            <ion-col col-12 padding>
+              <p class="bold color-blue">Result swith case:</p>
+              <p class="font-roboto font12 bold">def function( value ):</p>
+              <ion-textarea class="font-roboto italic border font12" type="text" formControlName="view_human" readonly="true"></ion-textarea>
+              <p class="font-roboto font12 bold">end</p>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+        <!-- end case switch case -->
 
         <ion-row>
+          <ion-col col-12 *ngIf="type_viewhuman">
+              <button ion-button color="day-weather" block icon-left (tap)="onSubmitTestViewHuman()">
+                  <ion-icon name="code-working"></ion-icon>
+                  Test view human
+              </button>
+          </ion-col>
           <ion-col col-12>
             <button ion-button block icon-right [disabled]="form.invalid">
               Create
@@ -109,40 +175,5 @@ Ionic pages and navigation.
         </ion-row>
       </form>
     </ion-grid>
-  </ion-card>
-
-  <ion-card *ngIf="variables">
-    <ion-grid class="bg-grid-white">
-      <ion-row>
-        <ion-col>
-          <ion-item class="padding-left-0">
-            <h2 item-start class="font17 margin-top-9 bold">Variables</h2>    
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid> 
-    
-    <ion-grid class="bg-grid">
-      <ion-row>
-        <ng-container *ngFor="let data of variables.variables">
-          <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4>
-            <ion-item class="font-fira">
-              <h2 class="bold color-blue">{{ data.code }} <span *ngIf="data.symbol != '' && data.symbol != null">({{ data.symbol }})</span></h2> 
-              <p class="bold color-black">{{ data.name }}</p>
-              <ion-icon name="settings" item-end color="bg-grid" (tap)="updateVariable(data.id)"></ion-icon>
-              <ion-icon name="trash" item-end color="darkred" (tap)="showConfirmDelete(data.id)"></ion-icon>
-            </ion-item>
-          </ion-col> 
-        </ng-container>
-      </ion-row>
-    </ion-grid>
-    <ion-row no-padding class="bg-grid-white">
-      <ion-col text-right>
-        <button ion-button clear small icon-start (tap)="getMoreDetails(idUser)">
-          <ion-icon name='share-alt'></ion-icon>
-          More details
-        </button>
-      </ion-col>
-    </ion-row>
   </ion-card>
 </ion-content>
