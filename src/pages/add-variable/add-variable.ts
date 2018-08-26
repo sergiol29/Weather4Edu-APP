@@ -41,7 +41,6 @@ export class AddVariablePage {
 
   ngOnInit() {
     this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
     this.createForm();
     
     /* Read ID_User of localstorage */
@@ -97,8 +96,29 @@ export class AddVariablePage {
   onSubmit() {
     let data = this.form.value;
     
-    /* Get data in API */
-    this.apiProv.configVariable(data).subscribe(
+    /* As create new variable dont exist last value, then asigned value by default */
+    let valueByDefault = 200;
+
+    /* If new view human is null, change to value */
+    if( !data['view_human'] ) { data['view_human'] = '*'; }
+    
+    /* Check if correct View in form */
+    this.apiProv.getCheckViewHuman(valueByDefault, data['view_human']).subscribe(
+      (check) => {
+        let result = check; 
+        
+        if( !result['correct'] ) {
+          data['view_human'] = null;
+        }
+        
+        this.sendCreateVariable(data);
+      }
+    );
+  }
+
+  sendCreateVariable(data: any) {
+     /* Send data in API */
+     this.apiProv.configVariable(data).subscribe(
       data => {
         /* Call page ConfigVariablePage */
         this.navCtrl.push('ConfigVariablePage', { id: this.idStation });
@@ -106,7 +126,7 @@ export class AddVariablePage {
       error => { 
         /* If exist error show alert error */
         let alert = this.toastCtrl.create({
-          message: 'Error, Code or Name has already been taken',
+          message: 'Error, Code has already been taken',
           position: 'top',
           showCloseButton: true,
           closeButtonText: 'OK'
@@ -124,7 +144,7 @@ export class AddVariablePage {
     let valueByDefault = 200;
 
     /* If new view human is null, change to value */
-    if( !view_human ) { view_human = 'value'; }
+    if( !view_human ) { view_human = '*'; }
     
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({

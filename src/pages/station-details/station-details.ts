@@ -19,9 +19,6 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 /* Modal */
 import { ModalController } from 'ionic-angular';
 
-/* Import Geolocation for Google Maps */
-//declare var google;
-
 /**
  * Generated class for the StationDetailsPage page.
  *
@@ -68,7 +65,6 @@ export class StationDetailsPage {
 
   ionViewDidLoad() { 
     this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
 
     let from = moment().subtract(3, 'hours').unix();
     this.getDataAPI(from);
@@ -111,8 +107,6 @@ export class StationDetailsPage {
             /* Show message not exist data at API */
             this.showMessageError = true;
           }
-
-          //this.getStreetGoogleMaps(this.station.latitude, this.station.longitude);
 
           /* Hide loading spinner */
           loader.dismiss();
@@ -274,22 +268,4 @@ export class StationDetailsPage {
     this.storage.clearStorage();
     this.navCtrl.push('LoginPage');
   }
-
-  /* Get street with Lat and Lng */
-  /*getStreetGoogleMaps(latitude: number, longitude: number) {
-    let latLngDevice = { lat: +latitude, lng: +longitude };
-
-     Inverse Geocoder for get street with latitude and longitude 
-    var geocoder = new google.maps.Geocoder;
-
-    geocoder.geocode({'location': latLngDevice}, function(results, status) {
-      if (status === 'OK') {
-        if (results[1]) {
-          this.nameAddress = results[0].formatted_address;          
-        } 
-      } else {
-        console.log('Geocoder failed due to: ' + status);
-      }
-    });
-  }*/
 }

@@ -32,7 +32,7 @@
 
 <ion-content padding>
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="arrow-round-down" pullingText="Swipe to refresh"> </ion-refresher-content>
+    <ion-refresher-content pullingIcon="arrow-round-down" pullingText="Pull to refresh"> </ion-refresher-content>
   </ion-refresher>
   
   <ion-card *ngIf="station">
@@ -55,7 +55,7 @@
 
         <ng-container *ngFor="let data of station.values_mins">
           <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 *ngIf="getFilterLastedData(data.name)">
-            <ion-item class="font-fira">
+            <ion-item class="font-fira shadow">
               <h2 class="bold color-blue">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
               <p class="bold color-black">{{ data.name }}</p>
               <p class="color-black font14">{{ formatDate(data.timestamp) }}</p>

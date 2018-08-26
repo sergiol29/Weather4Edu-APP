@@ -33,7 +33,6 @@ export class ValuesMaxesPage {
 
   ngOnInit() {
     this.idStation = this.navParams.get('id');
-    //this.idStation = 1;
     this.getDataAPI();
   }
   
@@ -70,7 +69,7 @@ export class ValuesMaxesPage {
   }
 
   formatDate(timestamp: any) {
-    return moment.unix(timestamp).format("dddd, MMMM D YYYY - H:mm");
+    return moment.unix(timestamp).format("dddd, D MMMM YYYY - H:mm");
   }
 
   openModalEditDevice(idStation: number, nameStation: any) {

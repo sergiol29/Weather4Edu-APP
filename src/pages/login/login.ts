@@ -17,7 +17,7 @@ import { LocalstorageProvider } from '../../providers/localstorage/localstorage'
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage()   
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',

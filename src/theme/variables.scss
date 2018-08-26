@@ -33,18 +33,19 @@ $background-color: #f5f5f5;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary: #0074ac,
-  text-blue: #0084bf,
+  primary: #073763,
+  text-blue: #073763,
   text-white: #fff,
   text-black: #000,
   secondary: #5b5ef4,
   success: #28a745,
   danger: #f53d3d,
-  darkred: darkred,
-  bg-navbar: #273e49,
+  darkred: #cf2a27,
+  bg-navbar: #073763,
   bg-searchbar: #e1e9ee,
   bg-grid: #7a8b98,
   day-weather: #00afbe,
+  test-view: #9fc5f8,
   info-weather: #f7f6f5
 );
 
@@ -304,11 +305,11 @@ ion-content {
   }
 }
 
-
-/* Menu 
-$menu-ios-background: color($colors, text-white) !important;
-$menu-md-background: color($colors, text-white) !important;
-$menu-wp-background: color($colors, text-white) !important; */
+.shadow {
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(140,140,140,1) !important;
+  -moz-box-shadow: 2px 2px 5px 0px rgba(140,140,140,1) !important;
+  box-shadow: 2px 2px 5px 0px rgba(140,140,140,1) !important;
+}
 
 /* NavBar */
 $color-text-icon-navbar: color($colors, text-white);
@@ -362,7 +363,3 @@ $toast-md-background: color($colors, danger) !important;
 $toast-wp-background: color($colors, danger) !important;
 $toast-ios-border-radius: 65rem;
 $toast-wp-border-radius: 65rem;
-
-/*$searchbar-ios-min-height: 3.0rem; *//* 30px */
-/*$searchbar-md-input-height: 3.0rem;
-$searchbar-wp-input-height: 3.0rem;*/

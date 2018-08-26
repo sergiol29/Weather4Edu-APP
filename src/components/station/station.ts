@@ -33,7 +33,7 @@ export class StationComponent {
   constructor(private apiProv: ApiProvider, private loadingCtrl: LoadingController, 
               private navCtrl: NavController, private modalCtrl: ModalController) {
 
-  }
+  }   
 
   ngOnInit() {
     this.getDataAPI();
@@ -108,6 +108,6 @@ export class StationComponent {
   }
 
   formatDate(timestamp: any) {
-    return moment.unix(timestamp).format("dddd, MMMM D YYYY - H:mm");
+    return moment.unix(timestamp).format("dddd, D MMMM YYYY - H:mm");
   }
 }

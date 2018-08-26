@@ -32,7 +32,6 @@ export class ModalUpdateDevicePage {
   }
 
   ionViewDidLoad() { 
-    //console.log('ionViewDidLoad ModalUpdateDevicePage');
     this.nameDevice = this.navParams.get('name');
     this.idStation = this.navParams.get('id');  
     this.createForm();

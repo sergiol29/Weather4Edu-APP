@@ -48,7 +48,7 @@ export class ConfigVariablePage {
     /* Create loading spinner */
     let loader = this.loadingCtrl.create({
       content: 'Please wait...',
-    });
+    }); 
 
     /* Show loading spinner */
     loader.present().then(() => {  

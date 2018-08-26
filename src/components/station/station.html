@@ -45,11 +45,11 @@
 
         <ng-container *ngFor="let data of station.last_frame">
           <ion-col col-6 col-sm-4 *ngIf="getFilterLastedData(data.code)">
-            <ion-item class="font-fira">
+            <ion-item class="font-fira shadow">
               <h2 class="bold color-blue" *ngIf="!data.view_human">{{ data.value }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
               <h2 class="bold color-blue" *ngIf="data.view_human">{{ data.view_human }} {{ data.symbol }}</h2> <!-- explicity set the icon for each mode -->
-              <p class="bold color-black" *ngIf="data.name">{{ data.name }}</p>
               <p class="bold color-black" *ngIf="!data.name">{{ data.code }}</p>
+              <p class="bold color-black" *ngIf="data.name">{{ data.name }}</p>
             </ion-item>
           </ion-col> 
         </ng-container>

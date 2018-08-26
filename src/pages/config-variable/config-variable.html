@@ -45,10 +45,10 @@ Ionic pages and navigation.
       <ion-row>
         <ng-container *ngFor="let data of variables.variables">
           <ion-col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4>
-            <ion-item class="font-fira">
-              <h2 class="bold color-blue">{{ data.code }} <span *ngIf="data.symbol != '' && data.symbol != null">({{ data.symbol }})</span></h2> 
+            <ion-item class="font-fira shadow">
+              <h2 class="bold color-blue">{{ data.code }} <span *ngIf="data.symbol">({{ data.symbol }})</span></h2> 
               <p class="bold color-black">{{ data.name }}</p>
-              <ion-icon name="settings" item-end color="bg-grid" (tap)="updateVariable(data.id)"></ion-icon>
+              <ion-icon name="build" item-end color="text-black" (tap)="updateVariable(data.id)"></ion-icon>
               <ion-icon name="trash" item-end color="darkred" (tap)="showConfirmDelete(data.id)"></ion-icon>
             </ion-item>
           </ion-col> 

@@ -17,7 +17,7 @@ export class HeaderMenuComponent {
 
 
   constructor() {
-    //console.log('Hello HeaderMenuComponent Component');
+
   }
 
 }

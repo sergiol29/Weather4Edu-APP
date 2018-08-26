@@ -7,7 +7,7 @@
 <ion-header>
 
 <ion-navbar>
-    <ion-title>Update Variable</ion-title>
+    <ion-title>Config variable</ion-title>
 </ion-navbar> 
 
 </ion-header>
@@ -41,9 +41,9 @@
                     </ion-col>
 
                     <ion-col col-12>
-                        <ion-item class="alert alert-danger" *ngIf="form.get('name').hasError('required') && form.get('name').touched 
-                        || ( form.get('name').hasError('maxlength') || form.get('name').hasError('minlength') )">
-                        <p class="color-darkred white-space-normal">Name <strong>is required</strong>, <strong>max length 24 caracter</strong> and <strong>min length 4 caracter</strong></p>
+                        <ion-item class="alert alert-danger" *ngIf="form.get('name').touched 
+                        && ( form.get('name').hasError('maxlength') || form.get('name').hasError('minlength') )">
+                        <p class="color-darkred white-space-normal">Name, <strong>max length 24 caracter</strong> and <strong>min length 4 caracter</strong></p>
                         </ion-item>
                     </ion-col>
                 </ion-row>
@@ -83,11 +83,11 @@
                 <!-- Actual view human -->
                 <ion-row>
                     <ion-col col-12 padding>
-                        <p class="bold color-blue">View Human:</p>
+                        <p class="bold color-blue">Actual view</p>
                         <p class="font-roboto font12 bold" *ngIf="!viewHumanVariable">Not defined</p>
-                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">def function( value ):</p>
+                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">function( value ) &#123;</p>
                         <ion-textarea class="font-roboto italic font12" type="text" formControlName="view_human" id="view_human" readonly></ion-textarea>
-                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">end</p>
+                        <p class="font-roboto font12 bold" *ngIf="viewHumanVariable">&#125;</p>
                     </ion-col>
                 </ion-row>
                 <!-- end actual view human -->
@@ -95,7 +95,7 @@
                 <ion-row>
                     <ion-col col-12>
                         <ion-item item-start class="font-fira border-bottom">
-                            <ion-label class="bold color-blue" stacked>Update view human:</ion-label>
+                            <ion-label class="bold color-blue" stacked>Type view</ion-label>
                             <ion-select (ionChange)="onChangeTypeViewHuman($event)" interface="popover">
                                 <ion-option value="" selected>Select option</ion-option>
                                 <ion-option value="operation">Operation</ion-option>
@@ -108,10 +108,10 @@
                 <!-- Case Operation -->
                 <ion-row *ngIf="type_viewhuman == 'operation'">
                     <ion-col col-12 padding>
-                        <p class="bold color-blue">New view vuman:</p>
-                        <p class="font-roboto font12 bold">def function( value ):</p>
+                        <p class="bold color-blue">New view</p>
+                        <p class="font-roboto font12 bold">function( value ) &#123;</p>
                         <ion-input class="font-roboto italic border font12" type="text" formControlName="new_view_human" placeholder="Enter a operation. Ex: value * 1000 / 2"></ion-input>
-                        <p class="font-roboto font12 bold">end</p>
+                        <p class="font-roboto font12 bold">&#125;</p>
                     </ion-col>
                 </ion-row>
                 <!-- end case operation -->
@@ -122,36 +122,31 @@
                         <ion-row [formGroupName]="i">
                             <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
                                 <ion-item>
-                                    <ion-label class="bold color-blue" stacked>Value min:</ion-label>
+                                    <ion-label class="bold color-blue" stacked>Value min</ion-label>
                                     <ion-input formControlName="value_min" placeholder="0" (ionBlur)="onChangeGroupSwitch()"></ion-input>
                                 </ion-item>
                             </ion-col>
                             <ion-col col-4 *ngIf=" i != groupSwitch.controls.length - 1">
                                 <ion-item>
-                                    <ion-label class="bold color-blue" stacked>Value max:</ion-label>
+                                    <ion-label class="bold color-blue" stacked>Value max</ion-label>
                                     <ion-input formControlName="value_max" placeholder="400" (ionBlur)="onChangeGroupSwitch()"></ion-input>
                                 </ion-item>
                             </ion-col>
                             <ion-col col-4>
                                 <ion-item>
-                                    <ion-label class="bold color-blue" stacked>Return:</ion-label>
+                                    <ion-label class="bold color-blue" stacked>Return</ion-label>
                                     <ion-input formControlName="return" placeholder="text" (ionBlur)="onChangeGroupSwitch()"></ion-input>
                                 </ion-item>
                             </ion-col>
                         </ion-row>
                     </div>
 
-                    <button class="font12 no-margin" ion-button icon-left clear item-end (tap)="showMoreOptionAdvanced()">
-                        <ion-icon name="cloudy-night"></ion-icon>
-                        Show details
-                    </button>
-
-                    <ion-row *ngIf="showDetails">
+                    <ion-row>
                         <ion-col col-12 padding>
                             <p class="bold color-blue">Result swith case:</p>
-                            <p class="font-roboto font12 bold">def function( value ):</p>
+                            <p class="font-roboto font12 bold">function( value ) &#123;</p>
                             <ion-textarea class="font-roboto italic border" type="text" formControlName="new_view_human" id="new_view_human" readonly="true"></ion-textarea>
-                            <p class="font-roboto font12 bold">end</p>
+                            <p class="font-roboto font12 bold">&#125;</p>
                         </ion-col>
                     </ion-row>
                 </ng-container>
@@ -159,9 +154,9 @@
 
                 <ion-row>
                     <ion-col col-12 *ngIf="type_viewhuman">
-                        <button ion-button color="day-weather" block icon-left (tap)="onSubmitTestViewHuman()">
+                        <button ion-button color="test-view" block icon-left (tap)="onSubmitTestViewHuman()">
                             <ion-icon name="code-working"></ion-icon>
-                            Test view human
+                            Test view
                         </button>
                     </ion-col>
                     <ion-col col-6>

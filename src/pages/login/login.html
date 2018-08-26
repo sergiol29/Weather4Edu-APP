@@ -8,7 +8,7 @@
 <ion-content padding>
   <ion-card>
     <ion-grid class="bg-grid-white">
-      <img src="assets/imgs/Blanco_1.png"/>
+      <ion-img height="230" src="assets/imgs/LogoWeather.png"></ion-img>
       <form novalidate *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
         <ion-row>
           <ion-col col-12>
@@ -50,9 +50,8 @@
 
         <ion-row>
           <ion-col col-12 text-center>
-            <button ion-button round icon-right [disabled]="form.invalid">
+            <button ion-button icon-right class="shadow" [disabled]="form.invalid">
               Log in
-              <ion-icon name="arrow-dropright-circle"></ion-icon>
             </button>
           </ion-col>
         </ion-row>
