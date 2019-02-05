@@ -28,4 +28,4 @@ More information: [Readme](https://www.dropbox.com/s/3rq8tigxswahos0/Memoria_TFG
 [![Variables](https://github.com/sergiol29/Weather4Edu-APP/blob/master/Variables.png)]()
 
 ### Config Variable
-[![Config variable]](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=1)]()
+[![Config variable](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=1)]()
