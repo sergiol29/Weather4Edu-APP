@@ -1,6 +1,7 @@
 # Weather4Edu
 
 > **Author:** Project realized by [Sergio López Ballesteros](https://es.linkedin.com/in/sergio-lopez-ballesteros)
+
 > **License:** Freeware
 
 App multi-platform (Android, IOS) to control of a weather station (realized with [libraries arduino](https://github.com/sergiol29/Weather4Edu-LibraryArduino) and [libraries nodeMCU](https://github.com/sergiol29/Weather4Edu-LibraryNodeMCU)) through an [API](https://github.com/sergiol29/Weather4Edu-API).
