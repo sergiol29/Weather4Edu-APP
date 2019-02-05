@@ -28,4 +28,4 @@ More information: [Readme](https://www.dropbox.com/s/3rq8tigxswahos0/Memoria_TFG
 [![Variables](https://previews.dropbox.com/p/thumb/AAX8ROQfdn7SZPplINVwnFDAZM2HUa8CKbnL2C2IuVfF4iPm22T8tid8QQIZs5vZ81oT_IxsTKU_-NhfpJPMdRAOC6UUvZl9wLzPoySlQWDaQuANm9pQkgTG2DlsrHAICf5nee-7mMZ5T4qno3XItYDTpHarNwZFoCyMLs3HHwaB4ZNwQIVoJd4GaLwVLHnaMFJ5ZVaPKjxsiMJw36LnUOFPs-I16k6ThchdIJ01lpsNEw/p.png?size_mode=3)]()
 
 ### Config Variable
-[![Config variable](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=1)]()
+![](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=1)]()
