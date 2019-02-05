@@ -28,4 +28,4 @@ More information: [Readme](https://www.dropbox.com/s/3rq8tigxswahos0/Memoria_TFG
 [![Variables](https://previews.dropbox.com/p/thumb/AAX8ROQfdn7SZPplINVwnFDAZM2HUa8CKbnL2C2IuVfF4iPm22T8tid8QQIZs5vZ81oT_IxsTKU_-NhfpJPMdRAOC6UUvZl9wLzPoySlQWDaQuANm9pQkgTG2DlsrHAICf5nee-7mMZ5T4qno3XItYDTpHarNwZFoCyMLs3HHwaB4ZNwQIVoJd4GaLwVLHnaMFJ5ZVaPKjxsiMJw36LnUOFPs-I16k6ThchdIJ01lpsNEw/p.png?size_mode=3)]()
 
 ### Config Variable
-[![Config variable](https://previews.dropbox.com/p/thumb/AAWlr_K4Rk6YalsZbp6j48iHge8NLP3HxeTVkmRFjDrMTD7DYdnlgm-kMq8c28yVYV9AndZGMHea2bLTSDj580bI01efblVByxmgqFmj0RjucwiqkBt8MM28-93S8Pt6SfaWlKRCDIqKu3MPmwF9x2xj6Wii9yvAjE4o_iKqz0XTil7zN7Gt-6NJzJXjlWVXvf0sY8lw8G4LaH9jXXpviaLyUlS3kSKeXA1pQA2wJb5oFQ/p.png?size_mode=3)]()
+[![Config variable](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=0)]()
