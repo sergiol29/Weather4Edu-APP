@@ -29,3 +29,4 @@ More information: [Readme](https://www.dropbox.com/s/3rq8tigxswahos0/Memoria_TFG
 
 ### Config Variable
 ![](https://www.dropbox.com/s/z77deds4fxrhxrx/configVariable.png?dl=1)]()
+![](https://www.dropbox.com/s/sosick1984fuzzy/wuzzy.png?dl=1)
